@@ -86,6 +86,6 @@ def generate_hologram(desired,config_path: str,method='bessel1'):
     xperiod = config['grating'].getfloat('xperiod')
     yperiod = config['grating'].getfloat('yperiod')
 
-    input =  slm_loquff.structures.hg(x,y,0,0,waist)
+    input =  slmcontrol.structures.hg(x,y,0,0,waist)
     
     return generate_hologram(desired,input,x,y,max,xperiod,yperiod,xoffset,yoffset,method=method)

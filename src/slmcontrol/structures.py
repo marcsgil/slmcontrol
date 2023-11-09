@@ -111,45 +111,13 @@ def pupil(config_path: str, radius):
     x,y = build_grid(config_path)
     return pupil(x, y, radius)
 
+@multimethod
 def triangle(x, y, side_length):
-    # Define the coordinates of the three vertices of the equilateral triangle
-    vertices = np.array([
-        [0, side_length / np.sqrt(3)],
-        [-side_length / 2, -side_length / (2 * np.sqrt(3))],
-        [side_length / 2, -side_length / (2 * np.sqrt(3))]
-    ])
+    def is_inside(x,y):
+        return y > -side_length/2/np.sqrt(3) and np.abs(x) < -y/np.sqrt(3) + side_length / 3
+    return np.vectorize(is_inside)(x,y)
 
-    # Calculate the barycentric coordinates
-    u, v, w = np.linalg.solve(vertices, np.column_stack((x, y)).T)
-
-    # Check if the points are inside the equilateral triangle
-    inside_triangle = (u >= 0) & (v >= 0) & (w >= 0)
-
-    return inside_triangle
-
-
-"""def _triangle(x,y,l):
-    A = (0, l/np.sqrt(3))
-    B = (-l/2, -l/(2*np.sqrt(3)))    
-    C = (l/2, -l/(2*np.sqrt(3)))
-    # Calculate the vectors from point A to the test point (x, y)
-    v0 = [C[0] - A[0], C[1] - A[1]]
-    v1 = [B[0] - A[0], B[1] - A[1]]
-    v2 = [x - A[0], y - A[1]]
-
-    # Calculate dot products
-    dot00 = v0[0] * v0[0] + v0[1] * v0[1]
-    dot01 = v0[0] * v1[0] + v0[1] * v1[1]
-    dot02 = v0[0] * v2[0] + v0[1] * v2[1]
-    dot11 = v1[0] * v1[0] + v1[1] * v1[1]
-    dot12 = v1[0] * v2[0] + v1[1] * v2[1]
-
-    # Calculate barycentric coordinates
-    inv_denominator = 1 / (dot00 * dot11 - dot01 * dot01)
-    u = (dot11 * dot02 - dot01 * dot12) * inv_denominator
-    v = (dot00 * dot12 - dot01 * dot02) * inv_denominator
-
-    # Check if the point is inside the triangle
-    return (u >= 0) and (v >= 0) and (u + v <= 1)
-
-triangle = np.vectorize(_triangle)"""
+@multimethod
+def triangle(config_path: str, side_length):
+    x,y = build_grid(config_path)
+    return triangle(x, y, side_length)
