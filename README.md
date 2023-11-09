@@ -5,5 +5,5 @@ This is a package under development in the Quantum Optics Laboratory of Universi
 To install this package, run 
 
 ```
-pip install -i https://test.pypi.org/simple/ slmcontrol==0.0.1
+pip install -i https://test.pypi.org/simple/ slmcontrol==0.0.2
 ```
