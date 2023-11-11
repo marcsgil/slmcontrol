@@ -7,6 +7,18 @@ import slmcontrol
 
 @multimethod
 def build_grid(width, height, resX: int, resY: int, sparse=True):
+    """Constructs a 2D meshgrid.
+
+    Args:
+        width (Real): width of the grid. The units are arbitrary, but the same for width and height.
+        height (Real): height of the grid. The units are arbitrary, but the same for width and height.
+        resX (int): number of points in the x direction
+        resY (int): number of points in the y direction
+        sparse (bool, optional): whether or not the grid should be sparse. Defaults to True.
+
+    Returns:
+        tuple[array_like,array_like]: x and y meshgrids
+    """
     return np.meshgrid(
         np.linspace(-width/2, width/2, resX),
         np.linspace(-height/2, height/2, resY),
@@ -15,6 +27,15 @@ def build_grid(width, height, resX: int, resY: int, sparse=True):
 
 @multimethod
 def build_grid(config_path: str, sparse=True):
+    """Constructs a 2D meshgrid.
+
+    Args:
+        config_path (str): path for the configuration file of the SLM.
+        sparse (bool, optional): whether or not the grid should be sparse. Defaults to True.
+
+    Returns:
+        tuple[array_like,array_like]: x and y meshgrids
+    """
     config = configparser.ConfigParser()
     config.read(config_path)
 
@@ -28,12 +49,6 @@ def build_grid(config_path: str, sparse=True):
 
 def convert2angle(x):
     return (x + np.pi) % (2 * np.pi) - np.pi
-
-
-def diffraction_grating(x, y, Lx, Ly):
-    lx = Lx * (x[0, 1] - x[0, 0])
-    ly = Ly * (y[1, 0] - y[0, 0])
-    return convert2angle(2*np.pi*(x / lx + y / ly))
 
 
 def normalize(holo, max):
@@ -60,6 +75,23 @@ def psi(phi, a, method='bessel1'):
 
 @multimethod
 def generate_hologram(desired, input, x, y, max: int, xperiod, yperiod, xoffset, yoffset, method='bessel1'):
+    """Generates a hologram to be displayed in the SLM.
+
+    Args:
+        desired (array_like): _description_
+        input (array_like): _description_
+        x (array_like): _description_
+        y (array_like): _description_
+        max (int): _description_
+        xperiod (Real): _description_
+        yperiod (Real): _description_
+        xoffset (int): _description_
+        yoffset (int): _description_
+        method (str, optional): _description_. Defaults to 'bessel1'.
+
+    Returns:
+        array_like: _description_
+    """
 
     _desired = np.roll(desired, (yoffset, xoffset), axis=(0, 1))
     relative = _desired / input

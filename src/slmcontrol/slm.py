@@ -1,9 +1,10 @@
-"""
-Based on slmpy from Sebastien M. Popoff
-https://github.com/wavefrontshaping/slmPy
-"""
-
-import wx
+try:
+    import wx
+except ModuleNotFoundError as error:
+    error.add_note("""wxPython doesn't seem to be installed! 
+If you are running Linux, you must manually install it. 
+Check https://wxpython.org/pages/downloads/ for more informations.""")
+    raise
 import threading
 import numpy as np
 import time
@@ -91,10 +92,17 @@ class SLMwindow(wx.Window):
 
 
 class SLMdisplay:
-    """Interface for sending images to the display frame."""
+    """
+    Class that implements the interface for sending images to the display frame.
+    """
 
-    def __init__(self,
-                 monitor=1):
+    def __init__(self, monitor=1):
+        """Initializes an object of the class SLMdisplay
+
+        Args:
+            monitor (int, optional): index that identifies the monitor in which the holograms will be shown. The primary monitor has index 0. Defaults to 1.
+        """
+
         self.monitor = monitor
         # Create the thread in which the window app will run
         # It needs its thread to continuously refresh the window
@@ -103,20 +111,23 @@ class SLMdisplay:
         self.last_update = time.time()
 
     def getSize(self):
+        """Returns the resolution of the monitor associated with the SLMdisplay object.
+
+        Returns:
+            tuple[int, int]: resX, resY
+        """
         return self.vt.frame._resX, self.vt.frame._resY
 
     def updateArray(self, array, sleep=0.15):
-        """
-        Update the SLM monitor with the supplied array.
+        """Update the SLM monitor with the supplied array.
         Note that the array is not the same size as the SLM resolution,
         the image will be deformed to fit the screen.
 
-        Parameters
-        ----------
-        array : array_like
-            Numpy array to display, should be the same size as the resolution of the SLM.
-        sleep : float
-            Pause in seconds after displaying an image.
+        Args:
+            array (array_like): the array representing the mask that will be sent to the SLM.
+            sleep (Real, optional): Time in miliseconds that will be waited after calling this function.
+                This is important when one shows a series of masks in sequence, in which case one must wait for the SLM to properly dislplay each mask.
+                Defaults to 0.15.
         """
         # create a wx.Image from the array
         h, w = array.shape
@@ -130,6 +141,8 @@ class SLMdisplay:
         time.sleep(sleep)
 
     def close(self):
+        """Closes the SLMdisplay object.
+        """
         self.vt.frame.Quit()
 
 
