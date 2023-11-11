@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "slmcontrol"
-version = "0.0.2"
+version = "0.0.1"
 authors = [
   { name="Marcos Gil", email="marcosgildeoliveira@gmail.com" },
 ]
@@ -20,7 +20,7 @@ classifiers = [
 dependencies = [
   "numpy",
   "scipy",
-  "multimethod >= 1.10",
+  "multimethod",
   "wxPython; sys_platform != 'linux'",
 ]
 
