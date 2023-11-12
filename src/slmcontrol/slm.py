@@ -22,7 +22,7 @@ class SLMdisplay:
         image = np.zeros(
             (self.monitor.height, self.monitor.width), dtype='uint8')
         cv.imshow(self.window_name, image)
-        cv.waitKey(0)
+        cv.waitKey(1)
 
     def updateArray(self, array, sleep=150):
         """Update the SLM monitor with the supplied array.
