@@ -21,7 +21,6 @@ dependencies = [
   "numpy",
   "scipy",
   "multimethod",
-  "wxPython; sys_platform != 'linux'",
   "opencv-python",
   "screeninfo"
 ]

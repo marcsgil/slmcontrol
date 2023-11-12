@@ -84,7 +84,7 @@ def lg(config_path: str, p: int, l: int, w0):
         array_like: Laguerre-Gaussian mode.
     """
     x, y = build_grid(config_path)
-    return lg(x, y, m, n, w0)
+    return lg(x, y, p, l, w0)
 
 
 @multimethod
