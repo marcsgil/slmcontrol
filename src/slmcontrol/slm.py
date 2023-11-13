@@ -38,18 +38,6 @@ class SLMdisplay:
         cv.imshow(self.window_name, array)
         cv.waitKey(sleep)
 
-    def build_grid(self, sparse=True):
-        """Constructs the 2D meshgrid associated with the montor of the SLMdisplay object.
-
-        Args:
-            sparse (bool, optional): _description_. Defaults to True.
-
-        Returns:
-            _type_: _description_
-        """
-        monitor = self.monitor
-        return build_grid(monitor.width_mm, monitor.height_mm, monitor.width, monitor.height, sparse=sparse)
-
     def close(self):
         """Closes the window associated with the SLMdisplay object.
         """
