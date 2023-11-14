@@ -21,8 +21,7 @@ dependencies = [
   "numpy",
   "scipy",
   "multimethod",
-  "opencv-python",
-  "screeninfo"
+  "wxPython; sys_platform != 'linux'"
 ]
 
 [project.urls]

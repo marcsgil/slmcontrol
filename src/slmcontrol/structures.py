@@ -380,11 +380,35 @@ def triangle(config_path: str, side_length):
 
 @multimethod
 def linear_combination(coefficients, basis):
-    return np.sum([c * b for (c, b) in zip(coefficients, basis)])
+    """Calculate a linear combinantion
+
+    Args:
+        coefficients (list): list containing the coefficients
+        basis (list): list containing the basis elements
+
+    Returns:
+        array_like: array defined by the linear combination
+    """
+    return np.sum([c * b for (c, b) in zip(coefficients, basis)], axis=0)
 
 
 @multimethod
 def linear_combination(coefficients, basis_name: str, x, y, w0: float):
+    """Calculate linear combination of order 'len(coefficients)-1' on the specified basis
+
+    Args:
+        coefficients (list): list of coefficients
+        basis_name (str): name of the basis. Possible values are 'lg', 'hg' and 'diagonal_hg'
+        x (array_like): x grid
+        y (array_like): y grid
+        w0 (float): waist
+
+    Raises:
+        ValueError: 'basis_name' is not one of the specified values
+
+    Returns:
+        array_like: linear combination
+    """
     if basis_name not in ('lg', 'hg', 'diagonal_hg'):
         raise ValueError(
             "Known 'basis_name' are 'lg', 'hg', 'diagonal_hg'. Got %s." % basis_name
@@ -393,7 +417,7 @@ def linear_combination(coefficients, basis_name: str, x, y, w0: float):
     order = len(coefficients) - 1
 
     if basis_name == 'lg':
-        basis = [lg(x, y, np.minimum(k, order-k), 2*k - order, w0)
+        basis = [lg(x, y, int(np.minimum(k, order-k)), 2*k - order, w0)
                  for k in range(order+1)]
     elif basis_name == 'hg':
         basis = [hg(x, y, order-k, k, w0) for k in range(order+1)]
@@ -405,12 +429,42 @@ def linear_combination(coefficients, basis_name: str, x, y, w0: float):
 
 @multimethod
 def linear_combination(coefficients, basis_name: str, config_path: str, w0: float):
+    """Calculate linear combination of order 'len(coefficients)-1' on the specified basis
+
+    Args:
+        coefficients (list): list of coefficients
+        basis_name (str): name of the basis. Possible values are 'lg', 'hg' and 'diagonal_hg'
+        config_path (str): Path for the configuration file of the SLM
+        w0 (float): waist
+
+    Raises:
+        ValueError: 'basis_name' is not one of the specified values
+
+    Returns:
+        array_like: linear combination
+    """
     x, y = build_grid(config_path)
     return linear_combination(coefficients, basis_name, x, y, w0)
 
 
 @multimethod
-def linear_combination(coefficients, indices, basis_name: str, x, y, w0: float):
+def linear_combination(coefficients: list, indices: list, basis_name: str, x, y, w0: float):
+    """Generate a linear combination using the coefficients and the list of indices, which refer to the specified basis
+
+    Args:
+        coefficients (list): list of coefficients
+        indices (list): list of indices
+        basis_name (str): name of the basis. Possible values are 'lg', 'hg' and 'diagonal_hg'
+        x (array_like): x grid
+        y (array_like): y grid
+        w0 (float): waist
+
+    Raises:
+        ValueError: 'basis_name' is not one of the specified values
+
+    Returns:
+        array_like: Linear combination
+    """
     if basis_name not in ('lg', 'hg', 'diagonal_hg'):
         raise ValueError(
             "Known 'basis_name' are 'lg', 'hg', 'diagonal_hg'. Got %s." % basis_name
@@ -424,10 +478,25 @@ def linear_combination(coefficients, indices, basis_name: str, x, y, w0: float):
         elif basis_name == 'diagonal_hg':
             return diagonal_hg(x, y, i1, i2, w0)
 
-    return np.sum([c * basis(x, y, indices[n][0], indices[n][1], w0) for (c, n) in zip(coefficients, range(len(coefficients)))])
+    return np.sum([c * basis(i[0], i[1], w0) for (c, i) in zip(coefficients, indices)], axis=0)
 
 
 @multimethod
 def linear_combination(coefficients, indices, basis_name: str, config_path: str, w0: float):
+    """Generate a linear combination using the coefficients and the list of indices, which refer to the specified basis
+
+    Args:
+        coefficients (list): list of coefficients
+        indices (list): list of indices
+        basis_name (str): name of the basis. Possible values are 'lg', 'hg' and 'diagonal_hg'
+        config_path (str): Path for the configuration file of the SLM
+        w0 (float): waist
+
+    Raises:
+        ValueError: 'basis_name' is not one of the specified values
+
+    Returns:
+        array_like: Linear combination
+    """
     x, y = build_grid(config_path)
     return linear_combination(coefficients, indices, basis_name, x, y, w0)
