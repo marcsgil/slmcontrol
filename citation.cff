@@ -8,7 +8,7 @@ authors:
     email: marcosgildeoliveira@gmail.com
     affiliation: UFF
     orcid: 'https://orcid.org/0009-0006-4225-8706'
-version: 0.0.2
+version: 0.0.3
 date-released: "2023-11-16"
 identifiers:
   - type: url

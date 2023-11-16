@@ -20,6 +20,8 @@ pip install slmcontrol
 
 on a terminal.
 
+**Important**: If you are running Linux, you need to manually install [wxPython](https://wxpython.org/pages/downloads/).
+
 ## Authors
 
 Developed by PhD students at the Quantum Optics Laboratory of Universidade Federal Fluminense:

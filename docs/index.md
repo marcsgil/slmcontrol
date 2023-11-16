@@ -20,6 +20,8 @@ pip install slmcontrol
 
 on a terminal.
 
+**Important**: If you are running Linux, you need to manually install [wxPython](https://wxpython.org/pages/downloads/).
+
 ## Table Of Contents
 
 1. In [Tutorials](tutorials.md), you can find a Quick-Start guide, how to setup a configuration file, and how to make a GUI (Graphical User Interface) using Jupyter Notebooks.
