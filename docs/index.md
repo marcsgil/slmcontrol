@@ -1,6 +1,6 @@
-# slmcontrol
+# Index
 
-This is a package that allows one to control a Spatial Light Modulator (SLM) with a simple an intuitive syntax.
+`slmcontrol` is a package that allows one to control a Spatial Light Modulator (SLM) with a simple an intuitive syntax.
 
 ## Links
 
@@ -18,6 +18,14 @@ pip install slmcontrol
 
 on a terminal.
 
+## Table Of Contents
+
+1. In [Tutorials](tutorials.md), you can find a Quick-Start guide, how to setup a configuration file, and how to make a GUI (Graphical User Interface) using Jupyter Notebooks.
+
+2. In [Reference](reference.md) you can find a detailed description of all the exported functions.
+
+3. In [Explanation](explanation.md) you can find a discussion of the working principles of a SLM, and how to build an experimental setup.
+
 ## Authors
 
 Developed by PhD students at the Quantum Optics Laboratory of Universidade Federal Fluminense:
@@ -28,19 +36,3 @@ Developed by PhD students at the Quantum Optics Laboratory of Universidade Feder
 - Braian Pinheiro
 
 The part of the code that sends image to the SLM (`slm.py`) was taken from the repository [pyslm](https://github.com/wavefrontshaping/slmPy) from Sébastien M. Popoff, with only minor modifications.
-
-## Table Of Contents
-
-The documentation follows the best practice for
-project documentation as described by Daniele Procida
-in the [Diátaxis documentation framework](https://diataxis.fr/)
-and consists of four separate parts:
-
-1. [Tutorials](tutorials.md)
-2. [Reference](reference.md)
-3. [Explanation](explanation.md)
-
-Quickly find what you're looking for depending on
-your use case by looking at the different pages.
-
-## Acknowledgements
