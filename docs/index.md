@@ -2,6 +2,8 @@
 
 `slmcontrol` is a package that allows one to control a Spatial Light Modulator (SLM) with a simple an intuitive syntax.
 
+If you use this package in your research, please cite it and give it a star on GitHub.
+
 ## Links
 
 - **PyPI:** [https://pypi.org/project/slmcontrol/]()
