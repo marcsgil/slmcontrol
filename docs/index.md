@@ -4,9 +4,9 @@ This is a package that allows one to control a Spatial Light Modulator (SLM) wit
 
 ## Links
 
-- **PyPI:** https://pypi.org/project/slmcontrol/
-- **Documentation:** https://marcsgil.github.io/slmcontrol/
-- **Source code:** https://github.com/marcsgil/slmcontrol/tree/main
+- **PyPI:** [https://pypi.org/project/slmcontrol/]()
+- **Documentation:** [https://marcsgil.github.io/slmcontrol/]()
+- **Source code:** [https://github.com/marcsgil/slmcontrol/tree/main]()
 
 ## Instalation
 
