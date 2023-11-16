@@ -6,9 +6,9 @@ If you use this package in your research, please cite it and give it a star on G
 
 ## Links
 
-- **PyPI:** [](https://pypi.org/project/slmcontrol/)
-- **Documentation:** [](https://marcsgil.github.io/slmcontrol/)
-- **Source code:** [](https://github.com/marcsgil/slmcontrol/tree/main)
+- [**PyPI**](https://pypi.org/project/slmcontrol/)
+- [**Documentation**](https://marcsgil.github.io/slmcontrol/)
+- [**Source code**](https://github.com/marcsgil/slmcontrol/tree/main)
 
 ## Instalation
 
