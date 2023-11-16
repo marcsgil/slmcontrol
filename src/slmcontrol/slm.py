@@ -108,15 +108,6 @@ class SLMdisplay:
         # It needs its thread to continuously refresh the window
         self.vt = videoThread(self)
         self.eventLock = threading.Lock()
-        self.last_update = time.time()
-
-    def getSize(self):
-        """Returns the resolution of the monitor associated with the SLMdisplay object.
-
-        Returns:
-            tuple[int, int]: resX, resY
-        """
-        return self.vt.frame._resX, self.vt.frame._resY
 
     def updateArray(self, array, sleep=0.15):
         """Update the SLM monitor with the supplied array.
@@ -125,7 +116,7 @@ class SLMdisplay:
 
         Args:
             array (array_like): the array representing the mask that will be sent to the SLM.
-            sleep (Real, optional): Time in miliseconds that will be waited after calling this function.
+            sleep (Real, optional): Time in seconds that will be waited after calling this function.
                 This is important when one shows a series of masks in sequence, in which case one must wait for the SLM to properly dislplay each mask.
                 Defaults to 0.15.
         """

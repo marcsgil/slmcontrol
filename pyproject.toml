@@ -24,5 +24,7 @@ dependencies = [
   "wxPython; sys_platform != 'linux'"
 ]
 
+
+
 [project.urls]
 repository = "https://github.com/marcsgil/slmcontrol"
