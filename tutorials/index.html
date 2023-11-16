@@ -1,0 +1,682 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../reference/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.8">
+    
+    
+      
+        <title>Tutorials - slmcontrol</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.4b4a2bd9.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.356b1318.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#quick-start" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="slmcontrol" class="md-header__button md-logo" aria-label="slmcontrol" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            slmcontrol
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Tutorials
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_3" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9h-1.9M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69m-9.15 3.96h2.3L12 9l-1.15 3.65Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_3">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="slmcontrol" class="md-nav__button md-logo" aria-label="slmcontrol" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    slmcontrol
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Tutorials
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Tutorials
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    Quick Start
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Start">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#explanation" class="md-nav__link">
+    Explanation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-file" class="md-nav__link">
+    Configuration file
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-a-gui-with-jupyter-notebooks" class="md-nav__link">
+    Creating a GUI with Jupyter Notebooks
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Reference
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../explanation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Explanation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    Quick Start
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Start">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#explanation" class="md-nav__link">
+    Explanation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-file" class="md-nav__link">
+    Configuration file
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-a-gui-with-jupyter-notebooks" class="md-nav__link">
+    Creating a GUI with Jupyter Notebooks
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>Tutorials</h1>
+
+<h2 id="quick-start">Quick Start</h2>
+<p>The following code gives the minimal working example for this package:</p>
+<div class="language-py highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Import everything from slmcontrol</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span> <span class="nn">slmcontrol</span> <span class="kn">import</span> <span class="o">*</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Initialize our slm display</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">slm</span> <span class="o">=</span> <span class="n">SLMdisplay</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># Constructs a grid that is defined by the size and resolution of the SLM</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">build_grid</span><span class="p">(</span><span class="mf">15.36</span><span class="p">,</span> <span class="mf">8.64</span><span class="p">,</span> <span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">)</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1"># The input beam, which we assme to be a gaussian</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="n">incoming</span> <span class="o">=</span> <span class="n">hg</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">3.3</span><span class="p">)</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="c1"># The beam that we wish to produce. </span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="c1"># In this case, a Laguerre-Gaussian with p=0 and l=1</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="n">desired</span> <span class="o">=</span> <span class="n">lg</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">.5</span><span class="p">)</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="c1"># Generates the hologram that will be shown in the SLM</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="n">holo</span> <span class="o">=</span> <span class="n">generate_hologram</span><span class="p">(</span><span class="n">desired</span><span class="p">,</span> <span class="n">incoming</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">96</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="c1"># Displays the generated hologram</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="n">slm</span><span class="o">.</span><span class="n">updateArray</span><span class="p">(</span><span class="n">holo</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="explanation">Explanation</h3>
+<p>Let us dissect this example, line by line:</p>
+<p><div class="language-py highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span> <span class="nn">slmcontrol</span> <span class="kn">import</span> <span class="o">*</span>
+</span></code></pre></div>
+This is straightforward. We just import everything from <code>slmcontrol</code>.</p>
+<p><div class="language-py highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">slm</span> <span class="o">=</span> <span class="n">SLMdisplay</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span></code></pre></div>
+This initializes our <a class="autorefs autorefs-internal" href="../reference/#src.slmcontrol.slm.SLMdisplay"><code>SLMdisplay</code></a> object. The argument <code>monitor</code> specifies which monitor will display the masks.
+<code>monitor=0</code> corresponds to the primary monitor, and the subsequent monitors are associated with numbers <code>1,2,3,...</code>. If you still haven't connected your SLM, and have only one monitor (for example, you are just testing this package), you must change this line to <code>slm = SLMdisplay(monitor=1)</code>.</p>
+<p><div class="language-py highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">build_grid</span><span class="p">(</span><span class="mf">15.36</span><span class="p">,</span> <span class="mf">8.64</span><span class="p">,</span> <span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">)</span>
+</span></code></pre></div>
+This line uses the <a class="autorefs autorefs-internal" href="../reference/#src.slmcontrol.hologram.build_grid"><code>build_grid</code></a> function to construct the grid that will be used in the calculations. The arguments are the width, the height, and the resolution of the SLM. The precise units don't matter, as long as one sticks with the same choice throughout the code. Here, we chose millimeters.</p>
+<p><div class="language-py highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">incoming</span> <span class="o">=</span> <span class="n">hg</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">3.3</span><span class="p">)</span>
+</span></code></pre></div>
+Here we define the beam that arrives at the SLM. We assume that it is a Gaussian (Hermite-Gaussian <a class="autorefs autorefs-internal" href="../reference/#src.slmcontrol.structures.hg"><code>hg</code></a> with both indices set to <code>0</code>) with a waist of <span class="arithmatex">\(3.3\)</span>mm, and that it is centered at the SLM. If the incoming beam is <strong>much</strong> larger than the beam that you wish to produce, one may set this to a plane wave <code>incoming = np.ones((1080,1920))</code>.</p>
+<p><div class="language-py highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">desired</span> <span class="o">=</span> <span class="n">lg</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">.5</span><span class="p">)</span>
+</span></code></pre></div>
+Now we define the beam that we wish to produce. It is a Laguerre-Gaussian with radial index <code>p=0</code>, topological charge <code>l=1</code> and a waist of <span class="arithmatex">\(0.5\)</span>mm. This is just a numpy array of complex numbers, representing a field amplitude at a fixed plane. There are a bunch of predefined functions that calculate transverse structures (see <a href="../reference/#structures">Structures</a>), but this can be any "honest" field. Feel free to implement your own.</p>
+<div class="language-py highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">holo</span> <span class="o">=</span> <span class="n">generate_hologram</span><span class="p">(</span><span class="n">desired</span><span class="p">,</span> <span class="n">incoming</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">96</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Now we use the <a class="autorefs autorefs-internal" href="../reference/#src.slmcontrol.hologram.generate_hologram"><code>generate_hologram</code></a> function in order to calculate the hologram that needs to be shown in order to produce our desired output. This is a grayscale image (here, represented as a 2D numpy array of 8-bit unsigned integers). The parameter <code>max_modulation=96</code> is the maximum value in this array, and corresponds to a phase modulation of <span class="arithmatex">\(2\pi\)</span>. You have to check the manual of the SLM in order to find this correct value. Note that it is wavelength dependent. We also specify the period of our diffraction grating: <code>4</code> pixels in the x direction, and <code>5</code> pixels in the y direction. If you want to understand the math behind these holograms, check the suggested references at the end of this section.</p>
+<p><div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">slm</span><span class="o">.</span><span class="n">updateArray</span><span class="p">(</span><span class="n">holo</span><span class="p">)</span>
+</span></code></pre></div>
+This simply displays the calculated hologram to the SLM.</p>
+<div class="admonition references">
+<p class="admonition-title">References</p>
+<p>[1] Victor Arrizón, Ulises Ruiz, Rosibel Carrada, and Luis A. González, 
+    "Pixelated phase computer holograms for the accurate encoding of scalar complex fields," 
+    J. Opt. Soc. Am. A 24, 3500-3507 (2007)</p>
+<p>[2] Thomas W. Clark, Rachel F. Offer, Sonja Franke-Arnold, Aidan S. Arnold, and Neal Radwell, 
+    "Comparison of beam generation techniques using a phase only spatial light modulator," 
+    Opt. Express 24, 6249-6264 (2016)</p>
+</div>
+<h2 id="configuration-file">Configuration file</h2>
+<p>When working with an SLM, there are a lot of adjustable parameters that, once you have the experimental setup ready, will remain fixed. Examples are the SLM size, resolution, diffraction grating periods, and so on. For that reason, it may become tedious to write these parameters every time you write a new program. Therefore, we developed a system in which the parameters are written on a file and then most of the functions have a version that simply reads this file. First, we show a template of the file, which we will call <code>config.ini</code>:</p>
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">[slm]</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="na">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">15.36</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="na">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">8.64</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="na">resX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1920</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="na">resY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1080</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="na">max_modulation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">96</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="k">[incoming]</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="na">waist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="na">xoffset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="na">yoffset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="k">[grating]</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="na">xperiod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">4</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="na">yperiod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">5</span>
+</span></code></pre></div>
+<p>This is a <code>.ini</code> file that can be read by the <a href="https://docs.python.org/3/library/configparser.html">configparser</a> standard library. You may change the values in this file to adjust it to your setup, but <strong>DO NOT CHANGE THE NAMES</strong>, otherwise the functions will not be able to read the values. The example in <a href="#quick-start">Quick Start</a> could now be rewritten as</p>
+<div class="language-py highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Import everything from slmcontrol</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kn">from</span> <span class="nn">slmcontrol</span> <span class="kn">import</span> <span class="o">*</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Initialize our slm display</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="n">slm</span> <span class="o">=</span> <span class="n">SLMdisplay</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1"># Path to the configuration file</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="n">config_path</span> <span class="o">=</span> <span class="s1">&#39;config.ini&#39;</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="c1"># The beam that we wish to produce. </span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="c1"># In this case, a Laguerre-Gaussian with p=0 and l=1</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="c1"># We don&#39;t need the x,y, as it is calculated from the configuration file</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="n">desired</span> <span class="o">=</span> <span class="n">lg</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">.5</span><span class="p">)</span>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="c1"># Generates the hologram that will be shown in the SLM using only the configuration file</span>
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="c1"># Notice that we don&#39;t even need to define the incoming beam as its wais is already defined in the configuration file</span>
+</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="n">holo</span> <span class="o">=</span> <span class="n">generate_hologram</span><span class="p">(</span><span class="n">desired</span><span class="p">,</span> <span class="n">config_path</span><span class="p">)</span>
+</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>
+</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="c1"># Displays the generated hologram</span>
+</span><span id="__span-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a><span class="n">slm</span><span class="o">.</span><span class="n">updateArray</span><span class="p">(</span><span class="n">holo</span><span class="p">)</span>
+</span></code></pre></div>
+<p>This is now much cleaner!</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Notice that the <code>generate_hologram</code> which is called here is takes only 2 arguments, instead of 9, such as in the section <a href="#quick-start">Quick Start</a>. This is what is called <a href="https://en.wikipedia.org/wiki/Multiple_dispatch">Multiple Dispatch</a>, and is a paradigm supported by languages such as <a href="https://julialang.org/">Julia</a>. This is not possible in vanilla Python, but there are packages that enable it. Here, we use <a href="https://pypi.org/project/multimethod/">multimethod</a>.</p>
+</div>
+<h2 id="creating-a-gui-with-jupyter-notebooks">Creating a GUI with Jupyter Notebooks</h2>
+<p>Jupyter Notebooks are a great way to use this package, as the interactive environment makes it easy to quickly change configurations. In this tutorial, we will leverage this tool in order to make a GUI (Graphical User Interface). In order to do this, we will use the <a href="https://ipywidgets.readthedocs.io/en/stable/">ipywidgets</a> package, that allows us to program UI elements in notebooks. We will also use <a href="https://matplotlib.org/stable/">matplotlib</a> for some plots.</p>
+<p>In the first cell, we will simply import the things that we need and initialize and <a class="autorefs autorefs-internal" href="../reference/#src.slmcontrol.slm.SLMdisplay">SLMdisplay</a> object:
+<div class="language-py highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">from</span> <span class="nn">slmcontrol</span> <span class="kn">import</span> <span class="o">*</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">widgets</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="kn">import</span> <span class="n">interact</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="kn">import</span> <span class="nn">configparser</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="n">slm</span> <span class="o">=</span> <span class="n">SLMdisplay</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span></code></pre></div></p>
+<p>Now, we give the path of our <a href="#configuration-file">configuration file</a> and construct the grid and the incoming beam:
+<div class="language-py highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">config_path</span> <span class="o">=</span> <span class="s1">&#39;config.ini&#39;</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="n">config</span> <span class="o">=</span> <span class="n">configparser</span><span class="o">.</span><span class="n">ConfigParser</span><span class="p">()</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="n">config</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">config_path</span><span class="p">)</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">build_grid</span><span class="p">(</span><span class="n">config_path</span><span class="p">)</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="n">incoming</span> <span class="o">=</span> <span class="n">hg</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;incoming&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">getfloat</span><span class="p">(</span><span class="s1">&#39;waist&#39;</span><span class="p">))</span>
+</span></code></pre></div></p>
+<p>Here, we define the UI elements, such as dropdown menus, that will control some parameters. We also define the function that they will interact with:
+<div class="language-py highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">xperiod</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">BoundedFloatText</span><span class="p">(</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>    <span class="n">value</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;grating&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">getfloat</span><span class="p">(</span><span class="s1">&#39;xperiod&#39;</span><span class="p">),</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>    <span class="nb">min</span><span class="o">=-</span><span class="mf">100.0</span><span class="p">,</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>    <span class="nb">max</span><span class="o">=</span><span class="mf">100.0</span><span class="p">,</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>    <span class="n">step</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;x period&#39;</span><span class="p">,</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>    <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="p">)</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="n">yperiod</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">BoundedFloatText</span><span class="p">(</span>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>    <span class="n">value</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;grating&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">getfloat</span><span class="p">(</span><span class="s1">&#39;yperiod&#39;</span><span class="p">),</span>
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>    <span class="nb">min</span><span class="o">=-</span><span class="mf">100.0</span><span class="p">,</span>
+</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>    <span class="nb">max</span><span class="o">=</span><span class="mf">100.0</span><span class="p">,</span>
+</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>    <span class="n">step</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;y period&#39;</span><span class="p">,</span>
+</span><span id="__span-12-16"><a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>    <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span>
+</span><span id="__span-12-17"><a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a><span class="p">)</span>
+</span><span id="__span-12-18"><a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a>
+</span><span id="__span-12-19"><a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a><span class="n">xoffset</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">BoundedIntText</span><span class="p">(</span>
+</span><span id="__span-12-20"><a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a>    <span class="n">value</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;incoming&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">getint</span><span class="p">(</span><span class="s1">&#39;xoffset&#39;</span><span class="p">),</span>
+</span><span id="__span-12-21"><a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a>    <span class="nb">min</span><span class="o">=-</span><span class="mi">10000</span><span class="p">,</span>
+</span><span id="__span-12-22"><a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a>    <span class="nb">max</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
+</span><span id="__span-12-23"><a id="__codelineno-12-23" name="__codelineno-12-23" href="#__codelineno-12-23"></a>    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;x offset&#39;</span><span class="p">,</span>
+</span><span id="__span-12-24"><a id="__codelineno-12-24" name="__codelineno-12-24" href="#__codelineno-12-24"></a>    <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span>
+</span><span id="__span-12-25"><a id="__codelineno-12-25" name="__codelineno-12-25" href="#__codelineno-12-25"></a><span class="p">)</span>
+</span><span id="__span-12-26"><a id="__codelineno-12-26" name="__codelineno-12-26" href="#__codelineno-12-26"></a>
+</span><span id="__span-12-27"><a id="__codelineno-12-27" name="__codelineno-12-27" href="#__codelineno-12-27"></a><span class="n">yoffset</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">BoundedIntText</span><span class="p">(</span>
+</span><span id="__span-12-28"><a id="__codelineno-12-28" name="__codelineno-12-28" href="#__codelineno-12-28"></a>    <span class="n">value</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;incoming&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">getint</span><span class="p">(</span><span class="s1">&#39;yoffset&#39;</span><span class="p">),</span>
+</span><span id="__span-12-29"><a id="__codelineno-12-29" name="__codelineno-12-29" href="#__codelineno-12-29"></a>    <span class="nb">min</span><span class="o">=-</span><span class="mi">10000</span><span class="p">,</span>
+</span><span id="__span-12-30"><a id="__codelineno-12-30" name="__codelineno-12-30" href="#__codelineno-12-30"></a>    <span class="nb">max</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
+</span><span id="__span-12-31"><a id="__codelineno-12-31" name="__codelineno-12-31" href="#__codelineno-12-31"></a>    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;y offset&#39;</span><span class="p">,</span>
+</span><span id="__span-12-32"><a id="__codelineno-12-32" name="__codelineno-12-32" href="#__codelineno-12-32"></a>    <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span>
+</span><span id="__span-12-33"><a id="__codelineno-12-33" name="__codelineno-12-33" href="#__codelineno-12-33"></a><span class="p">)</span>
+</span><span id="__span-12-34"><a id="__codelineno-12-34" name="__codelineno-12-34" href="#__codelineno-12-34"></a>
+</span><span id="__span-12-35"><a id="__codelineno-12-35" name="__codelineno-12-35" href="#__codelineno-12-35"></a><span class="n">mode</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span>
+</span><span id="__span-12-36"><a id="__codelineno-12-36" name="__codelineno-12-36" href="#__codelineno-12-36"></a>    <span class="n">options</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Laguerre-Gauss&#39;</span><span class="p">,</span> <span class="s1">&#39;Hermite-Gauss&#39;</span><span class="p">,</span> <span class="s1">&#39;Diagonal Hermite-Gauss&#39;</span><span class="p">],</span>
+</span><span id="__span-12-37"><a id="__codelineno-12-37" name="__codelineno-12-37" href="#__codelineno-12-37"></a>    <span class="n">value</span><span class="o">=</span><span class="s1">&#39;Laguerre-Gauss&#39;</span><span class="p">,</span>
+</span><span id="__span-12-38"><a id="__codelineno-12-38" name="__codelineno-12-38" href="#__codelineno-12-38"></a>    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Mode&#39;</span><span class="p">,</span>
+</span><span id="__span-12-39"><a id="__codelineno-12-39" name="__codelineno-12-39" href="#__codelineno-12-39"></a>    <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-12-40"><a id="__codelineno-12-40" name="__codelineno-12-40" href="#__codelineno-12-40"></a><span class="p">)</span>
+</span><span id="__span-12-41"><a id="__codelineno-12-41" name="__codelineno-12-41" href="#__codelineno-12-41"></a>
+</span><span id="__span-12-42"><a id="__codelineno-12-42" name="__codelineno-12-42" href="#__codelineno-12-42"></a><span class="n">method</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span>
+</span><span id="__span-12-43"><a id="__codelineno-12-43" name="__codelineno-12-43" href="#__codelineno-12-43"></a>    <span class="n">options</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;bessel1&#39;</span><span class="p">,</span> <span class="s1">&#39;sinc&#39;</span><span class="p">],</span>
+</span><span id="__span-12-44"><a id="__codelineno-12-44" name="__codelineno-12-44" href="#__codelineno-12-44"></a>    <span class="n">value</span><span class="o">=</span><span class="s1">&#39;bessel1&#39;</span><span class="p">,</span>
+</span><span id="__span-12-45"><a id="__codelineno-12-45" name="__codelineno-12-45" href="#__codelineno-12-45"></a>    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Algorithm&#39;</span><span class="p">,</span>
+</span><span id="__span-12-46"><a id="__codelineno-12-46" name="__codelineno-12-46" href="#__codelineno-12-46"></a>    <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-12-47"><a id="__codelineno-12-47" name="__codelineno-12-47" href="#__codelineno-12-47"></a><span class="p">)</span>
+</span><span id="__span-12-48"><a id="__codelineno-12-48" name="__codelineno-12-48" href="#__codelineno-12-48"></a>
+</span><span id="__span-12-49"><a id="__codelineno-12-49" name="__codelineno-12-49" href="#__codelineno-12-49"></a><span class="n">idx1</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">BoundedIntText</span><span class="p">(</span>
+</span><span id="__span-12-50"><a id="__codelineno-12-50" name="__codelineno-12-50" href="#__codelineno-12-50"></a>    <span class="n">value</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-12-51"><a id="__codelineno-12-51" name="__codelineno-12-51" href="#__codelineno-12-51"></a>    <span class="nb">min</span><span class="o">=-</span><span class="mi">100</span><span class="p">,</span>
+</span><span id="__span-12-52"><a id="__codelineno-12-52" name="__codelineno-12-52" href="#__codelineno-12-52"></a>    <span class="nb">max</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+</span><span id="__span-12-53"><a id="__codelineno-12-53" name="__codelineno-12-53" href="#__codelineno-12-53"></a>    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;p (m)&#39;</span><span class="p">,</span>
+</span><span id="__span-12-54"><a id="__codelineno-12-54" name="__codelineno-12-54" href="#__codelineno-12-54"></a>    <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span>
+</span><span id="__span-12-55"><a id="__codelineno-12-55" name="__codelineno-12-55" href="#__codelineno-12-55"></a><span class="p">)</span>
+</span><span id="__span-12-56"><a id="__codelineno-12-56" name="__codelineno-12-56" href="#__codelineno-12-56"></a>
+</span><span id="__span-12-57"><a id="__codelineno-12-57" name="__codelineno-12-57" href="#__codelineno-12-57"></a><span class="n">idx2</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">BoundedIntText</span><span class="p">(</span>
+</span><span id="__span-12-58"><a id="__codelineno-12-58" name="__codelineno-12-58" href="#__codelineno-12-58"></a>    <span class="n">value</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-12-59"><a id="__codelineno-12-59" name="__codelineno-12-59" href="#__codelineno-12-59"></a>    <span class="nb">min</span><span class="o">=-</span><span class="mi">100</span><span class="p">,</span>
+</span><span id="__span-12-60"><a id="__codelineno-12-60" name="__codelineno-12-60" href="#__codelineno-12-60"></a>    <span class="nb">max</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+</span><span id="__span-12-61"><a id="__codelineno-12-61" name="__codelineno-12-61" href="#__codelineno-12-61"></a>    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;l (n)&#39;</span><span class="p">,</span>
+</span><span id="__span-12-62"><a id="__codelineno-12-62" name="__codelineno-12-62" href="#__codelineno-12-62"></a>    <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span>
+</span><span id="__span-12-63"><a id="__codelineno-12-63" name="__codelineno-12-63" href="#__codelineno-12-63"></a><span class="p">)</span>
+</span><span id="__span-12-64"><a id="__codelineno-12-64" name="__codelineno-12-64" href="#__codelineno-12-64"></a>
+</span><span id="__span-12-65"><a id="__codelineno-12-65" name="__codelineno-12-65" href="#__codelineno-12-65"></a><span class="n">waist</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">BoundedFloatText</span><span class="p">(</span>
+</span><span id="__span-12-66"><a id="__codelineno-12-66" name="__codelineno-12-66" href="#__codelineno-12-66"></a>    <span class="n">value</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+</span><span id="__span-12-67"><a id="__codelineno-12-67" name="__codelineno-12-67" href="#__codelineno-12-67"></a>    <span class="nb">min</span><span class="o">=</span><span class="mf">.01</span><span class="p">,</span>
+</span><span id="__span-12-68"><a id="__codelineno-12-68" name="__codelineno-12-68" href="#__codelineno-12-68"></a>    <span class="nb">max</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>
+</span><span id="__span-12-69"><a id="__codelineno-12-69" name="__codelineno-12-69" href="#__codelineno-12-69"></a>    <span class="n">step</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+</span><span id="__span-12-70"><a id="__codelineno-12-70" name="__codelineno-12-70" href="#__codelineno-12-70"></a>    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Waist&#39;</span><span class="p">,</span>
+</span><span id="__span-12-71"><a id="__codelineno-12-71" name="__codelineno-12-71" href="#__codelineno-12-71"></a>    <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span>
+</span><span id="__span-12-72"><a id="__codelineno-12-72" name="__codelineno-12-72" href="#__codelineno-12-72"></a><span class="p">)</span>
+</span><span id="__span-12-73"><a id="__codelineno-12-73" name="__codelineno-12-73" href="#__codelineno-12-73"></a>
+</span><span id="__span-12-74"><a id="__codelineno-12-74" name="__codelineno-12-74" href="#__codelineno-12-74"></a><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">mode</span><span class="p">,</span><span class="n">idx1</span><span class="p">,</span><span class="n">idx2</span><span class="p">,</span><span class="n">waist</span><span class="p">,</span><span class="n">xperiod</span><span class="p">,</span><span class="n">yperiod</span><span class="p">,</span><span class="n">xoffset</span><span class="p">,</span><span class="n">yoffset</span><span class="p">,</span><span class="n">method</span><span class="p">):</span>
+</span><span id="__span-12-75"><a id="__codelineno-12-75" name="__codelineno-12-75" href="#__codelineno-12-75"></a>    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;Laguerre-Gauss&#39;</span><span class="p">:</span>
+</span><span id="__span-12-76"><a id="__codelineno-12-76" name="__codelineno-12-76" href="#__codelineno-12-76"></a>        <span class="n">desired</span> <span class="o">=</span> <span class="n">lg</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="n">idx1</span><span class="p">,</span><span class="n">idx2</span><span class="p">,</span> <span class="n">waist</span><span class="p">)</span>
+</span><span id="__span-12-77"><a id="__codelineno-12-77" name="__codelineno-12-77" href="#__codelineno-12-77"></a>    <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;Hermite-Gauss&#39;</span><span class="p">:</span>
+</span><span id="__span-12-78"><a id="__codelineno-12-78" name="__codelineno-12-78" href="#__codelineno-12-78"></a>        <span class="n">desired</span> <span class="o">=</span> <span class="n">hg</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="n">idx1</span><span class="p">,</span><span class="n">idx2</span><span class="p">,</span> <span class="n">waist</span><span class="p">)</span>
+</span><span id="__span-12-79"><a id="__codelineno-12-79" name="__codelineno-12-79" href="#__codelineno-12-79"></a>    <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;Diagonal Hermite-Gauss&#39;</span><span class="p">:</span>
+</span><span id="__span-12-80"><a id="__codelineno-12-80" name="__codelineno-12-80" href="#__codelineno-12-80"></a>        <span class="n">desired</span> <span class="o">=</span> <span class="n">diagonal_hg</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="n">idx1</span><span class="p">,</span><span class="n">idx2</span><span class="p">,</span> <span class="n">waist</span><span class="p">)</span>
+</span><span id="__span-12-81"><a id="__codelineno-12-81" name="__codelineno-12-81" href="#__codelineno-12-81"></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-12-82"><a id="__codelineno-12-82" name="__codelineno-12-82" href="#__codelineno-12-82"></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid mode.&quot;</span><span class="p">)</span>
+</span><span id="__span-12-83"><a id="__codelineno-12-83" name="__codelineno-12-83" href="#__codelineno-12-83"></a>    <span class="n">holo</span> <span class="o">=</span> <span class="n">generate_hologram</span><span class="p">(</span><span class="n">desired</span><span class="p">,</span><span class="n">incoming</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;slm&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">getint</span><span class="p">(</span><span class="s1">&#39;max_modulation&#39;</span><span class="p">),</span><span class="n">xperiod</span><span class="p">,</span><span class="n">yperiod</span><span class="p">,</span><span class="n">xoffset</span><span class="p">,</span><span class="n">yoffset</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
+</span><span id="__span-12-84"><a id="__codelineno-12-84" name="__codelineno-12-84" href="#__codelineno-12-84"></a>    <span class="n">slm</span><span class="o">.</span><span class="n">updateArray</span><span class="p">(</span><span class="n">holo</span><span class="p">)</span>
+</span><span id="__span-12-85"><a id="__codelineno-12-85" name="__codelineno-12-85" href="#__codelineno-12-85"></a>    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">desired</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;jet&#39;</span><span class="p">)</span>
+</span></code></pre></div></p>
+<p>Finally, we call the <code>interact</code> function from <code>ipywidgets</code>:
+<div class="language-py highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">interact</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span><span class="n">idx1</span><span class="o">=</span><span class="n">idx1</span><span class="p">,</span><span class="n">idx2</span><span class="o">=</span><span class="n">idx2</span><span class="p">,</span><span class="n">waist</span><span class="o">=</span><span class="n">waist</span><span class="p">,</span><span class="n">xperiod</span><span class="o">=</span><span class="n">xperiod</span><span class="p">,</span><span class="n">yperiod</span><span class="o">=</span><span class="n">yperiod</span><span class="p">,</span><span class="n">xoffset</span><span class="o">=</span><span class="n">xoffset</span><span class="p">,</span><span class="n">yoffset</span><span class="o">=</span><span class="n">yoffset</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">);</span>
+</span></code></pre></div></p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.select"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.81fa17fe.min.js"></script>
+      
+        <script src="../javascripts/katex.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>
