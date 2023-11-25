@@ -156,7 +156,7 @@ def generate_hologram(desired: tuple | list, incoming, x, y, max_modulation: int
 
 @multimethod
 def generate_hologram(desired, incoming, x, y, max_modulation: int, xperiod, yperiod, xoffset, yoffset, method='bessel1'):
-    """Generates a hologram to be displayed in the SLM.
+    r"""Generates a hologram to be displayed in the SLM.
 
     Args:
         desired (array_like | tuple | list): the (list of) field(s) that one wishes to produce
