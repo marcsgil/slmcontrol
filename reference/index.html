@@ -207,7 +207,7 @@
         
   
   <span class="md-ellipsis">
-    Index
+    slmcontrol
   </span>
   
 
@@ -3448,7 +3448,7 @@
           </td>
           <td>
             <div class="doc-md-description">
-              <p>Translation (in pixels), of the output beam in the x direction</p>
+              <p>Translation (in pixels), of the input beam in the x direction, with respect to the origin</p>
             </div>
           </td>
           <td>
@@ -3462,7 +3462,7 @@
           </td>
           <td>
             <div class="doc-md-description">
-              <p>Translation (in pixels), of the output beam in the y direction</p>
+              <p>Translation (in pixels), of the input beam in the y direction, with respect to the origin</p>
             </div>
           </td>
           <td>
@@ -3592,21 +3592,20 @@ Defaults to 'bessel1'.</p>
 <span class="normal"><a href="#__codelineno-0-210">210</a></span>
 <span class="normal"><a href="#__codelineno-0-211">211</a></span>
 <span class="normal"><a href="#__codelineno-0-212">212</a></span>
-<span class="normal"><a href="#__codelineno-0-213">213</a></span>
-<span class="normal"><a href="#__codelineno-0-214">214</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-157"><a id="__codelineno-0-157" name="__codelineno-0-157"></a><span class="nd">@multimethod</span>
+<span class="normal"><a href="#__codelineno-0-213">213</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-157"><a id="__codelineno-0-157" name="__codelineno-0-157"></a><span class="nd">@multimethod</span>
 </span><span id="__span-0-158"><a id="__codelineno-0-158" name="__codelineno-0-158"></a><span class="k">def</span> <span class="nf">generate_hologram</span><span class="p">(</span><span class="n">desired</span><span class="p">,</span> <span class="n">incoming</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">max_modulation</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">xperiod</span><span class="p">,</span> <span class="n">yperiod</span><span class="p">,</span> <span class="n">xoffset</span><span class="p">,</span> <span class="n">yoffset</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;bessel1&#39;</span><span class="p">):</span>
-</span><span id="__span-0-159"><a id="__codelineno-0-159" name="__codelineno-0-159"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates a hologram to be displayed in the SLM.</span>
+</span><span id="__span-0-159"><a id="__codelineno-0-159" name="__codelineno-0-159"></a><span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generates a hologram to be displayed in the SLM.</span>
 </span><span id="__span-0-160"><a id="__codelineno-0-160" name="__codelineno-0-160"></a>
 </span><span id="__span-0-161"><a id="__codelineno-0-161" name="__codelineno-0-161"></a><span class="sd">    Args:</span>
 </span><span id="__span-0-162"><a id="__codelineno-0-162" name="__codelineno-0-162"></a><span class="sd">        desired (array_like | tuple | list): the (list of) field(s) that one wishes to produce</span>
 </span><span id="__span-0-163"><a id="__codelineno-0-163" name="__codelineno-0-163"></a><span class="sd">        incoming (array_like): field that arrives at the SLM</span>
 </span><span id="__span-0-164"><a id="__codelineno-0-164" name="__codelineno-0-164"></a><span class="sd">        x (array_like): x grid</span>
 </span><span id="__span-0-165"><a id="__codelineno-0-165" name="__codelineno-0-165"></a><span class="sd">        y (array_like): y grid</span>
-</span><span id="__span-0-166"><a id="__codelineno-0-166" name="__codelineno-0-166"></a><span class="sd">        max_modulation (int): Maximum modulated value, which sould correspond to a phase of $2 \pi$. Depends on the SLM specifications</span>
+</span><span id="__span-0-166"><a id="__codelineno-0-166" name="__codelineno-0-166"></a><span class="sd">        max_modulation (int): Maximum modulated value, which sould correspond to a phase of \(2 \pi\). Depends on the SLM specifications</span>
 </span><span id="__span-0-167"><a id="__codelineno-0-167" name="__codelineno-0-167"></a><span class="sd">        xperiod (Real): Period (in pixels) of the diffraction grating in the x direction</span>
 </span><span id="__span-0-168"><a id="__codelineno-0-168" name="__codelineno-0-168"></a><span class="sd">        yperiod (Real): Period (in pixels) of the diffraction grating in the y direction</span>
-</span><span id="__span-0-169"><a id="__codelineno-0-169" name="__codelineno-0-169"></a><span class="sd">        xoffset (int): Translation (in pixels), of the output beam in the x direction</span>
-</span><span id="__span-0-170"><a id="__codelineno-0-170" name="__codelineno-0-170"></a><span class="sd">        yoffset (int): Translation (in pixels), of the output beam in the y direction</span>
+</span><span id="__span-0-169"><a id="__codelineno-0-169" name="__codelineno-0-169"></a><span class="sd">        xoffset (int): Translation (in pixels), of the input beam in the x direction, with respect to the origin</span>
+</span><span id="__span-0-170"><a id="__codelineno-0-170" name="__codelineno-0-170"></a><span class="sd">        yoffset (int): Translation (in pixels), of the input beam in the y direction, with respect to the origin</span>
 </span><span id="__span-0-171"><a id="__codelineno-0-171" name="__codelineno-0-171"></a><span class="sd">        method (str, optional): Algorithm to be used in the generation of the hologram. </span>
 </span><span id="__span-0-172"><a id="__codelineno-0-172" name="__codelineno-0-172"></a><span class="sd">            Possible values are:</span>
 </span><span id="__span-0-173"><a id="__codelineno-0-173" name="__codelineno-0-173"></a>
@@ -3637,20 +3636,19 @@ Defaults to 'bessel1'.</p>
 </span><span id="__span-0-198"><a id="__codelineno-0-198" name="__codelineno-0-198"></a><span class="sd">            Opt. Express 24, 6249-6264 (2016)</span>
 </span><span id="__span-0-199"><a id="__codelineno-0-199" name="__codelineno-0-199"></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="__span-0-200"><a id="__codelineno-0-200" name="__codelineno-0-200"></a>
-</span><span id="__span-0-201"><a id="__codelineno-0-201" name="__codelineno-0-201"></a>    <span class="n">_desired</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">desired</span><span class="p">,</span> <span class="p">(</span><span class="n">yoffset</span><span class="p">,</span> <span class="n">xoffset</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-</span><span id="__span-0-202"><a id="__codelineno-0-202" name="__codelineno-0-202"></a>    <span class="n">relative</span> <span class="o">=</span> <span class="n">_desired</span> <span class="o">/</span> <span class="n">incoming</span>
-</span><span id="__span-0-203"><a id="__codelineno-0-203" name="__codelineno-0-203"></a>
-</span><span id="__span-0-204"><a id="__codelineno-0-204" name="__codelineno-0-204"></a>    <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">relative</span><span class="p">)</span>
-</span><span id="__span-0-205"><a id="__codelineno-0-205" name="__codelineno-0-205"></a>    <span class="n">a</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-</span><span id="__span-0-206"><a id="__codelineno-0-206" name="__codelineno-0-206"></a>
-</span><span id="__span-0-207"><a id="__codelineno-0-207" name="__codelineno-0-207"></a>    <span class="n">lx</span> <span class="o">=</span> <span class="n">xperiod</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-</span><span id="__span-0-208"><a id="__codelineno-0-208" name="__codelineno-0-208"></a>    <span class="n">ly</span> <span class="o">=</span> <span class="n">yperiod</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-</span><span id="__span-0-209"><a id="__codelineno-0-209" name="__codelineno-0-209"></a>    <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">relative</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="o">/</span><span class="n">lx</span> <span class="o">+</span> <span class="n">y</span><span class="o">/</span><span class="n">ly</span><span class="p">)</span>
-</span><span id="__span-0-210"><a id="__codelineno-0-210" name="__codelineno-0-210"></a>
-</span><span id="__span-0-211"><a id="__codelineno-0-211" name="__codelineno-0-211"></a>    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;bessel1&#39;</span><span class="p">:</span>
-</span><span id="__span-0-212"><a id="__codelineno-0-212" name="__codelineno-0-212"></a>        <span class="n">max_modulation</span> <span class="o">*=</span> <span class="mf">0.586</span>
-</span><span id="__span-0-213"><a id="__codelineno-0-213" name="__codelineno-0-213"></a>
-</span><span id="__span-0-214"><a id="__codelineno-0-214" name="__codelineno-0-214"></a>    <span class="k">return</span> <span class="n">normalize</span><span class="p">(</span><span class="n">psi</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">method</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">max_modulation</span><span class="p">))</span>
+</span><span id="__span-0-201"><a id="__codelineno-0-201" name="__codelineno-0-201"></a>    <span class="n">relative</span> <span class="o">=</span> <span class="n">desired</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">incoming</span><span class="p">,</span> <span class="p">(</span><span class="n">yoffset</span><span class="p">,</span> <span class="n">xoffset</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+</span><span id="__span-0-202"><a id="__codelineno-0-202" name="__codelineno-0-202"></a>
+</span><span id="__span-0-203"><a id="__codelineno-0-203" name="__codelineno-0-203"></a>    <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">relative</span><span class="p">)</span>
+</span><span id="__span-0-204"><a id="__codelineno-0-204" name="__codelineno-0-204"></a>    <span class="n">a</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span><span id="__span-0-205"><a id="__codelineno-0-205" name="__codelineno-0-205"></a>
+</span><span id="__span-0-206"><a id="__codelineno-0-206" name="__codelineno-0-206"></a>    <span class="n">lx</span> <span class="o">=</span> <span class="n">xperiod</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+</span><span id="__span-0-207"><a id="__codelineno-0-207" name="__codelineno-0-207"></a>    <span class="n">ly</span> <span class="o">=</span> <span class="n">yperiod</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+</span><span id="__span-0-208"><a id="__codelineno-0-208" name="__codelineno-0-208"></a>    <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">relative</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="o">/</span><span class="n">lx</span> <span class="o">+</span> <span class="n">y</span><span class="o">/</span><span class="n">ly</span><span class="p">)</span>
+</span><span id="__span-0-209"><a id="__codelineno-0-209" name="__codelineno-0-209"></a>
+</span><span id="__span-0-210"><a id="__codelineno-0-210" name="__codelineno-0-210"></a>    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;bessel1&#39;</span><span class="p">:</span>
+</span><span id="__span-0-211"><a id="__codelineno-0-211" name="__codelineno-0-211"></a>        <span class="n">max_modulation</span> <span class="o">*=</span> <span class="mf">0.586</span>
+</span><span id="__span-0-212"><a id="__codelineno-0-212" name="__codelineno-0-212"></a>
+</span><span id="__span-0-213"><a id="__codelineno-0-213" name="__codelineno-0-213"></a>    <span class="k">return</span> <span class="n">normalize</span><span class="p">(</span><span class="n">psi</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">method</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">max_modulation</span><span class="p">))</span>
 </span></code></pre></div></td></tr></table></div>
           </details>
   </div>
