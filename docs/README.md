@@ -20,9 +20,11 @@ pip install slmcontrol
 
 on a terminal.
 
-It has been tested on Windows and Ubuntu like systems. Probably won't work out of the box on other flavors, because of [restrictions of wxPython](https://wxpython.org/pages/downloads/). It has not been tested on Mac, but it should work. If you encounter any problems, please open an issue on GitHub.
+It will work of the box for Window. That is also the expected behavior for MacOS, but it has not been tested. For Linux, you will need to install manually install [wxPython](https://wxpython.org/pages/downloads/) before using this package.
 
 If you encounter the error `libSDL2-2.0.so.0: cannot open shared object file: No such file or directory`, you need to install the package `libsdl2-2.0-0` (on Ubuntu, run `sudo apt install libsdl2-dev`).
+
+If you encounter any problems, please open an issue on GitHub.
 
 ## Authors
 
