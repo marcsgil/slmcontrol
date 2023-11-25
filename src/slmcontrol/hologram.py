@@ -166,8 +166,8 @@ def generate_hologram(desired, incoming, x, y, max_modulation: int, xperiod, ype
         max_modulation (int): Maximum modulated value, which sould correspond to a phase of $2 \pi$. Depends on the SLM specifications
         xperiod (Real): Period (in pixels) of the diffraction grating in the x direction
         yperiod (Real): Period (in pixels) of the diffraction grating in the y direction
-        xoffset (int): Translation (in pixels), of the output beam in the x direction
-        yoffset (int): Translation (in pixels), of the output beam in the y direction
+        xoffset (int): Translation (in pixels), of the input beam in the x direction, with respect to the origin
+        yoffset (int): Translation (in pixels), of the input beam in the y direction, with respect to the origin
         method (str, optional): Algorithm to be used in the generation of the hologram. 
             Possible values are:
 
@@ -198,8 +198,7 @@ def generate_hologram(desired, incoming, x, y, max_modulation: int, xperiod, ype
             Opt. Express 24, 6249-6264 (2016)
     """
 
-    _desired = np.roll(desired, (yoffset, xoffset), axis=(0, 1))
-    relative = _desired / incoming
+    relative = desired / np.roll(incoming, (yoffset, xoffset), axis=(0, 1))
 
     a = np.abs(relative)
     a /= np.max(a)

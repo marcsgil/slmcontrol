@@ -1,31 +1,24 @@
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
-[project]
+[tool.poetry]
 name = "slmcontrol"
-version = "0.0.3"
-authors = [
-  { name="Marcos Gil", email="marcosgildeoliveira@gmail.com" },
-]
+version = "0.0.4"
 description = "A package used to control Spatial Light Modulators (SLM)"
+authors = ["Marcos Gil <marcosgildeoliveira@gmail.com>"]
+license = "MIT"
 readme = "README.md"
-license = {file = "LICENSE"}
-requires-python = ">=3.8"
-classifiers = [
-    "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+numpy = "^1.26.2"
+scipy = "^1.11.4"
+multimethod = "^1.10"
+wxpython = [
+    {platform = "linux", python = "3.9", url="https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-22.04/wxPython-4.2.1-cp39-cp39-linux_x86_64.whl"},
+    {platform = "linux", python = "3.10", url="https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-22.04/wxPython-4.2.1-cp310-cp310-linux_x86_64.whl"},
+    {platform = "linux", python = "3.11", url="https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-22.04/wxPython-4.2.1-cp311-cp311-linux_x86_64.whl"},
+    {platform = "win32", source = "pypi" },
+    {platform = "darwin", source = "pypi" },
 ]
 
-dependencies = [
-  "numpy",
-  "scipy",
-  "multimethod",
-  "wxPython; sys_platform != 'linux'"
-]
-
-
-
-[project.urls]
-repository = "https://github.com/marcsgil/slmcontrol"
-documentation = "https://marcsgil.github.io/slmcontrol/"
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
