@@ -163,7 +163,7 @@ def generate_hologram(desired, incoming, x, y, max_modulation: int, xperiod, ype
         incoming (array_like): field that arrives at the SLM
         x (array_like): x grid
         y (array_like): y grid
-        max_modulation (int): Maximum modulated value, which sould correspond to a phase of $2 \pi$. Depends on the SLM specifications
+        max_modulation (int): Maximum modulated value, which sould correspond to a phase of \(2 \pi\). Depends on the SLM specifications
         xperiod (Real): Period (in pixels) of the diffraction grating in the x direction
         yperiod (Real): Period (in pixels) of the diffraction grating in the y direction
         xoffset (int): Translation (in pixels), of the input beam in the x direction, with respect to the origin

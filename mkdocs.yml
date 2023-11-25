@@ -60,7 +60,7 @@ plugins:
           show_root_toc_entry: false
 
 nav:
-  - index.md
+  - README.md
   - tutorials.md
   - reference.md
   - explanation.md
