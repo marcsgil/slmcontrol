@@ -7,16 +7,15 @@ license = "MIT"
 readme = "docs/README.md"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.10"
 numpy = "^1.26.2"
 scipy = "^1.11.4"
 multimethod = "^1.10"
 wxPython = [
-    {platform = "linux", python = "3.9", url="https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-22.04/wxPython-4.2.1-cp39-cp39-linux_x86_64.whl"},
     {platform = "linux", python = "3.10", url="https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-22.04/wxPython-4.2.1-cp310-cp310-linux_x86_64.whl"},
     {platform = "linux", python = "3.11", url="https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-22.04/wxPython-4.2.1-cp311-cp311-linux_x86_64.whl"},
-    {platform = "win32", python = "^3.9", version = "^4.2", source = "pypi"},
-    {platform = "darwin", python = "^3.9", version = "^4.2", source = "pypi"},
+    {platform = "win32", python = "^3.10", version = "^4.2", source = "pypi"},
+    {platform = "darwin", python = "^3.10", version = "^4.2", source = "pypi"},
 ]
 
 [tool.poetry.group.docs.dependencies]
