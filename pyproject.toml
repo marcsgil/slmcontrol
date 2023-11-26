@@ -17,10 +17,10 @@ wxPython = [
 ]
 
 [tool.poetry.group.docs.dependencies]
-mkdocs = {version = "^1.5.3", optional = true}
-mkdocstrings = {extras = ["python"], version = "^0.24.0", optional = true}
-mkdocs-material = {version = "^9.4.12", optional = true}
-python-markdown-math = {version = "^0.8", optional = true}
+mkdocs = {version = "^1.5.3"}
+mkdocstrings = {extras = ["python"], version = "^0.24.0"}
+mkdocs-material = {version = "^9.4.12"}
+python-markdown-math = {version = "^0.8"}
 
 [build-system]
 requires = ["poetry-core"]
