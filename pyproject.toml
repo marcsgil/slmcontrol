@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "slmcontrol"
-version = "0.0.4"
+version = "0.0.5"
 description = "A package used to control Spatial Light Modulators (SLM)"
 authors = ["Marcos Gil <marcosgildeoliveira@gmail.com>"]
 license = "MIT"
