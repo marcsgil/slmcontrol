@@ -122,9 +122,67 @@ def diagonal_hg(x, y, m: int, n: int, w0):
     return hg((x-y)/np.sqrt(2), (x+y)/np.sqrt(2), m, n, w0)
 
 
+def fixed_order_basis(config_path: str, w0, order, basis='hg'):
+    """
+    Compute the fixed-order basis functions for a given set of coordinates.
+
+    Args:
+        config_path (str): Path for the configuration file of the SLM
+        w0 (float): Waist parameter.
+        order (int): Order of the basis functions.
+        basis (str, optional): Type of basis functions to compute. 
+            Possible values are 'lg', 'hg', 'diagonal_hg'. 
+            Defaults to 'hg'.
+
+    Returns:
+        (array_like): An array of basis functions.
+
+    Raises:
+        AssertionError: If an invalid basis name is provided.
+
+    """
+    x, y = build_grid(config_path)
+    return fixed_order_basis(x, y, w0, order, basis)
+
+
+def fixed_order_basis(x, y, w0, order, basis='hg'):
+    """
+    Compute the fixed-order basis functions for a given set of coordinates.
+
+    Args:
+        x (array_like): x-coordinates of the points.
+        y (array_like): y-coordinates of the points.
+        w0 (float): Waist parameter.
+        order (int): Order of the basis functions.
+        basis (str, optional): Type of basis functions to compute. 
+            Possible values are 'lg', 'hg', 'diagonal_hg'. 
+            Defaults to 'hg'.
+
+    Returns:
+        (array_like): An array of basis functions.
+
+    Raises:
+        AssertionError: If an invalid basis name is provided.
+
+    """
+    assert basis in (
+        'lg', 'hg', 'diagonal_hg'), "Known 'basis_name' are 'lg', 'hg', 'diagonal_hg'. Got %s." % basis
+
+    if basis == 'lg':
+        basis = np.array([lg(x, y, int(np.minimum(k, order-k)), 2*k - order, w0)
+                          for k in range(order+1)])
+    elif basis == 'hg':
+        basis = np.array([hg(x, y, order-k, k, w0) for k in range(order+1)])
+    elif basis == 'diagonal_hg':
+        basis = np.array([diagonal_hg(x, y, order-k, k, w0)
+                         for k in range(order+1)])
+
+    return basis
+
+
 @multimethod
 def lens(config_path: str, fx, fy, lamb):
-    """_summary_
+    """Compute the phase imposed by a lens.
 
     Args:
         config_path (str): Path for the configuration file of the SLM
