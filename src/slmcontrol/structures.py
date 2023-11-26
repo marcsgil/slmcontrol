@@ -1,6 +1,6 @@
 import numpy as np
 from scipy import special
-from scipy.special import factorial
+from scipy.special import factorial, binom
 from multimethod import multimethod
 from slmcontrol.hologram import build_grid
 
@@ -120,6 +120,32 @@ def diagonal_hg(x, y, m: int, n: int, w0):
         (array_like): diagonal Hermite-Gaussian mode.
     """
     return hg((x-y)/np.sqrt(2), (x+y)/np.sqrt(2), m, n, w0)
+
+
+def b(m, n, k):
+    """
+    Calculate the value the coefficients b(m, n, k) that converts between Hermite-Gaussian and diagonal Hermite-Gaussian modes.
+
+    Parameters:
+        m (int): The value of m.
+        n (int): The value of n.
+        k (int): The value of k.
+
+    Returns:
+        (float): The calculated value of b(m, n, k).
+
+    Reference:
+        1. Beijersbergen, M. W., Allen, L., van der Veen, H. E. L. O. & Woerdman, J. P. Astigmatic laser mode converters and transfer of orbital angular momentum. Optics Communications 96, 123-132 (1993).
+    """
+
+    N = m + n
+    prefactor = np.sqrt(factorial(k) * factorial(N-k) /
+                        (2**N * factorial(m) * factorial(n)))
+
+    max = np.minimum(n, k)
+    min = np.maximum(0, k-m)
+
+    return prefactor * np.sum([(-1)**j * binom(n, j) * binom(m, k-j) for j in range(min, max+1)])
 
 
 def fixed_order_basis(config_path: str, w0, order, basis='hg'):
