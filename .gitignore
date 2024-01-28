@@ -2,3 +2,4 @@
 /site
 poetry.lock
 .vscode
+.venv
