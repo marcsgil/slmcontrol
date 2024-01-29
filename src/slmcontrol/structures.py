@@ -1,30 +1,10 @@
 import numpy as np
 from scipy import special
 from scipy.special import factorial, binom
-from multimethod import multimethod
-from slmcontrol.hologram import build_grid
+from functools import singledispatch
 
 
-@multimethod
-def hg(config_path: str, m: int, n: int, w0):
-    """Compute the Hermite-Gaussian mode.
-
-    Args:
-        config_path (str): Path for the configuration file of the SLM
-        m (int): vertical index
-        n (int): horizontal index
-        w0 (Real): waist
-
-    Returns:
-        (array_like): Hermite-Gaussian mode.
-    """
-
-    x, y = build_grid(config_path)
-    return hg(x, y, m, n, w0)
-
-
-@multimethod
-def hg(x, y, m: int, n: int, w0):
+def hg(x, y, m, n, w0):
     """Compute the Hermite-Gaussian mode.
 
     Args:
@@ -46,25 +26,7 @@ def hg(x, y, m: int, n: int, w0):
     return N * pm(np.sqrt(2) * x / w0) * pn(np.sqrt(2) * y / w0) * np.exp(-(x**2+y**2)/w0**2)
 
 
-@multimethod
-def lg(config_path: str, p: int, l: int, w0):
-    """Compute the Laguerre-Gaussian mode.
-
-    Args:
-        config_path (str): Path for the configuration file of the SLM
-        p (int): radial index
-        l (int): azymutal index
-        w0 (Real): waist
-
-    Returns:
-        (array_like): Laguerre-Gaussian mode.
-    """
-    x, y = build_grid(config_path)
-    return lg(x, y, p, l, w0)
-
-
-@multimethod
-def lg(x, y, p: int, l: int, w0):
+def lg(x, y, p, l, w0):
     """Compute the Laguerre-Gaussian mode.
 
     Args:
@@ -85,28 +47,11 @@ def lg(x, y, p: int, l: int, w0):
     return (
         N * (np.sqrt(2)*r)**(abs(l))
         * np.exp(-r**2) * lag(2*r**2)
-        * np.exp(1j*l*np.arctan2(y, x)))
+        * np.exp(1j*l*np.arctan2(y, x))
+    )
 
 
-@multimethod
-def diagonal_hg(config_path: str, m: int, n: int, w0):
-    """Compute the diagonal Hermite-Gaussian mode.
-
-    Args:
-        config_path (str): Path for the configuration file of the SLM
-        m (int): diagonal index
-        n (int): anti-diagonal index
-        w0 (Real): waist
-
-    Returns:
-        (array_like): diagonal Hermite-Gaussian mode.
-    """
-    x, y = build_grid(config_path)
-    return diagonal_hg(x, y, m, n, w0)
-
-
-@multimethod
-def diagonal_hg(x, y, m: int, n: int, w0):
+def diagonal_hg(x, y, m, n, w0):
     """Compute the diagonal Hermite-Gaussian mode.
 
     Args:
@@ -119,7 +64,7 @@ def diagonal_hg(x, y, m: int, n: int, w0):
     Returns:
         (array_like): diagonal Hermite-Gaussian mode.
     """
-    return hg((x-y)/np.sqrt(2), (x+y)/np.sqrt(2), m, n, w0)
+    return hg((x+y)/np.sqrt(2), (x-y)/np.sqrt(2), m, n, w0)
 
 
 def b(m, n, k):
@@ -148,82 +93,6 @@ def b(m, n, k):
     return prefactor * np.sum([(-1)**j * binom(n, j) * binom(m, k-j) for j in range(min, max+1)])
 
 
-def fixed_order_basis(config_path: str, w0, order, basis='hg'):
-    """
-    Compute the fixed-order basis functions for a given set of coordinates.
-
-    Args:
-        config_path (str): Path for the configuration file of the SLM
-        w0 (float): Waist parameter.
-        order (int): Order of the basis functions.
-        basis (str, optional): Type of basis functions to compute. 
-            Possible values are 'lg', 'hg', 'diagonal_hg'. 
-            Defaults to 'hg'.
-
-    Returns:
-        (array_like): An array of basis functions.
-
-    Raises:
-        AssertionError: If an invalid basis name is provided.
-
-    """
-    x, y = build_grid(config_path)
-    return fixed_order_basis(x, y, w0, order, basis)
-
-
-def fixed_order_basis(x, y, w0, order, basis='hg'):
-    """
-    Compute the fixed-order basis functions for a given set of coordinates.
-
-    Args:
-        x (array_like): x-coordinates of the points.
-        y (array_like): y-coordinates of the points.
-        w0 (float): Waist parameter.
-        order (int): Order of the basis functions.
-        basis (str, optional): Type of basis functions to compute. 
-            Possible values are 'lg', 'hg', 'diagonal_hg'. 
-            Defaults to 'hg'.
-
-    Returns:
-        (array_like): An array of basis functions.
-
-    Raises:
-        AssertionError: If an invalid basis name is provided.
-
-    """
-    assert basis in (
-        'lg', 'hg', 'diagonal_hg'), "Known 'basis_name' are 'lg', 'hg', 'diagonal_hg'. Got %s." % basis
-
-    if basis == 'lg':
-        basis = np.array([lg(x, y, int(np.minimum(k, order-k)), 2*k - order, w0)
-                          for k in range(order+1)])
-    elif basis == 'hg':
-        basis = np.array([hg(x, y, order-k, k, w0) for k in range(order+1)])
-    elif basis == 'diagonal_hg':
-        basis = np.array([diagonal_hg(x, y, order-k, k, w0)
-                         for k in range(order+1)])
-
-    return basis
-
-
-@multimethod
-def lens(config_path: str, fx, fy, lamb):
-    """Compute the phase imposed by a lens.
-
-    Args:
-        config_path (str): Path for the configuration file of the SLM
-        fx (Real): focal length in the x direction
-        fy (Real): focal length in the y direction
-        lamb (Real): wavelength of incoming beam
-
-    Returns:
-        (array_like): phase imposed by the lens.
-    """
-    x, y = build_grid(config_path)
-    return lens(x, y, fx, fy, lamb)
-
-
-@multimethod
 def lens(x, y, fx, fy, lamb):
     """Compute the phase imposed by a lens.
 
@@ -240,25 +109,6 @@ def lens(x, y, fx, fy, lamb):
     return np.exp(-1j*np.pi/lamb*((x**2)/fx + (y**2)/fy))
 
 
-@multimethod
-def tilted_lens(config_path: str, f, theta, lamb):
-    """Compute the phase imposed by a tilted spherical lens.
-
-    Args:
-        config_path (str): Path for the configuration file of the SLM
-        f (Real): focal length
-        theta (Real): tilting angle
-        lamb (Real): wavelength of incoming beam
-
-    Returns:
-        (array_like): phase imposed by the tilted spherical lens
-    """
-    fx = f*np.cos(theta)
-    fy = f/np.cos(theta)
-    return tilted_lens(config_path, fx, fy, lamb)
-
-
-@multimethod
 def tilted_lens(x, y, f, theta, lamb):
     """Compute the phase imposed by a tilted spherical lens.
 
@@ -277,23 +127,6 @@ def tilted_lens(x, y, f, theta, lamb):
     return lens(x, y, fx, fy, lamb)
 
 
-@multimethod
-def rectangular_apperture(config_path: str, a, b):
-    """Rectangular apperture centered at the origin.
-
-    Args:
-        config_path (str): Path for the configuration file of the SLM
-        a (Real): lenght in the horizontal direction
-        b (Real): lenght in the vertical direction
-
-    Returns:
-        (array_like): True if the point is inside the apperture. False otherwise.
-    """
-    x, y = build_grid(config_path)
-    rectangular_apperture(x, y, a, b)
-
-
-@multimethod
 def rectangular_apperture(x, y, a, b):
     """Rectangular apperture centered at the origin.
 
@@ -309,22 +142,6 @@ def rectangular_apperture(x, y, a, b):
     return np.vectorize(lambda x, y: np.abs(x) <= a/2 and np.abs(y) <= b/2)(x, y)
 
 
-@multimethod
-def square(config_path: str, l):
-    """Square apperture centered at the origin.
-
-    Args:
-        config_path (str): Path for the configuration file of the SLM
-        l (Real): side length
-
-    Returns:
-        (array_like): True if the point is inside the apperture. False otherwise.
-    """
-    x, y = build_grid(config_path)
-    return square(x, y, l)
-
-
-@multimethod
 def square(x, y, l):
     """Square apperture centered at the origin.
 
@@ -339,22 +156,6 @@ def square(x, y, l):
     return rectangular_apperture(x, y, l, l)
 
 
-@multimethod
-def single_slit(config_path: str, a):
-    """Single vertical slit.
-
-    Args:
-        config_path (str): Path for the configuration file of the SLM
-        a (Real): slit widht
-
-    Returns:
-        (array_like): True if the point is inside the slit. False otherwise.
-    """
-    x, y = build_grid(config_path)
-    return single_slit(x, y, a)
-
-
-@multimethod
 def single_slit(x, y, a):
     """Single vertical slit.
 
@@ -369,23 +170,6 @@ def single_slit(x, y, a):
     return rectangular_apperture(x, y, a, np.inf)
 
 
-@multimethod
-def double_slit(config_path: str, a, d):
-    """Double vertical slit.
-
-    Args:
-        config_path (str): Path for the configuration file of the SLM
-        a (Real): slit widht
-        d (Real): slit separation
-
-    Returns:
-        (array_like): True if the point is inside the slits. False otherwise.
-    """
-    x, y = build_grid(config_path)
-    return double_slit(x, y, a, d)
-
-
-@multimethod
 def double_slit(x, y, a, d):
     """Double vertical slit.
 
@@ -401,22 +185,6 @@ def double_slit(x, y, a, d):
     return rectangular_apperture(x - d/2, y, a, np.inf) + rectangular_apperture(x + d/2, y, a, np.inf)
 
 
-@multimethod
-def pupil(config_path: str, radius):
-    """Circular pupil centered at the origin.
-
-    Args:
-        config_path (str): Path for the configuration file of the SLM
-        radius (Real): radius of the pupil
-
-    Returns:
-        (array_like): True if the point is inside the pupil. False otherwise.
-    """
-    x, y = build_grid(config_path)
-    return pupil(x, y, radius)
-
-
-@multimethod
 def pupil(x, y, radius):
     """Circular pupil centered at the origin.
 
@@ -431,22 +199,6 @@ def pupil(x, y, radius):
     return np.vectorize(lambda x, y: x**2+y**2 <= radius**2)(x, y)
 
 
-@multimethod
-def triangle(config_path: str, side_length):
-    """Equilateral triangular apperture centered at the origin.
-
-    Args:
-        config_path (str): Path for the configuration file of the SLM
-        side_length (Real): side length
-
-    Returns:
-        (array_like): True if the point is inside the apperture. False otherwise.
-    """
-    x, y = build_grid(config_path)
-    return triangle(x, y, side_length)
-
-
-@multimethod
 def triangle(x, y, side_length):
     """Equilateral triangular apperture centered at the origin.
 
@@ -461,3 +213,57 @@ def triangle(x, y, side_length):
     def is_inside(x, y):
         return y > -side_length/2/np.sqrt(3) and np.abs(x) < -y/np.sqrt(3) + side_length / 3
     return np.vectorize(is_inside)(x, y)
+
+
+@singledispatch
+def linear_combination(elements, coefficients):
+    """Calculate a linear combinantion
+
+    Args:
+        coefficients (list): list containing the coefficients of the linear combination
+        elements (list): list containing the elements of the linear combination
+
+    Returns:
+        (array_like): array defined by the linear combination
+
+    Note:
+        There is also a version of this function with signature `linear_combination(basis_name: str, coefficients, x, y, w0)`.
+        It is a wrapper for this function that uses as elements the basis of fixed order modes calculated by `fixed_order_basis`.
+    """
+    return np.sum([c * b for (c, b) in zip(coefficients, elements)], axis=0)
+
+
+def fixed_order_basis(basis_name, order, x, y, w0):
+    """Calculate the basis of fixed order.
+
+    Args:
+        basis_name (str): Name of the chosen basis. Can be 'lg', 'hg' or 'diagonal_hg'.
+        order (int): Order of the modes.
+        x (array_like): x argument
+        y (array_like): y argument
+        w0 (float): Waist of the modes.
+
+    Raises:
+        ValueError: If the basis_name is not 'lg', 'hg' or 'diagonal_hg'.
+
+    Returns:
+        (array_like): A list containing the elements of the basis.
+    """
+    if basis_name not in ('lg', 'hg', 'diagonal_hg'):
+        raise ValueError(
+            "Known 'basis_name' are 'lg', 'hg', 'diagonal_hg'. Got %s." % basis_name
+        )
+    if basis_name == 'lg':
+        return [lg(x, y, int(np.minimum(k, order-k)), 2*k - order, w0)
+                for k in range(order+1)]
+    elif basis_name == 'hg':
+        return [hg(x, y, order-k, k, w0) for k in range(order+1)]
+    elif basis_name == 'diagonal_hg':
+        return [diagonal_hg(x, y, order-k, k, w0) for k in range(order+1)]
+
+
+@linear_combination.register
+def _(basis_name: str, coefficients, x, y, w0):
+    order = len(coefficients) - 1
+    basis = fixed_order_basis(basis_name, order, x, y, w0)
+    return linear_combination(basis, coefficients)

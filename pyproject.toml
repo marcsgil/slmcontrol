@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "slmcontrol"
-version = "0.0.6"
+version = "0.0.7"
 description = "A package used to control Spatial Light Modulators (SLM)"
 authors = ["Marcos Gil <marcosgildeoliveira@gmail.com>"]
 license = "MIT"
@@ -15,8 +15,10 @@ scipy = [{python="3.7", version="^1.7"},
          {python="3.8", version="^1.10"},
          {python="^3.9", version="^1.12"}]
 wxPython = [
-    {platform = "win64", python = "^3.7", version = "^4", source = "pypi"},
-    {platform = "darwin", python = "^3.7", version = "^4", source = "pypi"},
+    {platform = "win32", python = "<3.8", version = "<4.2", source = "pypi"},
+    {platform = "win32", python = "^3.8", version = "^4.2", source = "pypi"},
+    {platform = "darwin", python = "<3.8", version = "<4.2", source = "pypi"},
+    {platform = "darwin", python = "^3.8", version = "^4.2", source = "pypi"},
 ]
 
 [tool.poetry.group.docs]
@@ -24,9 +26,18 @@ optional = true
 
 [tool.poetry.group.docs.dependencies]
 mkdocs = {version = "^1.5.3"}
-mkdocstrings = {extras = ["python"], version = "^0.15.0"}
-python-markdown-math = {version = "^0.8"}
-mkdocs-material = {version = "^7"}
+mkdocstrings = [{python = "<3.8", version = "^0.15.0", extras = ["python"]},
+                {python = "^3.8", version = "^0.24.0", extras = ["python"]}]
+python-markdown-math = "^0.8"
+mkdocs-material = [{python = "<3.8", version = "^7"},
+                   {python = "^3.8", version = "^9.5.6"}]
+
+[tool.poetry.group.test]
+optional = true
+
+[tool.poetry.group.test.dependencies]
+pytest = [{python="3.7", version="^7.1"},
+          {python="^3.8", version="^8"}]
 
 [build-system]
 requires = ["poetry-core"]

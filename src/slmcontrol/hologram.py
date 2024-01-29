@@ -1,35 +1,13 @@
 import numpy as np
 import configparser
-from multimethod import multimethod
+from functools import singledispatch
 from slmcontrol.inverse_functions import inverse_sinc, inverse_bessel0, inverse_bessel1
 import slmcontrol
+from numpy.typing import ArrayLike
 
 
-@multimethod
-def build_grid(config_path: str, nmasks=1, sparse=True):
-    """Constructs a 2D meshgrid.
-
-    Args:
-        config_path (str): path for the configuration file of the SLM.
-        nmasks (int, optional): The number of masks that will be shown simutaneously in the SLM. Defaults to 1.
-        sparse (bool, optional): whether or not the grid should be sparse. Defaults to True.
-
-    Returns:
-        (tuple[array_like,array_like]): x and y meshgrids
-    """
-    config = configparser.ConfigParser()
-    config.read(config_path)
-
-    width = config['slm'].getfloat('width')
-    height = config['slm'].getfloat('height')
-    resX = config['slm'].getint('resX')
-    resY = config['slm'].getint('resY')
-
-    return build_grid(width, height, resX, resY, nmasks=nmasks, sparse=sparse)
-
-
-@multimethod
-def build_grid(width, height, resX: int, resY: int, nmasks=1, sparse=True):
+@singledispatch
+def build_grid(width, height, resX, resY, nmasks=1, sparse=True):
     """Constructs a 2D meshgrid.
 
     Args:
@@ -46,7 +24,6 @@ def build_grid(width, height, resX: int, resY: int, nmasks=1, sparse=True):
     Note:
         There is also a method ` build_grid(config_path, nmasks=1, sparse=True)` where `config_path` is the path for the configuration file.
     """
-
     N = int(np.sqrt(nmasks))
     if N == np.sqrt(nmasks):
         return np.meshgrid(
@@ -58,6 +35,19 @@ def build_grid(width, height, resX: int, resY: int, nmasks=1, sparse=True):
             np.linspace(-width/(2*nmasks), width/(2*nmasks), resX // nmasks),
             np.linspace(-height/2, height/2, resY),
             sparse=sparse)
+
+
+@build_grid.register
+def _(config_path: str, nmasks=1, sparse=True):
+    config = configparser.ConfigParser()
+    config.read(config_path)
+
+    width = config['slm'].getfloat('width')
+    height = config['slm'].getfloat('height')
+    resX = config['slm'].getint('resX')
+    resY = config['slm'].getint('resY')
+
+    return build_grid(width, height, resX, resY, nmasks, sparse)
 
 
 def convert2angle(x):
@@ -86,80 +76,12 @@ def psi(phi, a, method='bessel1'):
         return inverse_bessel1(a * 0.5818) * np.sin(phi)
 
 
-@multimethod
-def generate_hologram(desired, config_path: str, method='bessel1'):
-    """Generates a hologram to be displayed in the SLM.
-
-    Args:
-        desired (array_like | tuple | list): the (list of) field(s) that one wishes to produce
-        config_path (str): path for the configuration file of the SLM.
-        method (str, optional): Algorithm to be used in the generation of the hologram. 
-        Possible values are:
-
-            - 'simple': Method A of reference [2] 
-
-            - 'sinc': Type 1 of reference [1] or method C of reference [2] 
-
-            - 'bessel0': Type 2 of reference [1] 
-
-            - 'bessel1': Type 3 of reference [1] or method F of reference [2]
-
-
-        We recomend 'bessel1' for the best beam quality, or 'sinc' for the most power.
-        Defaults to 'bessel1'.
-
-    Returns:
-        (array_like): Hologram ready to be sent to the SLM.
-
-    References:
-        [1] Victor Arrizón, Ulises Ruiz, Rosibel Carrada, and Luis A. González, 
-            "Pixelated phase computer holograms for the accurate encoding of scalar complex fields," 
-            J. Opt. Soc. Am. A 24, 3500-3507 (2007)
-
-        [2] Thomas W. Clark, Rachel F. Offer, Sonja Franke-Arnold, Aidan S. Arnold, and Neal Radwell, 
-            "Comparison of beam generation techniques using a phase only spatial light modulator," 
-            Opt. Express 24, 6249-6264 (2016)
-    """
-    T = type(desired)
-    if T == tuple or T == list:
-        nmasks = len(desired)
-    else:
-        nmasks = 1
-
-    x, y = build_grid(config_path, nmasks=nmasks)
-
-    config = configparser.ConfigParser()
-    config.read(config_path)
-
-    max_modulation = config['slm'].getint('max_modulation')
-    xoffset = config['incoming'].getint('xoffset')
-    yoffset = config['incoming'].getint('yoffset')
-    waist = config['incoming'].getfloat('waist')
-    xperiod = config['grating'].getfloat('xperiod')
-    yperiod = config['grating'].getfloat('yperiod')
-
-    incoming = slmcontrol.structures.hg(x, y, 0, 0, waist)
-    return generate_hologram(desired, incoming, x, y, max_modulation, xperiod, yperiod, xoffset, yoffset, method=method)
-
-
-@multimethod
-def generate_hologram(desired: tuple | list, incoming, x, y, max_modulation: int, xperiod, yperiod, xoffset, yoffset, method='bessel1'):
-    holos = [generate_hologram(d, incoming, x, y, max_modulation, xperiod,
-                               yperiod, xoffset, yoffset, method=method) for d in desired]
-
-    N = int(np.sqrt(len(holos)))
-    if N == np.sqrt(len(holos)):
-        return np.concatenate([np.concatenate(holos[i:i+N], axis=1) for i in range(0, N**2, N)], axis=0)
-    else:
-        return np.concatenate(holos, axis=1)
-
-
-@multimethod
+@singledispatch
 def generate_hologram(desired, incoming, x, y, max_modulation: int, xperiod, yperiod, xoffset, yoffset, method='bessel1'):
     r"""Generates a hologram to be displayed in the SLM.
 
     Args:
-        desired (array_like | tuple | list): the (list of) field(s) that one wishes to produce
+        desired (array_like | list): the (list of) field(s) that one wishes to produce
         incoming (array_like): field that arrives at the SLM
         x (array_like): x grid
         y (array_like): y grid
@@ -186,7 +108,7 @@ def generate_hologram(desired, incoming, x, y, max_modulation: int, xperiod, ype
         (array_like): Hologram ready to be sent to the SLM.
 
     Note:
-        There is also a method `generate_hologram(desired, config_path, method='bessel1')` where `config_path` is the path for the configuration file.
+        There is also a method `generate_hologram(config_path, desired, method='bessel1')` where `config_path` is the path for the configuration file.
 
     References:
         [1] Victor Arrizón, Ulises Ruiz, Rosibel Carrada, and Luis A. González, 
@@ -211,3 +133,39 @@ def generate_hologram(desired, incoming, x, y, max_modulation: int, xperiod, ype
         max_modulation *= 0.586
 
     return normalize(psi(phi, a, method), round(max_modulation))
+
+
+@generate_hologram.register
+def _(desired: list, incoming, x, y, max_modulation: int, xperiod, yperiod, xoffset, yoffset, method='bessel1'):
+    holos = [generate_hologram(d, incoming, x, y, max_modulation, xperiod,
+                               yperiod, xoffset, yoffset, method=method) for d in desired]
+
+    N = int(np.sqrt(len(holos)))
+    if N == np.sqrt(len(holos)):
+        return np.concatenate([np.concatenate(holos[i:i+N], axis=1) for i in range(0, N**2, N)], axis=0)
+    else:
+        return np.concatenate(holos, axis=1)
+
+
+@generate_hologram.register
+def _(config_path: str, desired, method='bessel1'):
+    T = type(desired)
+    if T == list:
+        nmasks = len(desired)
+    else:
+        nmasks = 1
+
+    x, y = build_grid(config_path, nmasks=nmasks)
+
+    config = configparser.ConfigParser()
+    config.read(config_path)
+
+    max_modulation = config['slm'].getint('max_modulation')
+    xoffset = config['incoming'].getint('xoffset')
+    yoffset = config['incoming'].getint('yoffset')
+    waist = config['incoming'].getfloat('waist')
+    xperiod = config['grating'].getfloat('xperiod')
+    yperiod = config['grating'].getfloat('yperiod')
+
+    incoming = slmcontrol.structures.hg(x, y, 0, 0, waist)
+    return generate_hologram(desired, incoming, x, y, max_modulation, xperiod, yperiod, xoffset, yoffset, method=method)
