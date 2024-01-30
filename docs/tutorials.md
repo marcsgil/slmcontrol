@@ -99,7 +99,7 @@ xperiod = 4
 yperiod = 5
 ```
 
-This is a `.ini` file that can be read by the [configparser](https://docs.python.org/3/library/configparser.html) standard library. You may change the values in this file to adjust it to your setup, but **DO NOT CHANGE THE NAMES**, otherwise the functions will not be able to read the values. The example in [Quick Start](#quick-start) could now be rewritten as
+This is a `.ini` file that can be read by the [configparser](https://docs.python.org/3/library/configparser.html) standard library. You may change the values in this file to adjust it to your setup, but **DO NOT CHANGE THE NAMES**, otherwise the functions will not be able to read the values. We have a template of such a file in the `templates` folder of the [GitHub repository](https://github.com/marcsgil/slmcontrol/tree/main). The example in [Quick Start](#quick-start) could now be rewritten as
 
 ```py
 # Import everything from slmcontrol
@@ -132,7 +132,7 @@ This is now much cleaner!
 
 ## Creating a GUI with Jupyter Notebooks
 
-Jupyter Notebooks are a great way to use this package, as the interactive environment makes it easy to quickly change configurations. In this tutorial, we will leverage this tool in order to make a GUI (Graphical User Interface). In order to do this, we will use the [ipywidgets](https://ipywidgets.readthedocs.io/en/stable/) package, that allows us to program UI elements in notebooks. We will also use [matplotlib](https://matplotlib.org/stable/) for some plots.
+Jupyter Notebooks are a great way to use this package, as the interactive environment makes it easy to quickly change configurations. In this tutorial, we will leverage this tool in order to make a GUI (Graphical User Interface). In order to do this, we will use the [ipywidgets](https://ipywidgets.readthedocs.io/en/stable/) package, that allows us to program UI elements in notebooks. We will also use [matplotlib](https://matplotlib.org/stable/) for some plots. The notebook generated in this section can be found in the `templates` folder of the [GitHub repository](https://github.com/marcsgil/slmcontrol/tree/main).
 
 In the first cell, we will simply import the things that we need and initialize and [SLMdisplay][src.slmcontrol.slm.SLMdisplay] object:
 ```py
@@ -231,11 +231,11 @@ waist = widgets.BoundedFloatText(
 
 def f(mode,idx1,idx2,waist,xperiod,yperiod,xoffset,yoffset,method):
     if mode == 'Laguerre-Gauss':
-        desired = lg(config_path, idx1,idx2, waist)
+        desired = lg(x, y, idx1, idx2, waist)
     elif mode == 'Hermite-Gauss':
-        desired = hg(config_path, idx1,idx2, waist)
+        desired = hg(x, y, idx1, idx2, waist)
     elif mode == 'Diagonal Hermite-Gauss':
-        desired = diagonal_hg(config_path, idx1,idx2, waist)
+        desired = diagonal_hg(x, y, idx1, idx2, waist)
     else:
         raise ValueError("Invalid mode.")
     holo = generate_hologram(desired,incoming,x,y,config['slm'].getint('max_modulation'),xperiod,yperiod,xoffset,yoffset,method=method)
