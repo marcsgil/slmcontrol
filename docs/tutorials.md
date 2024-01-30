@@ -110,24 +110,25 @@ slm = SLMdisplay(monitor=1)
 
 # Path to the configuration file
 config_path = 'config.ini'
+x, y = build_grid(config_path)
 
-# The beam that we wish to produce. 
+# The beam that we wish to produce.
 # In this case, a Laguerre-Gaussian with p=0 and l=1
-# We don't need the x,y, as it is calculated from the configuration file
-desired = lg(config_path, 0, 1, .5)
+desired = lg(x, y, 0, 1, .5)
 
 # Generates the hologram that will be shown in the SLM using only the configuration file
 # Notice that we don't even need to define the incoming beam as its wais is already defined in the configuration file
-holo = generate_hologram(desired, config_path)
+holo = generate_hologram(config_path, desired)
 
 # Displays the generated hologram
 slm.updateArray(holo)
+
 ```
 
 This is now much cleaner!
 
 !!! Note
-    Notice that the `generate_hologram` which is called here is takes only 2 arguments, instead of 9, such as in the section [Quick Start](#quick-start). This is what is called [Multiple Dispatch](https://en.wikipedia.org/wiki/Multiple_dispatch), and is a paradigm supported by languages such as [Julia](https://julialang.org/). This is not possible in vanilla Python, but there are packages that enable it. Here, we use [multimethod](https://pypi.org/project/multimethod/).
+    Notice that the `generate_hologram` which is called here is takes only 2 arguments, instead of 9, such as in the section [Quick Start](#quick-start). This is an instance of what is called [Multiple Dispatch](https://en.wikipedia.org/wiki/Multiple_dispatch), and is a paradigm supported by languages such as [Julia](https://julialang.org/). This is not possible in vanilla Python, but there are packages that enable it. For example, one can use [multimethod](https://pypi.org/project/multimethod/) to achieve some of functionalities of this paradigm. However, here we use the `@singledispatch` decorator from the [functools](https://docs.python.org/3/library/functools.html) standard library, which is a simpler solution that only dispatches on the type of the first argument.
 
 ## Creating a GUI with Jupyter Notebooks
 

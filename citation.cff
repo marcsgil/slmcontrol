@@ -4,15 +4,15 @@ title: slmcontrol
 abstract: This is a package that allows one to control a Spatial Light Modulator (SLM) with a simple an intuitive syntax.
 authors:
   - given-names: Marcos
-    family-names: Oliveira
+    family-names: Gil de Oliveira
     email: marcosgildeoliveira@gmail.com
     affiliation: UFF
     orcid: 'https://orcid.org/0009-0006-4225-8706'
-version: 0.0.3
-date-released: "2023-11-16"
+version: 0.0.7
+date-released: "2024-01-30"
 identifiers:
   - type: url
     value: 'https://github.com/marcsgil/slmcontrol'
     description: GitHub Repository
 license: MIT
-repository-code: "https://github.com/citation-file-format/my-research-software"
+repository-code: "https://github.com/marcsgil/slmcontrol"
