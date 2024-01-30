@@ -1,6 +1,6 @@
 # slmcontrol
 
-This is a package that allows one to control a Spatial Light Modulator (SLM) with a simple an intuitive syntax.
+This is a package that allows one to control a Spatial Light Modulator (SLM) with a simple an intuitive syntax. We support Python 3.7-3.12.
 
 If you use this package in your research, please cite it and give it a star on GitHub.
 
@@ -20,7 +20,7 @@ pip install slmcontrol
 
 on a terminal.
 
-It will work of the box for Window. That is also the expected behavior for MacOS, but it has not been tested. For Linux, you will need to manually install [wxPython](https://wxpython.org/pages/downloads/) before using this package.
+It will work of the box for Windows. That is also the expected behavior for MacOS, but it has not been tested. For Linux, you will need to manually install [wxPython](https://wxpython.org/pages/downloads/) before using this package.
 
 If you encounter the error `libSDL2-2.0.so.0: cannot open shared object file: No such file or directory`, you need to install the package `libsdl2-2.0-0` (on Ubuntu, run `sudo apt install libsdl2-dev`).
 
