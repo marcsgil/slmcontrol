@@ -1,5 +1,2 @@
 *__pycache__
-/site
-poetry.lock
-.vscode
-.venv
+test.py
