@@ -112,3 +112,6 @@ requires-dist = [
     { name = "juliapkg", specifier = ">=0.1.14" },
     { name = "numpy", specifier = ">=1.25" },
 ]
+
+[package.metadata.requires-dev]
+dev = []
