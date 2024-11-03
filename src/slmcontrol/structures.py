@@ -4,23 +4,84 @@ jl.seval("using StructuredLight")
 
 
 def lg(x, y, w=1, p=0, l=0):
-    return jl.lg(x, y, w=w, p=p, l=l)
+    """Compute the Hermite-Gaussian mode.
+
+    Args:
+        x (array_like): x argument
+        y (array_like): y argument
+        m (int): vertical index
+        n (int): horizontal index
+        w0 (Real): waist
+
+    Returns:
+        (array_like): Hermite-Gaussian mode.
+    """
+    return np.asarray(jl.lg(x, y, w=w, p=p, l=l))
 
 
 def hg(x, y, w=1, m=0, n=0):
-    return jl.hg(x, y, w=w, m=m, n=n)
+    """Compute the Laguerre-Gaussian mode.
+
+    Args:
+        x (array_like): x argument
+        y (array_like): y argument
+        p (int): radial index
+        l (int): azymutal index
+        w0 (Real): waist
+
+    Returns:
+        (array_like): Laguerre-Gaussian mode.
+    """
+    return np.asarray(jl.hg(x, y, w=w, m=m, n=n))
 
 
 def diagonal_hg(x, y, w, m, n):
-    return jl.diagonal_hg(x, y, w=w, m=m, n=n)
+    """Compute the diagonal Hermite-Gaussian mode.
+
+    Args:
+        x (array_like): x argument
+        y (array_like): y argument
+        m (int): diagonal index
+        n (int): anti-diagonal index
+        w0 (Real): waist
+
+    Returns:
+        (array_like): diagonal Hermite-Gaussian mode.
+    """
+    return np.asarray(jl.diagonal_hg(x, y, w=w, m=m, n=n))
 
 
 def lens(x, y, fx, fy, k=1):
-    return jl.lens(x, y, fx, fy, k=k)
+    """Compute the phase imposed by a lens.
+
+    Args:
+        x (array_like): x argument
+        y (array_like): y argument
+        fx (Real): focal length in the x direction
+        fy (Real): focal length in the y direction
+        lamb (Real): wavelength of incoming beam
+
+    Returns:
+        (array_like): phase imposed by the lens.
+    """
+    return np.asarray(jl.lens(x, y, fx, fy, k=k))
 
 
 def tilted_lens(x, y, f, ϕ, k=1):
-    return jl.tilted_lens(x, y, f, ϕ, k=k)
+    """Compute the phase imposed by a tilted spherical lens.
+
+    Args:
+        x (array_like): x argument
+        y (array_like): y argument
+        f (Real): focal length
+        theta (Real): tilting angle
+        lamb (Real): wavelength of incoming beam
+
+    Returns:
+        (array_like): phase imposed by the tilted spherical lens
+    """
+
+    return np.asarray(jl.tilted_lens(x, y, f, ϕ, k=k))
 
 
 def rectangular_apperture(x, y, a, b):
@@ -35,7 +96,7 @@ def rectangular_apperture(x, y, a, b):
     Returns:
         (array_like): True if the point is inside the apperture. False otherwise.
     """
-    return np.vectorize(lambda x, y: np.abs(x) <= a/2 and np.abs(y) <= b/2)(x, y)
+    return np.asarray(jl.rectangular_apperture(x, y, a, b))
 
 
 def square(x, y, l):
@@ -49,7 +110,7 @@ def square(x, y, l):
     Returns:
         (array_like): True if the point is inside the apperture. False otherwise.
     """
-    return rectangular_apperture(x, y, l, l)
+    return np.asarray(jl.square(x, y, l))
 
 
 def single_slit(x, y, a):
@@ -63,7 +124,7 @@ def single_slit(x, y, a):
     Returns:
         (array_like): True if the point is inside the slit. False otherwise.
     """
-    return rectangular_apperture(x, y, a, np.inf)
+    return np.asarray(jl.single_slit(x, y, a))
 
 
 def double_slit(x, y, a, d):
@@ -78,7 +139,7 @@ def double_slit(x, y, a, d):
     Returns:
         (array_like): True if the point is inside the slits. False otherwise.
     """
-    return rectangular_apperture(x - d/2, y, a, np.inf) + rectangular_apperture(x + d/2, y, a, np.inf)
+    return np.asarray(jl.double_slit(x, y, a, d))
 
 
 def pupil(x, y, radius):
@@ -92,7 +153,7 @@ def pupil(x, y, radius):
     Returns:
         (array_like): True if the point is inside the pupil. False otherwise.
     """
-    return np.vectorize(lambda x, y: x**2+y**2 <= radius**2)(x, y)
+    return np.asarray(jl.pupil(x, y, radius))
 
 
 def triangle(x, y, side_length):
@@ -106,6 +167,4 @@ def triangle(x, y, side_length):
     Returns:
         (array_like): True if the point is inside the apperture. False otherwise.
     """
-    def is_inside(x, y):
-        return y > -side_length/2/np.sqrt(3) and np.abs(x) < -y/np.sqrt(3) + side_length / 3
-    return np.vectorize(is_inside)(x, y)
+    return np.asarray(jl.triangle(x, y, side_length))
