@@ -2,15 +2,15 @@
 name = "slmcontrol"
 version = "0.1.0"
 description = "Add your description here"
-readme = "README.md"
+readme = "docs/README.md"
 authors = [
     { name = "Marcos Gil", email = "marcosgildeoliveira@gmail.com" }
 ]
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 dependencies = [
     "juliacall>=0.9.23",
     "juliapkg>=0.1.14",
-    "numpy>=2.1.2",
+    "numpy>=1.25",
 ]
 
 [build-system]

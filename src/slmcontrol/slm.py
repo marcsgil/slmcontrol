@@ -1,12 +1,12 @@
+from numpy.typing import NDArray
+import numpy as np
 from juliacall import Main as jl
-jl.seval("using SpatialLightModulator")
-
 jl.seval("using SpatialLightModulator")
 
 
 class SLM:
     """
-    A class to control a Spatial Light Modulator (SLM) using Julia's SpatialLightModulator package.
+    A class to control a Spatial Light Modulator (SLM).
 
     Attributes:
         monitor_id (int): The ID of the monitor to use.
@@ -29,7 +29,7 @@ class SLM:
         self.height = self.slm.height
         self.refreshrate = self.slm.refreshrate
 
-    def update_hologram(self, holo) -> None:
+    def update_hologram(self, holo: NDArray[np.uint8]) -> None:
         """
         Update the hologram displayed on the SLM.
 
