@@ -6,7 +6,7 @@ jl.seval("using StructuredLight")
 
 
 def lg(x: ArrayLike, y: ArrayLike,
-       w: Union[int, float] = 1, p: int = 0, l: int = 0) -> ArrayLike:
+       p: int = 0, l: int = 0, w: Union[int, float] = 1) -> ArrayLike:
     """Compute the Laguerre-Gaussian mode.
 
     Args:
@@ -22,7 +22,7 @@ def lg(x: ArrayLike, y: ArrayLike,
     return np.asarray(jl.lg(x, y, w=w, p=p, l=l)).T
 
 
-def hg(x: ArrayLike, y: ArrayLike, w: Union[int, float] = 1, m: int = 0, n: int = 0) -> ArrayLike:
+def hg(x: ArrayLike, y: ArrayLike, m: int = 0, n: int = 0, w: Union[int, float] = 1) -> ArrayLike:
     """Compute the Hermite-Gaussian mode.
 
     Args:
@@ -38,7 +38,7 @@ def hg(x: ArrayLike, y: ArrayLike, w: Union[int, float] = 1, m: int = 0, n: int 
     return np.asarray(jl.hg(x, y, w=w, m=m, n=n)).T
 
 
-def diagonal_hg(x: ArrayLike, y: ArrayLike, w: Union[int, float], m: int = 0, n: int = 0) -> ArrayLike:
+def diagonal_hg(x: ArrayLike, y: ArrayLike, m: int = 0, n: int = 0, w: Union[int, float] = 1) -> ArrayLike:
     """Compute the diagonal Hermite-Gaussian mode.
 
     Args:
