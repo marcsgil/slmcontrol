@@ -45,4 +45,4 @@ def generate_hologram(desired: ArrayLike, incoming: ArrayLike,
     else:
         raise ValueError(
             'Invalid method. Must be either "BesselJ1" or "Simple"')
-    return np.asarray(jl.generate_hologram(desired, incoming, two_pi_modulation, x_period, y_period, _method))
+    return np.asarray(jl.generate_hologram(desired.T, incoming.T, two_pi_modulation, x_period, y_period, _method)).T
