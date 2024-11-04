@@ -29,7 +29,7 @@ class SLM:
         self.height = self.slm.height
         self.refreshrate = self.slm.refreshrate
 
-    def update_hologram(self, holo: NDArray[np.uint8]) -> None:
+    def updateArray(self, holo: NDArray[np.uint8]) -> None:
         """
         Update the hologram displayed on the SLM.
 
@@ -37,7 +37,7 @@ class SLM:
             holo: A 2D matrix of UInt8 values representing the hologram. 
                 The first dimension is the width and the second dimension is the height.
         """
-        jl.update_hologram(self.slm, holo)
+        jl.update_hologram(self.slm, holo.T)
 
     def close(self) -> None:
         """

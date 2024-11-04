@@ -16,4 +16,4 @@ def zernike(x, y, n, m):
     Returns:
         (array_like): The values of the Zernike polynomial at the points (x, y).
     """
-    return np.asarray(jl.zernike_polynomial(x, y, n, m))
+    return np.asarray(jl.zernike_polynomial(x, y, n, m)).T

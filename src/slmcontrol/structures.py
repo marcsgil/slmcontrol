@@ -19,7 +19,7 @@ def lg(x: ArrayLike, y: ArrayLike,
     Returns:
         (ArrayLike): Laguerre-Gaussian mode.
     """
-    return np.asarray(jl.lg(x, y, w=w, p=p, l=l))
+    return np.asarray(jl.lg(x, y, w=w, p=p, l=l)).T
 
 
 def hg(x: ArrayLike, y: ArrayLike, w: Union[int, float] = 1, m: int = 0, n: int = 0) -> ArrayLike:
@@ -35,7 +35,7 @@ def hg(x: ArrayLike, y: ArrayLike, w: Union[int, float] = 1, m: int = 0, n: int 
     Returns:
         (ArrayLike): Hermite-Gaussian mode.
     """
-    return np.asarray(jl.hg(x, y, w=w, m=m, n=n))
+    return np.asarray(jl.hg(x, y, w=w, m=m, n=n)).T
 
 
 def diagonal_hg(x: ArrayLike, y: ArrayLike, w: Union[int, float], m: int = 0, n: int = 0) -> ArrayLike:
@@ -51,7 +51,7 @@ def diagonal_hg(x: ArrayLike, y: ArrayLike, w: Union[int, float], m: int = 0, n:
     Returns:
         (ArrayLike): diagonal Hermite-Gaussian mode.
     """
-    return np.asarray(jl.diagonal_hg(x, y, w=w, m=m, n=n))
+    return np.asarray(jl.diagonal_hg(x, y, w=w, m=m, n=n)).T
 
 
 def lens(x: ArrayLike, y: ArrayLike,
@@ -68,7 +68,7 @@ def lens(x: ArrayLike, y: ArrayLike,
     Returns:
         (ArrayLike): phase imposed by the lens.
     """
-    return np.asarray(jl.lens(x, y, fx, fy, k=k))
+    return np.asarray(jl.lens(x, y, fx, fy, k=k)).T
 
 
 def tilted_lens(x: ArrayLike, y: ArrayLike,
@@ -86,7 +86,7 @@ def tilted_lens(x: ArrayLike, y: ArrayLike,
         (ArrayLike): phase imposed by the tilted spherical lens
     """
 
-    return np.asarray(jl.tilted_lens(x, y, f, ϕ, k=k))
+    return np.asarray(jl.tilted_lens(x, y, f, ϕ, k=k)).T
 
 
 def rectangular_apperture(x: ArrayLike, y: ArrayLike, a: Union[int, float], b: Union[int, float]) -> ArrayLike:
@@ -101,7 +101,7 @@ def rectangular_apperture(x: ArrayLike, y: ArrayLike, a: Union[int, float], b: U
     Returns:
         (ArrayLike): True if the point is inside the apperture. False otherwise.
     """
-    return np.asarray(jl.rectangular_apperture(x, y, a, b))
+    return np.asarray(jl.rectangular_apperture(x, y, a, b)).T
 
 
 def square(x: ArrayLike, y: ArrayLike, l: Union[int, float]) -> ArrayLike:
@@ -115,7 +115,7 @@ def square(x: ArrayLike, y: ArrayLike, l: Union[int, float]) -> ArrayLike:
     Returns:
         (ArrayLike): True if the point is inside the apperture. False otherwise.
     """
-    return np.asarray(jl.square(x, y, l))
+    return np.asarray(jl.square(x, y, l)).T
 
 
 def single_slit(x: ArrayLike, y: ArrayLike, a: Union[int, float]) -> ArrayLike:
@@ -129,7 +129,7 @@ def single_slit(x: ArrayLike, y: ArrayLike, a: Union[int, float]) -> ArrayLike:
     Returns:
         (ArrayLike): True if the point is inside the slit. False otherwise.
     """
-    return np.asarray(jl.single_slit(x, y, a))
+    return np.asarray(jl.single_slit(x, y, a)).T
 
 
 def double_slit(x: ArrayLike, y: ArrayLike, a: Union[int, float], d: Union[int, float]) -> ArrayLike:
@@ -144,7 +144,7 @@ def double_slit(x: ArrayLike, y: ArrayLike, a: Union[int, float], d: Union[int, 
     Returns:
         (ArrayLike): True if the point is inside the slits. False otherwise.
     """
-    return np.asarray(jl.double_slit(x, y, a, d))
+    return np.asarray(jl.double_slit(x, y, a, d)).T
 
 
 def pupil(x: ArrayLike, y: ArrayLike, radius: Union[int, float]) -> ArrayLike:
@@ -158,7 +158,7 @@ def pupil(x: ArrayLike, y: ArrayLike, radius: Union[int, float]) -> ArrayLike:
     Returns:
         (ArrayLike): True if the point is inside the pupil. False otherwise.
     """
-    return np.asarray(jl.pupil(x, y, radius))
+    return np.asarray(jl.pupil(x, y, radius)).T
 
 
 def triangle(x: ArrayLike, y: ArrayLike, side_length: Union[int, float]) -> ArrayLike:
@@ -172,4 +172,4 @@ def triangle(x: ArrayLike, y: ArrayLike, side_length: Union[int, float]) -> Arra
     Returns:
         (ArrayLike): True if the point is inside the apperture. False otherwise.
     """
-    return np.asarray(jl.triangle(x, y, side_length))
+    return np.asarray(jl.triangle(x, y, side_length)).T
