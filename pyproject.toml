@@ -26,4 +26,6 @@ pythonpath = [
 ]
 
 [dependency-groups]
-dev = []
+dev = [
+    "pytest>=8.3.3",
+]

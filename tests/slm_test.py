@@ -1,32 +1,35 @@
 import pytest
 import numpy as np
 from juliacall import JuliaError
-from slmcontrol.slm import SLM
+from slmcontrol.slm import SLMDisplay
+
 
 def test_slm_initialization():
     """Test SLM initialization and multiple instance prevention."""
-    slm = SLM()
+    slm = SLMDisplay()
     with pytest.raises(JuliaError):
-        SLM()
+        SLMDisplay()
     slm.close()
 
-def test_slm_update_hologram(slm):
-    """Test hologram update functionality."""
-    data = np.random.randint(0, 256, (slm.width, slm.height), dtype=np.uint8)
-    slm.update_hologram(data)
 
-    unfit_data = np.random.randint(0, 256, (slm.width + 1, slm.height), dtype=np.uint8)
+def test_slm_updateArray(slm):
+    """Test hologram update functionality."""
+    data = np.random.randint(0, 256, (slm.height, slm.width), dtype=np.uint8)
+    slm.updateArray(data)
+
+    unfit_data = np.random.randint(
+        0, 256, (slm.height, slm.width + 1), dtype=np.uint8)
     with pytest.raises(JuliaError):
-        slm.update_hologram(unfit_data)
+        slm.updateArray(unfit_data)
+
 
 def test_slm_close_behavior(slm):
     """Test SLM closing behavior."""
-    data = np.random.randint(0, 256, (slm.width, slm.height), dtype=np.uint8)
+    data = np.random.randint(0, 256, (slm.height, slm.width), dtype=np.uint8)
     slm.close()
-    
+
     with pytest.raises(JuliaError):
-        slm.update_hologram(data)
-    
+        slm.updateArray(data)
+
     with pytest.raises(JuliaError):
         slm.close()
-

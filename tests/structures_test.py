@@ -19,9 +19,9 @@ from slmcontrol.structures import (
     (pupil, [1.0]),
     (triangle, [1.0]),
 ])
-def test_structure_functions(xy_grid, function, args):
+def test_structure_functions(xy_grid, test_shape, function, args):
     """Test various structure generation functions."""
     x, y = xy_grid
     result = function(x, y, *args)
     assert isinstance(result, np.ndarray)
-    assert result.shape == (10, 10)
+    assert result.shape == test_shape

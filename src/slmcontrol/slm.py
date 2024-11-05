@@ -4,7 +4,7 @@ from juliacall import Main as jl
 jl.seval("using SpatialLightModulator")
 
 
-class SLM:
+class SLMDisplay:
     """
     A class to control a Spatial Light Modulator (SLM).
 
@@ -24,7 +24,7 @@ class SLM:
             monitor_id (int): The ID of the monitor to use. Defaults to the last monitor.
         """
         self.monitor_id = monitor_id
-        self.slm = jl.SLM(monitor_id + 1)
+        self.slm = jl.SLMDisplay(monitor_id + 1)
         self.width = self.slm.width
         self.height = self.slm.height
         self.refreshrate = self.slm.refreshrate
@@ -37,7 +37,7 @@ class SLM:
             holo: A 2D matrix of UInt8 values representing the hologram. 
                 The first dimension is the width and the second dimension is the height.
         """
-        jl.update_hologram(self.slm, holo.T, sleep_time=sleep)
+        jl.updateArray(self.slm, holo.T, sleep=sleep)
 
     def close(self) -> None:
         """
