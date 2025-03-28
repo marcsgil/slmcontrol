@@ -35,7 +35,6 @@ class SLMDisplay:
 
         Args:
             holo: A 2D matrix of UInt8 values representing the hologram. 
-                The first dimension is the width and the second dimension is the height.
         """
         jl.updateArray(self.slm, holo.T, sleep=sleep)
 

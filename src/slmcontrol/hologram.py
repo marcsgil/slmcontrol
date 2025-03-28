@@ -30,6 +30,7 @@ def generate_hologram(desired: ArrayLike, incoming: ArrayLike,
         NDArray[np.uint8]: The hologram.
 
      References:
+     
         [1] Victor Arrizón, Ulises Ruiz, Rosibel Carrada, and Luis A. González, 
             "Pixelated phase computer holograms for the accurate encoding of scalar complex fields," 
             J. Opt. Soc. Am. A 24, 3500-3507 (2007)

@@ -58,10 +58,10 @@ plugins:
           members_order: source
           heading_level: 3
           show_root_toc_entry: false
+- autorefs
 
 nav:
   - README.md
-  - tutorials.md
-  - reference.md
+  - quickstart.md
   - explanation.md
-
+  - reference.md

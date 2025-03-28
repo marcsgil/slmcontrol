@@ -2,19 +2,15 @@
 
 This page contains a detailed description of all exported methods.
 
-## Structures
+## SLM
 
-::: src.slmcontrol.structures
-
-## Zernike Polynomials
-::: src.slmcontrol.zernike
+::: src.slmcontrol.slm
 
 ## Hologram
 
 ::: src.slmcontrol.hologram   
 
-## SLM
+## Structures
 
-::: src.slmcontrol.slm
-    options:
-        filters: ["!videoThread"]
+::: src.slmcontrol.structures
+::: src.slmcontrol.zernike

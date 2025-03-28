@@ -12,9 +12,9 @@ def lg(x: ArrayLike, y: ArrayLike,
     Args:
         x (ArrayLike): x argument
         y (ArrayLike): y argument
-        m (int): vertical index
-        n (int): horizontal index
-        w0 (Union[int, float]): waist
+        p (int): radial index
+        l (int): azymutal index
+        w (Union[int, float]): waist
 
     Returns:
         (ArrayLike): Laguerre-Gaussian mode.
@@ -28,9 +28,9 @@ def hg(x: ArrayLike, y: ArrayLike, m: int = 0, n: int = 0, w: Union[int, float] 
     Args:
         x (ArrayLike): x argument
         y (ArrayLike): y argument
-        p (int): radial index
-        l (int): azymutal index
-        w0 (Union[int, float]): waist
+        m (int): vertical index
+        n (int): horizontal index
+        w (Union[int, float]): waist
 
     Returns:
         (ArrayLike): Hermite-Gaussian mode.
@@ -46,7 +46,7 @@ def diagonal_hg(x: ArrayLike, y: ArrayLike, m: int = 0, n: int = 0, w: Union[int
         y (ArrayLike): y argument
         m (int): diagonal index
         n (int): anti-diagonal index
-        w0 (Union[int, float]): waist
+        w (Union[int, float]): waist
 
     Returns:
         (ArrayLike): diagonal Hermite-Gaussian mode.
@@ -63,7 +63,7 @@ def lens(x: ArrayLike, y: ArrayLike,
         y (ArrayLike): y argument
         fx (Union[int, float]): focal length in the x direction
         fy (Union[int, float]): focal length in the y direction
-        lamb (Union[int, float]): wavelength of incoming beam
+        k (Union[int, float]): wavenumber of incoming beam
 
     Returns:
         (ArrayLike): phase imposed by the lens.
@@ -72,21 +72,21 @@ def lens(x: ArrayLike, y: ArrayLike,
 
 
 def tilted_lens(x: ArrayLike, y: ArrayLike,
-                f: Union[int, float], ϕ: Union[int, float], k: Union[int, float] = 1) -> ArrayLike:
+                f: Union[int, float], phi: Union[int, float], k: Union[int, float] = 1) -> ArrayLike:
     """Compute the phase imposed by a tilted spherical lens.
 
     Args:
         x (ArrayLike): x argument
         y (ArrayLike): y argument
         f (Union[int, float]): focal length
-        theta (Union[int, float]): tilting angle
-        lamb (Union[int, float]): wavelength of incoming beam
+        phi (Union[int, float]): tilting angle
+        k (Union[int, float]): wavenumber of incoming beam
 
     Returns:
         (ArrayLike): phase imposed by the tilted spherical lens
     """
 
-    return np.asarray(jl.tilted_lens(x, y, f, ϕ, k=k)).T
+    return np.asarray(jl.tilted_lens(x, y, f, phi, k=k)).T
 
 
 def rectangular_apperture(x: ArrayLike, y: ArrayLike, a: Union[int, float], b: Union[int, float]) -> ArrayLike:
