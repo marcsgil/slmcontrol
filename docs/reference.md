@@ -13,4 +13,7 @@ This page contains a detailed description of all exported methods.
 ## Structures
 
 ::: src.slmcontrol.structures
+
+## Wavefront Correction
+
 ::: src.slmcontrol.zernike
