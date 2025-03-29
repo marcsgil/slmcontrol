@@ -9,12 +9,14 @@
       
       
       
-        <link rel="prev" href="../reference/">
+        <link rel="prev" href="../quickstart/">
       
+      
+        <link rel="next" href="../reference/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.9">
     
     
       
@@ -22,7 +24,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.50c56a3b.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.4af4bdda.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
@@ -48,7 +50,7 @@
     
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css">
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -73,6 +75,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#explanation" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -88,12 +95,12 @@
     <a href=".." title="slmcontrol" class="md-header__button md-logo" aria-label="slmcontrol" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
       
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
@@ -121,7 +128,7 @@
     <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
     
       <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9h-1.9M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69m-9.15 3.96h2.3L12 9l-1.15 3.65Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
       </label>
     
   
@@ -131,7 +138,7 @@
     <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
     
       <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
       </label>
     
   
@@ -141,7 +148,7 @@
     <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
     
       <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
       </label>
     
   
@@ -149,7 +156,7 @@
       
     
     
-      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
     
     
     
@@ -182,7 +189,7 @@
     <a href=".." title="slmcontrol" class="md-nav__button md-logo" aria-label="slmcontrol" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
     slmcontrol
@@ -202,6 +209,7 @@
   
   <span class="md-ellipsis">
     slmcontrol
+    
   </span>
   
 
@@ -217,31 +225,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/" class="md-nav__link">
+      <a href="../quickstart/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Tutorials
-  </span>
-  
-
-      </a>
-    </li>
-  
-
+    Quickstart
     
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../reference/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Reference
   </span>
   
 
@@ -263,17 +252,114 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Explanation
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
     Explanation
+    
   </span>
   
 
       </a>
       
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#background-and-motivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Background and Motivation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-capabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Capabilities
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Capabilities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implementation Architecture
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Applications
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Reference
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -295,6 +381,58 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#background-and-motivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Background and Motivation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-capabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Capabilities
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Capabilities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implementation Architecture
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Applications
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -309,25 +447,72 @@
                   
 
 
-  <h1>Explanation</h1>
 
-<p>This part of the project documentation focuses on an
-<strong>understanding-oriented</strong> approach. You'll get a
-chance to read about the background of the project,
-as well as reasoning about how it was implemented.</p>
-<blockquote>
-<p><strong>Note:</strong> Expand this section by considering the
-following points:</p>
-</blockquote>
+<h1 id="explanation">Explanation</h1>
+<h2 id="background-and-motivation">Background and Motivation</h2>
+<p>Spatial Light Modulators (SLMs) represent a powerful technology for precise light manipulation in optical systems. The <code>slmcontrol</code> package was developed to address the complexity of working with these devices, providing a streamlined Python interface.</p>
+<h2 id="core-capabilities">Core Capabilities</h2>
+<p>The package is designed around three primary functional components:</p>
+<ol>
+<li>
+<p><strong>Display Capabilities</strong>: The <a class="autorefs autorefs-internal" href="../reference/#src.slmcontrol.slm.SLMDisplay"><code>SLMDisplay</code></a> class provides a high-level interface for displaying images on the SLM. 
+The main method <a class="autorefs autorefs-internal" title="updateArray(holo, sleep=0.15)" href="../reference/#src.slmcontrol.slm.SLMDisplay.updateArray"><code>updateArray</code></a> allows users to send a 2D array of pixel values to the SLM, which is then rendered on the device. The image is represented as a 2D array of Unsigned 8-bit integers (uint8), where each value corresponds to a phase shift imposed by the corresponding pixel. The image can in principle be anything, but, in order to produce a structured light mode, one will usually use a hologram that encodes the desired phase pattern, as described in the next section.</p>
+</li>
+<li>
+<p><strong>Hologram Generation</strong>: The <a class="autorefs autorefs-internal" title="generate_hologram(desired, incoming, two_pi_modulation, x_period, y_period, method='BesselJ1')" href="../reference/#src.slmcontrol.hologram.generate_hologram"><code>generate_hologram</code></a> function calculates the phase patterns needed to transform an incoming beam (typically a plane wave or a Gaussian) into a desired output beam. The output can be any complex field, and is not restricted to the structured light modes provided in the package. </p>
+</li>
+<li>
+<p><strong>Pre-defined structured modes</strong>: We provide a set of pre-defined functions for generating common optical fields, such as Laguerre-Gaussian and Hermite-Gaussian modes, as well as various apertures and lenses. These fields can be used in the <code>desired</code> argument of the <a class="autorefs autorefs-internal" title="generate_hologram(desired, incoming, two_pi_modulation, x_period, y_period, method='BesselJ1')" href="../reference/#src.slmcontrol.hologram.generate_hologram"><code>generate_hologram</code></a> function. Nonetheless, the user is free to define their own desired field, which can be any complex field. The pre-defined functions are designed to be user-friendly, allowing researchers to quickly generate the desired beam profiles without delving into the underlying mathematics. Here is a list of the pre-defined functions available in the package:</p>
+<ol>
+<li>
+<p><strong>Gaussian Beam Variations</strong>:</p>
 <ul>
-<li>Give context and background on your library</li>
-<li>Explain why you created it</li>
-<li>Provide multiple examples and approaches of how
-    to work with it</li>
-<li>Help the reader make connections</li>
-<li>Avoid writing instructions or technical descriptions
-    here</li>
+<li><a class="autorefs autorefs-internal" title="lg(x, y, p=0, l=0, w=1)" href="../reference/#src.slmcontrol.structures.lg"><code>lg</code></a>: Laguerre-Gaussian modes characterized by radial (p) and azimuthal (l) indices.</li>
+<li><a class="autorefs autorefs-internal" title="hg(x, y, m=0, n=0, w=1)" href="../reference/#src.slmcontrol.structures.hg"><code>hg</code></a>: Hermite-Gaussian modes characterized by vertical (m) and horizontal (n) indices.</li>
+<li><a class="autorefs autorefs-internal" title="diagonal_hg(x, y, m=0, n=0, w=1)" href="../reference/#src.slmcontrol.structures.diagonal_hg"><code>diagonal_hg</code></a>: Diagonal Hermite-Gaussian modes.</li>
 </ul>
+</li>
+<li>
+<p><strong>Optical Elements</strong>:</p>
+<ul>
+<li><a class="autorefs autorefs-internal" title="lens(x, y, fx, fy, k=1)" href="../reference/#src.slmcontrol.structures.lens"><code>lens</code></a>: Phase function for a cylindrical lens with separate focal lengths in x and y directions.</li>
+<li><a class="autorefs autorefs-internal" title="tilted_lens(x, y, f, phi, k=1)" href="../reference/#src.slmcontrol.structures.tilted_lens"><code>tilted_lens</code></a>: Phase function for a tilted spherical lens.</li>
+</ul>
+</li>
+<li>
+<p><strong>Apertures</strong>:</p>
+<ul>
+<li><a class="autorefs autorefs-internal" title="rectangular_apperture(x, y, a, b)" href="../reference/#src.slmcontrol.structures.rectangular_apperture"><code>rectangular_apperture</code></a>: Rectangular aperture with specified dimensions.</li>
+<li><a class="autorefs autorefs-internal" title="square(x, y, l)" href="../reference/#src.slmcontrol.structures.square"><code>square</code></a>: Square aperture with a given side length.</li>
+<li><a class="autorefs autorefs-internal" title="single_slit(x, y, a)" href="../reference/#src.slmcontrol.structures.single_slit"><code>single_slit</code></a> and <a class="autorefs autorefs-internal" title="double_slit(x, y, a, d)" href="../reference/#src.slmcontrol.structures.double_slit"><code>double_slit</code></a>: Vertical slit patterns.</li>
+<li><a class="autorefs autorefs-internal" title="pupil(x, y, radius)" href="../reference/#src.slmcontrol.structures.pupil"><code>pupil</code></a>: Circular pupil with specified radius.</li>
+<li><a class="autorefs autorefs-internal" title="triangle(x, y, side_length)" href="../reference/#src.slmcontrol.structures.triangle"><code>triangle</code></a>: Equilateral triangular aperture.</li>
+</ul>
+</li>
+<li>
+<p><strong>Wavefront Correction</strong>:</p>
+<ul>
+<li><a class="autorefs autorefs-internal" title="zernike(x, y, n, m)" href="../reference/#src.slmcontrol.zernike.zernike"><code>zernike</code></a>: Zernike polynomials for wavefront aberration correction, characterized by radial (n) and azimuthal (m) orders.</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="implementation-architecture">Implementation Architecture</h3>
+<p>The <code>slmcontrol</code> package is built as a Python wrapper around Julia libraries, leveraging the high-performance numerical capabilities of Julia:</p>
+<ul>
+<li>The display functionality uses the <a href="https://github.com/marcsgil/SpatialLightModulator.jl"><code>SpatialLightModulator</code></a> Julia package. This, in turn, relies on a wrapper of <a href="https://www.opengl.org/">OpenGL</a> to display the images on the SLM. The package is designed to be agnostic to the specific SLM hardware, allowing for flexibility in device choice.</li>
+<li>The structured light generation and hologram calculation use the <a href="https://github.com/marcsgil/StructuredLight.jl"><code>StructuredLight</code></a> Julia package. This allows for simple and efficient generation of structured light modes, working both on CPU, with multithreading, and on GPUs.</li>
+<li>The Python-Julia bridge is implemented using the <a href="https://github.com/JuliaPy/PythonCall.jl"><code>juliacall</code></a> package.</li>
+</ul>
+<h2 id="applications">Applications</h2>
+<p>The <code>slmcontrol</code> package can be used in a variety of applications:</p>
+<ol>
+<li><strong>Optical Tweezers</strong>: Generate specialized beam profiles for trapping and manipulating microscopic particles.</li>
+<li><strong>Quantum Optics</strong>: Create structured light fields with orbital angular momentum for quantum information experiments.</li>
+<li><strong>Microscopy</strong>: Implement wavefront correction and beam shaping for advanced microscopy techniques.</li>
+<li><strong>Education</strong>: Demonstrate principles of optics and wave propagation in a hands-on manner.</li>
+</ol>
 
 
 
@@ -374,10 +559,10 @@ following points:</p>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.select"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.select"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.e1c3ead8.min.js"></script>
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
       
         <script src="../javascripts/katex.js"></script>
       
