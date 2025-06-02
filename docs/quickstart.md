@@ -20,11 +20,13 @@ y = np.linspace(-height/2, height/2, height)
 # In this case, we are using a Laguerre-Gaussian mode
 desired = slmcontrol.lg(x, y, l=1, w = 200)
 
-# The incoming field is assumed to be a plane wave
-incoming = np.ones((height, width))
+# The incoming field is assumed to be a larger gaussian beam
+incoming = slmcontrol.lg(x, y, w = 500)
+
+relative = desired / incoming
 
 # We generate the hologram to be displayed on the SLM
-holo = slmcontrol.generate_hologram(desired, incoming, 255, 50, 100)
+holo = slmcontrol.generate_hologram(relative, 255, 50, 100)
 
 # The hologram is then displayed on the SLM
 slm.updateArray(holo)
@@ -65,17 +67,18 @@ desired = slmcontrol.lg(x, y, l=1, w = 200)
 Defines the desired output beam. In this case, it's a Laguerre-Gaussian mode with topological charge `l=1` and a beam waist of 200 pixels. The [`lg`][src.slmcontrol.structures.lg] function generates the complex field amplitude for this specific beam type.
 
 ```py
-incoming = np.ones((height, width))
+incoming = slmcontrol.lg(x, y, w = 500)
+
+relative = desired / incoming
 ```
-Sets up the incoming beam as a uniform plane wave. This is a simple array of ones with the same dimensions as the SLM, representing a flat wavefront. One could also use a different incoming beam profile, such as a Gaussian beam, if desired.
+Sets up the incoming beam as a uniform plane wave and the relative field is calculated by dividing the desired field by the incoming field. This relative field represents the phase modulation needed to transform the incoming beam into the desired Laguerre-Gaussian mode.
 
 ```py
-holo = slmcontrol.generate_hologram(desired, incoming, 255, 50, 100)
+holo = slmcontrol.generate_hologram(relative, 255, 50, 100)
 ```
 Generates the hologram that will be displayed on the SLM. This function calculates the phase pattern needed to transform the incoming plane wave into the desired Laguerre-Gaussian beam. The arguments specify:
 
-- The desired output field
-- The incoming field
+- The relative field to be modulated.
 - Maximum modulation value (255). This is the modulation that imparts a phase shift of 2π and should be set according to the SLM's specifications.
 - The last two parameters are the period of the diffraction grating (in units of pixels) in the x (50px) and y (100px) directions. 
 

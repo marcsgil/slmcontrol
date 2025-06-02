@@ -5,15 +5,14 @@ from juliacall import Main as jl
 jl.seval("using StructuredLight")
 
 
-def generate_hologram(desired: ArrayLike, incoming: ArrayLike,
+def generate_hologram(relative: ArrayLike,
                       two_pi_modulation: int, x_period: Union[int, float], y_period: Union[int, float],
                       method: str = 'BesselJ1') -> NDArray[np.uint8]:
     """
     Generate a hologram used to produce the desired output.
 
     Args:
-        desired (ArrayLike): The desired field output.
-        incoming (ArrayLike): The incoming field.
+        relative (ArrayLike): The relative field. This is the desired output field divided by the input field. When the input field is a plane wave, this reduces to desired output field.
         two_pi_modulation (int): The greyscale value corresponding to a 2 pi phase shift.
         x_period (Union[int, float]): The period (in pixels) of the diffraction grating in the x direction.
         y_period (Union[int, float]): The period (in pixels) of the diffraction grating in the y direction.
@@ -40,10 +39,10 @@ def generate_hologram(desired: ArrayLike, incoming: ArrayLike,
             Opt. Express 24, 6249-6264 (2016)
     """
     if method == 'BesselJ1':
-        _method = jl.BesselJ1
+        _method = jl.BesselJ1()
     elif method == 'Simple':
-        _method = jl.Simple
+        _method = jl.Simple()
     else:
         raise ValueError(
             'Invalid method. Must be either "BesselJ1" or "Simple"')
-    return np.asarray(jl.generate_hologram(desired.T, incoming.T, two_pi_modulation, x_period, y_period, _method)).T
+    return np.asarray(jl.generate_hologram(relative.T, two_pi_modulation, x_period, y_period, _method)).T

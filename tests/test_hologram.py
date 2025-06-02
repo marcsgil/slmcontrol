@@ -9,8 +9,9 @@ class HologramTestCase(unittest.TestCase):
         slm = SLMDisplay()
         desired = np.random.randint(0, 256, (slm.height, slm.width), dtype=np.uint8)
         incoming = np.ones((slm.height, slm.width))
+        relative = desired / incoming
 
-        result = generate_hologram(desired, incoming, 1.0, 1.0, 1.0)
+        result = generate_hologram(relative, 1.0, 1.0, 1.0)
         self.assertIsInstance(result, np.ndarray)
         self.assertEqual(result.shape, (slm.height, slm.width))
 
