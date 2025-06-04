@@ -27,7 +27,7 @@ The main method [`updateArray`][src.slmcontrol.slm.SLMDisplay.updateArray] allow
 
     3. **Apertures**:
 
-        - [`rectangular_apperture`][src.slmcontrol.structures.rectangular_apperture]: Rectangular aperture with specified dimensions.
+        - [`rectangular_aperture`][src.slmcontrol.structures.rectangular_aperture]: Rectangular aperture with specified dimensions.
         - [`square`][src.slmcontrol.structures.square]: Square aperture with a given side length.
         - [`single_slit`][src.slmcontrol.structures.single_slit] and [`double_slit`][src.slmcontrol.structures.double_slit]: Vertical slit patterns.
         - [`pupil`][src.slmcontrol.structures.pupil]: Circular pupil with specified radius.
