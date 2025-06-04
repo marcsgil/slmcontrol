@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
 from slmcontrol.structures import (
-    lg, hg, diagonal_hg, lens, tilted_lens, rectangular_apperture,
+    lg, hg, diagonal_hg, lens, tilted_lens, rectangular_aperture,
     square, single_slit, double_slit, pupil, triangle
 )
 
@@ -17,7 +17,7 @@ class StructuresTestCase(unittest.TestCase):
             (diagonal_hg, [1, 1, 1]),
             (lens, [1.0, 1.0]),
             (tilted_lens, [1.0, 1.0]),
-            (rectangular_apperture, [1.0, 1.0]),
+            (rectangular_aperture, [1.0, 1.0]),
             (square, [1.0]),
             (single_slit, [1.0]),
             (double_slit, [1.0, 1.0]),
