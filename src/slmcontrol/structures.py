@@ -89,8 +89,8 @@ def tilted_lens(x: ArrayLike, y: ArrayLike,
     return np.asarray(jl.tilted_lens(x, y, f, phi, k=k)).T
 
 
-def rectangular_apperture(x: ArrayLike, y: ArrayLike, a: Union[int, float], b: Union[int, float]) -> ArrayLike:
-    """Rectangular apperture centered at the origin.
+def rectangular_aperture(x: ArrayLike, y: ArrayLike, a: Union[int, float], b: Union[int, float]) -> ArrayLike:
+    """Rectangular aperture centered at the origin.
 
     Args:
         x (ArrayLike): x argument
@@ -99,9 +99,9 @@ def rectangular_apperture(x: ArrayLike, y: ArrayLike, a: Union[int, float], b: U
         b (Union[int, float]): lenght in the vertical direction
 
     Returns:
-        (ArrayLike): True if the point is inside the apperture. False otherwise.
+        (ArrayLike): True if the point is inside the aperture. False otherwise.
     """
-    return np.asarray(jl.rectangular_apperture(x, y, a, b)).T
+    return np.asarray(jl.rectangular_aperture(x, y, a, b)).T
 
 
 def square(x: ArrayLike, y: ArrayLike, l: Union[int, float]) -> ArrayLike:
