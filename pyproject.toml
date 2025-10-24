@@ -11,6 +11,8 @@ dependencies = [
     "juliacall>=0.9.23",
     "juliapkg>=0.1.14",
     "numpy>=1.25",
+    "opencv-python>=4.12.0.88",
+    "screeninfo>=0.8.1",
 ]
 
 [build-system]
