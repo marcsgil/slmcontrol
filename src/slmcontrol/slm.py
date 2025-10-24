@@ -65,7 +65,7 @@ class SLMDisplay:
         self.process = Process(target=self.run)
         self.process.start()
 
-    def run(self):
+    def run(self) -> None:
         # Attach to both shared memory buffers by name
         buffer_0 = SharedMemory(name=self.buffer_0.name)
         buffer_1 = SharedMemory(name=self.buffer_1.name)

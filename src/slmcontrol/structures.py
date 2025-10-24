@@ -1,175 +1,71 @@
 import numpy as np
-from numpy.typing import ArrayLike
-from typing import Union
-from juliacall import Main as jl
-jl.seval("using StructuredLight")
+from scipy.special import genlaguerre, hermite
+from slmcontrol.typing import RealArrayLike
 
 
-def lg(x: ArrayLike, y: ArrayLike,
-       p: int = 0, l: int = 0, w: Union[int, float] = 1) -> ArrayLike:
+def lg(
+    x: RealArrayLike, y: RealArrayLike, p: int = 0, L: int = 0, w: int | float = 1
+) -> RealArrayLike:
     """Compute the Laguerre-Gaussian mode.
 
     Args:
-        x (ArrayLike): x argument
-        y (ArrayLike): y argument
+        x (RealArrayLike): x argument
+        y (RealArrayLike): y argument
         p (int): radial index
-        l (int): azymutal index
-        w (Union[int, float]): waist
+        L (int): azymutal index
+        w (int | float): waist
 
     Returns:
-        (ArrayLike): Laguerre-Gaussian mode.
+        (RealArrayLike): Laguerre-Gaussian mode.
     """
-    return np.asarray(jl.lg(x, y, w=w, p=p, l=l)).T
+    r2 = x**2 + y**2
+    phi = np.arctan2(y, x)
+    return (
+        np.exp(-r2 / w**2 + 1j * L * phi)
+        * genlaguerre(p, abs(L))(2 * r2 / w**2)
+        * np.sqrt((2 * r2 / w**2) ** abs(L))
+    )
 
 
-def hg(x: ArrayLike, y: ArrayLike, m: int = 0, n: int = 0, w: Union[int, float] = 1) -> ArrayLike:
+def hg(
+    x: RealArrayLike, y: RealArrayLike, m: int = 0, n: int = 0, w: int | float = 1
+) -> RealArrayLike:
     """Compute the Hermite-Gaussian mode.
 
     Args:
-        x (ArrayLike): x argument
-        y (ArrayLike): y argument
+        x (RealArrayLike): x argument
+        y (RealArrayLike): y argument
         m (int): vertical index
         n (int): horizontal index
-        w (Union[int, float]): waist
+        w (int | float): waist
 
     Returns:
-        (ArrayLike): Hermite-Gaussian mode.
+        (RealArrayLike): Hermite-Gaussian mode.
     """
-    return np.asarray(jl.hg(x, y, w=w, m=m, n=n)).T
+    return (
+        np.exp(-(x**2 + y**2) / w**2)
+        * hermite(m)(np.sqrt(2) * x / w)
+        * hermite(n)(np.sqrt(2) * y / w)
+    )
 
 
-def diagonal_hg(x: ArrayLike, y: ArrayLike, m: int = 0, n: int = 0, w: Union[int, float] = 1) -> ArrayLike:
+def diagonal_hg(
+    x: RealArrayLike, y: RealArrayLike, m: int = 0, n: int = 0, w: int | float = 1
+) -> RealArrayLike:
     """Compute the diagonal Hermite-Gaussian mode.
 
     Args:
-        x (ArrayLike): x argument
-        y (ArrayLike): y argument
+        x (RealArrayLike): x argument
+        y (RealArrayLike): y argument
         m (int): diagonal index
         n (int): anti-diagonal index
-        w (Union[int, float]): waist
+        w (int | float): waist
 
     Returns:
-        (ArrayLike): diagonal Hermite-Gaussian mode.
+        (RealArrayLike): diagonal Hermite-Gaussian mode.
     """
-    return np.asarray(jl.diagonal_hg(x, y, w=w, m=m, n=n)).T
-
-
-def lens(x: ArrayLike, y: ArrayLike,
-         fx: Union[int, float], fy: Union[int, float], k: Union[int, float] = 1) -> ArrayLike:
-    """Compute the phase imposed by a lens.
-
-    Args:
-        x (ArrayLike): x argument
-        y (ArrayLike): y argument
-        fx (Union[int, float]): focal length in the x direction
-        fy (Union[int, float]): focal length in the y direction
-        k (Union[int, float]): wavenumber of incoming beam
-
-    Returns:
-        (ArrayLike): phase imposed by the lens.
-    """
-    return np.asarray(jl.lens(x, y, fx, fy, k=k)).T
-
-
-def tilted_lens(x: ArrayLike, y: ArrayLike,
-                f: Union[int, float], phi: Union[int, float], k: Union[int, float] = 1) -> ArrayLike:
-    """Compute the phase imposed by a tilted spherical lens.
-
-    Args:
-        x (ArrayLike): x argument
-        y (ArrayLike): y argument
-        f (Union[int, float]): focal length
-        phi (Union[int, float]): tilting angle
-        k (Union[int, float]): wavenumber of incoming beam
-
-    Returns:
-        (ArrayLike): phase imposed by the tilted spherical lens
-    """
-
-    return np.asarray(jl.tilted_lens(x, y, f, phi, k=k)).T
-
-
-def rectangular_aperture(x: ArrayLike, y: ArrayLike, a: Union[int, float], b: Union[int, float]) -> ArrayLike:
-    """Rectangular aperture centered at the origin.
-
-    Args:
-        x (ArrayLike): x argument
-        y (ArrayLike): y argument
-        a (Union[int, float]): lenght in the horizontal direction
-        b (Union[int, float]): lenght in the vertical direction
-
-    Returns:
-        (ArrayLike): True if the point is inside the aperture. False otherwise.
-    """
-    return np.asarray(jl.rectangular_aperture(x, y, a, b)).T
-
-
-def square(x: ArrayLike, y: ArrayLike, l: Union[int, float]) -> ArrayLike:
-    """Square apperture centered at the origin.
-
-    Args:
-        x (ArrayLike): x argument
-        y (ArrayLike): y argument
-        l (Union[int, float]): side length
-
-    Returns:
-        (ArrayLike): True if the point is inside the apperture. False otherwise.
-    """
-    return np.asarray(jl.square(x, y, l)).T
-
-
-def single_slit(x: ArrayLike, y: ArrayLike, a: Union[int, float]) -> ArrayLike:
-    """Single vertical slit.
-
-    Args:
-        x (ArrayLike): x argument
-        y (ArrayLike): y argument
-        a (Union[int, float]): slit widht
-
-    Returns:
-        (ArrayLike): True if the point is inside the slit. False otherwise.
-    """
-    return np.asarray(jl.single_slit(x, y, a)).T
-
-
-def double_slit(x: ArrayLike, y: ArrayLike, a: Union[int, float], d: Union[int, float]) -> ArrayLike:
-    """Double vertical slit.
-
-    Args:
-        x (ArrayLike): x argument
-        y (ArrayLike): y argument
-        a (Union[int, float]): slit widht
-        d (Union[int, float]): slit separation
-
-    Returns:
-        (ArrayLike): True if the point is inside the slits. False otherwise.
-    """
-    return np.asarray(jl.double_slit(x, y, a, d)).T
-
-
-def pupil(x: ArrayLike, y: ArrayLike, radius: Union[int, float]) -> ArrayLike:
-    """Circular pupil centered at the origin.
-
-    Args:
-        x (ArrayLike): x argument
-        y (ArrayLike): y argument
-        radius (Union[int, float]): radius of the pupil
-
-    Returns:
-        (ArrayLike): True if the point is inside the pupil. False otherwise.
-    """
-    return np.asarray(jl.pupil(x, y, radius)).T
-
-
-def triangle(x: ArrayLike, y: ArrayLike, side_length: Union[int, float]) -> ArrayLike:
-    """Equilateral triangular apperture centered at the origin.
-
-    Args:
-        x (ArrayLike): x argument
-        y (ArrayLike): y argument
-        side_length (Union[int, float]): side length
-
-    Returns:
-        (ArrayLike): True if the point is inside the apperture. False otherwise.
-    """
-    return np.asarray(jl.triangle(x, y, side_length)).T
+    return (
+        np.exp(-(x**2 + y**2) / w**2)
+        * hermite(m)((x + y) / w)
+        * hermite(n)((x - y) / w)
+    )
