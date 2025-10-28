@@ -90,7 +90,7 @@ def generate_hologram(
     )
 
     if method == "BesselJ1":
-        holo = inv_j1(abs_relative / M) * np.sin(
+        holo = inv_j1(x_max_besselj1 * abs_relative / M) * np.sin(
             2 * np.pi * (x / x_period + y / y_period) + phase_relative
         )
 
