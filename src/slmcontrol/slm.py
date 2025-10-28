@@ -13,6 +13,26 @@ class SLMDisplay:
     """
     A class to control a Spatial Light Modulator (SLM).
 
+    This class uses multiprocessing to manage the display in a separate process.
+    When using this class in Python scripts (not imported modules), you must protect
+    the instantiation with an `if __name__ == '__main__':` guard to prevent errors
+    on macOS and Windows:
+
+    Example:
+        ```python
+        import slmcontrol
+
+        if __name__ == '__main__':
+            slm = slmcontrol.SLMDisplay()
+            # ... use the SLM
+            slm.close()
+        ```
+
+    Note: This guard is NOT required when:
+        - Using in Jupyter notebooks or IPython
+        - Importing and using in modules (not the main script)
+        - Running via test frameworks (pytest, unittest)
+
     Attributes:
         monitor_id (int): The ID of the monitor to use.
         width (int): The width of the SLM.
