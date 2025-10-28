@@ -3,6 +3,7 @@ import numpy as np
 from slmcontrol.hologram import generate_hologram
 from slmcontrol.slm import SLMDisplay
 
+
 class HologramTestCase(unittest.TestCase):
     def test_generate_hologram(self):
         """Test hologram generation."""
@@ -11,7 +12,7 @@ class HologramTestCase(unittest.TestCase):
         incoming = np.ones((slm.height, slm.width))
         relative = desired / incoming
 
-        result = generate_hologram(relative, 1.0, 1.0, 1.0)
+        result = generate_hologram(relative, 1, 1, 1)
         self.assertIsInstance(result, np.ndarray)
         self.assertEqual(result.shape, (slm.height, slm.width))
 

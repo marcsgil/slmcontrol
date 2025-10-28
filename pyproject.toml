@@ -1,20 +1,18 @@
 [project]
 name = "slmcontrol"
-version = "0.2.0"
+version = "0.3.0"
 description = "Add your description here"
 readme = "docs/README.md"
 authors = [
     { name = "Marcos Gil", email = "marcosgildeoliveira@gmail.com" }
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
-    "juliacall>=0.9.23",
-    "juliapkg>=0.1.14",
     "matplotlib>=3.10.7",
-    "numpy>=1.25",
-    "opencv-python>=4.12.0.88",
-    "scipy>=1.15.3",
-    "screeninfo>=0.8.1",
+    "numpy>=2",
+    "opencv-python>=4.12",
+    "scipy>=1.15",
+    "screeninfo>=0.8",
 ]
 
 [build-system]

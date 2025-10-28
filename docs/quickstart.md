@@ -15,6 +15,7 @@ width, height = slm.width, slm.height
 # One could also use the physical dimensions of the SLM
 x = np.linspace(-width/2, width/2, width)
 y = np.linspace(-height/2, height/2, height)
+x, y = np.meshgrid(x, y, sparse=True)
 
 # Calculates the field which we want to display
 # In this case, we are using a Laguerre-Gaussian mode
@@ -58,6 +59,7 @@ This retrieves the width and height of the SLM in pixels. These dimensions will 
 ```py
 x = np.linspace(-width/2, width/2, width)
 y = np.linspace(-height/2, height/2, height)
+x, y = np.meshgrid(x, y, sparse=True)
 ```
 Creates a grid of x and y coordinates centered at (0,0). The coordinates span from negative half-width/height to positive half-width/height. This approach treats pixels as units, with the SLM center as the origin (0,0). Of course this choice is not unique, and one could also use the physical dimensions of the SLM instead.
 

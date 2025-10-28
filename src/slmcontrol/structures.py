@@ -1,46 +1,42 @@
 import numpy as np
 from scipy.special import genlaguerre, hermite
-from slmcontrol.typing import RealArrayLike
+from numpy.typing import NDArray
 
 
-def lg(
-    x: RealArrayLike, y: RealArrayLike, p: int = 0, L: int = 0, w: int | float = 1
-) -> RealArrayLike:
+def lg(x: NDArray, y: NDArray, p: int = 0, l: int = 0, w: int | float = 1) -> NDArray:  # noqa: E741
     """Compute the Laguerre-Gaussian mode.
 
     Args:
-        x (RealArrayLike): x argument
-        y (RealArrayLike): y argument
+        x (NDArray): x argument
+        y (NDArray): y argument
         p (int): radial index
-        L (int): azymutal index
+        l (int): azymutal index
         w (int | float): waist
 
     Returns:
-        (RealArrayLike): Laguerre-Gaussian mode.
+        (NDArray): Laguerre-Gaussian mode.
     """
     r2 = x**2 + y**2
     phi = np.arctan2(y, x)
     return (
-        np.exp(-r2 / w**2 + 1j * L * phi)
-        * genlaguerre(p, abs(L))(2 * r2 / w**2)
-        * np.sqrt((2 * r2 / w**2) ** abs(L))
+        np.exp(-r2 / w**2 + 1j * l * phi)
+        * genlaguerre(p, abs(l))(2 * r2 / w**2)
+        * np.sqrt((2 * r2 / w**2) ** abs(l))
     )
 
 
-def hg(
-    x: RealArrayLike, y: RealArrayLike, m: int = 0, n: int = 0, w: int | float = 1
-) -> RealArrayLike:
+def hg(x: NDArray, y: NDArray, m: int = 0, n: int = 0, w: int | float = 1) -> NDArray:
     """Compute the Hermite-Gaussian mode.
 
     Args:
-        x (RealArrayLike): x argument
-        y (RealArrayLike): y argument
+        x (NDArray): x argument
+        y (NDArray): y argument
         m (int): vertical index
         n (int): horizontal index
         w (int | float): waist
 
     Returns:
-        (RealArrayLike): Hermite-Gaussian mode.
+        (NDArray): Hermite-Gaussian mode.
     """
     return (
         np.exp(-(x**2 + y**2) / w**2)
@@ -50,22 +46,44 @@ def hg(
 
 
 def diagonal_hg(
-    x: RealArrayLike, y: RealArrayLike, m: int = 0, n: int = 0, w: int | float = 1
-) -> RealArrayLike:
+    x: NDArray, y: NDArray, m: int = 0, n: int = 0, w: int | float = 1
+) -> NDArray:
     """Compute the diagonal Hermite-Gaussian mode.
 
     Args:
-        x (RealArrayLike): x argument
-        y (RealArrayLike): y argument
+        x (NDArray): x argument
+        y (NDArray): y argument
         m (int): diagonal index
         n (int): anti-diagonal index
         w (int | float): waist
 
     Returns:
-        (RealArrayLike): diagonal Hermite-Gaussian mode.
+        (NDArray): diagonal Hermite-Gaussian mode.
     """
     return (
         np.exp(-(x**2 + y**2) / w**2)
         * hermite(m)((x + y) / w)
         * hermite(n)((x - y) / w)
     )
+
+
+def lens(
+    x: NDArray,
+    y: NDArray,
+    fx: int | float,
+    fy: int | float,
+    k: int | float = 1,
+) -> NDArray:
+    """Compute the phase imposed by a lens.
+
+    Args:
+        x (NDArray): x argument
+        y (NDArray): y argument
+        fx (int | float): focal length in the x direction
+        fy (int | float): focal length in the y direction
+        k (int | float): wavenumber of incoming beam
+
+    Returns:
+        (NDArray): phase imposed by the lens.
+    """
+    return np.exp(-1j * k * (x**2 / (2 * fx) + y**2 / (2 * fy)))

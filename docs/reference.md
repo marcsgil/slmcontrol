@@ -8,12 +8,16 @@ This page contains a detailed description of all exported methods.
 
 ## Hologram
 
-::: src.slmcontrol.hologram   
+::: src.slmcontrol.hologram
+    handler: python
+    options:
+      members:
+        - generate_hologram
 
 ## Structures
 
 ::: src.slmcontrol.structures
 
-## Wavefront Correction
+## Masks
 
-::: src.slmcontrol.zernike
+::: src.slmcontrol.masks

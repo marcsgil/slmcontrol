@@ -13,7 +13,7 @@ The main method [`updateArray`][src.slmcontrol.slm.SLMDisplay.updateArray] allow
 
 2. **Hologram Generation**: The [`generate_hologram`][src.slmcontrol.hologram.generate_hologram] function calculates the phase patterns needed to transform an incoming beam (typically a plane wave or a Gaussian) into a desired output beam. The output can be any complex field, and is not restricted to the structured light modes provided in the package. 
 
-3. **Pre-defined structured modes**: We provide a set of pre-defined functions for generating common optical fields, such as Laguerre-Gaussian and Hermite-Gaussian modes, as well as various apertures and lenses. These fields can be used in the `desired` argument of the [`generate_hologram`][src.slmcontrol.hologram.generate_hologram] function. Nonetheless, the user is free to define their own desired field, which can be any complex field. The pre-defined functions are designed to be user-friendly, allowing researchers to quickly generate the desired beam profiles without delving into the underlying mathematics. Here is a list of the pre-defined functions available in the package:
+3. **Pre-defined structured modes**: We provide a set of pre-defined functions for generating common optical fields, such as Laguerre-Gaussian and Hermite-Gaussian modes, as well as various apertures and lenses. These fields can be used in the [`generate_hologram`][src.slmcontrol.hologram.generate_hologram] function. Nonetheless, the user is free to define their own desired field, which can be any complex field. The pre-defined functions are designed to be user-friendly, allowing researchers to quickly generate the desired beam profiles without delving into the underlying mathematics. Here is a list of the pre-defined functions available in the package:
     1. **Gaussian Beam Variations**:
 
         - [`lg`][src.slmcontrol.structures.lg]: Laguerre-Gaussian modes characterized by radial (p) and azimuthal (l) indices.
@@ -22,28 +22,28 @@ The main method [`updateArray`][src.slmcontrol.slm.SLMDisplay.updateArray] allow
 
     2. **Optical Elements**:
 
-        - [`lens`][src.slmcontrol.structures.lens]: Phase function for a cylindrical lens with separate focal lengths in x and y directions.
-        - [`tilted_lens`][src.slmcontrol.structures.tilted_lens]: Phase function for a tilted spherical lens.
+        - [`lens`][src.slmcontrol.structures.lens]: Phase function for a spherical lens with separate focal lengths in x and y directions.
 
     3. **Apertures**:
 
-        - [`rectangular_aperture`][src.slmcontrol.structures.rectangular_aperture]: Rectangular aperture with specified dimensions.
-        - [`square`][src.slmcontrol.structures.square]: Square aperture with a given side length.
-        - [`single_slit`][src.slmcontrol.structures.single_slit] and [`double_slit`][src.slmcontrol.structures.double_slit]: Vertical slit patterns.
-        - [`pupil`][src.slmcontrol.structures.pupil]: Circular pupil with specified radius.
-        - [`triangle`][src.slmcontrol.structures.triangle]: Equilateral triangular aperture.
+        - [`rectangular_aperture`][src.slmcontrol.masks.rectangular_aperture]: Rectangular aperture with specified dimensions.
+        - [`square`][src.slmcontrol.masks.square]: Square aperture with a given side length.
+        - [`single_slit`][src.slmcontrol.masks.single_slit] and [`double_slit`][src.slmcontrol.masks.double_slit]: Vertical slit patterns.
+        - [`pupil`][src.slmcontrol.masks.pupil]: Circular pupil with specified radius.
+        - [`triangle`][src.slmcontrol.masks.triangle]: Equilateral triangular aperture.
 
-    4. **Wavefront Correction**:
-
-        - [`zernike`][src.slmcontrol.zernike.zernike]: Zernike polynomials for wavefront aberration correction, characterized by radial (n) and azimuthal (m) orders.
 
 ### Implementation Architecture
 
-The `slmcontrol` package is built as a Python wrapper around Julia libraries, leveraging the high-performance numerical capabilities of Julia:
+The `slmcontrol` package is is structured into several modules, each responsible for a specific aspect of SLM control:
 
-- The display functionality uses the [`SpatialLightModulator`](https://github.com/marcsgil/SpatialLightModulator.jl) Julia package. This, in turn, relies on a wrapper of [OpenGL](https://www.opengl.org/) to display the images on the SLM. The package is designed to be agnostic to the specific SLM hardware, allowing for flexibility in device choice.
-- The structured light generation and hologram calculation use the [`StructuredLight`](https://github.com/marcsgil/StructuredLight.jl) Julia package. This allows for simple and efficient generation of structured light modes, working both on CPU, with multithreading, and on GPUs.
-- The Python-Julia bridge is implemented using the [`juliacall`](https://github.com/JuliaPy/PythonCall.jl) package.
+1. **SLM Module** (`src.slmcontrol.slm`): Contains the `SLMDisplay` class, which manages the connection to the SLM hardware and handles image display. This is implemented using OpenCV for cross-platform compatibility, ensuring that the package can work on various operating systems.
+
+2. **Hologram Module** (`src.slmcontrol.hologram`): Implements the `generate_hologram` function, which calculates the phase patterns required to produce the desired output beam from a given input beam. 
+
+3. **Structures Module** (`src.slmcontrol.structures`): Provides functions for generating common structured light modes, such as Laguerre-Gaussian and Hermite-Gaussian beams.
+
+4. **Masks Module** (`src.slmcontrol.masks`): Contains functions for creating various aperture shapes and optical elements that can be used in conjunction with the hologram generation.
 
 ## Applications
 
