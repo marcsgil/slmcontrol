@@ -12,7 +12,6 @@ used_ids = []
 class SLMDisplay:
     """
     A class to control a Spatial Light Modulator (SLM).
-
     This class uses multiprocessing to manage the display in a separate process.
     When using this class in Python scripts (not imported modules), you must protect
     the instantiation with an `if __name__ == '__main__':` guard to prevent errors
@@ -111,16 +110,12 @@ class SLMDisplay:
         cv.waitKey(1)
 
         while not self._shutdown.is_set():
-            # Check if a new frame is ready
-            if self._frame_ready.is_set():
-                # Swap to the buffer that was just written
+            # Block until a new frame is ready (or timeout), then display it
+            if self._frame_ready.wait(timeout=0.05):
                 display_buffer_idx = self._write_buffer_idx.value
                 display_array = array_0 if display_buffer_idx == 0 else array_1
-                # Clear the event
                 self._frame_ready.clear()
-
-            # Display the current buffer
-            cv.imshow(self.window_name, display_array)
+                cv.imshow(self.window_name, display_array)
             cv.waitKey(1)
 
         # Clean up
