@@ -1,7 +1,8 @@
 import cv2 as cv
 import numpy as np
 import screeninfo
-from multiprocessing import Process, Event, Value
+from multiprocessing import Process, Event, Queue
+from queue import Empty, Full
 from time import sleep
 from multiprocessing.shared_memory import SharedMemory
 from numpy.typing import NDArray
@@ -72,11 +73,11 @@ class SLMDisplay:
         self._array_0.fill(0)
         self._array_1.fill(0)
 
-        # Current write buffer index (0 or 1) - shared between processes
-        self._write_buffer_idx = Value("i", 0)
+        # Current write buffer index (0 or 1) - only used in the main process
+        self._write_buffer_idx = 0
 
-        # Event to signal new frame is ready
-        self._frame_ready = Event()
+        # Queue to pass buffer indices to the display process (maxsize=1: latest frame wins)
+        self._frame_queue: Queue = Queue(maxsize=1)
 
         # Event to signal shutdown
         self._shutdown = Event()
@@ -97,12 +98,8 @@ class SLMDisplay:
             (self.height, self.width), dtype=np.uint8, buffer=buffer_1.buf
         )
 
-        # Start by displaying buffer 0
-        display_buffer_idx = 0
-        display_array = array_0
-
         cv.namedWindow(self.window_name, cv.WINDOW_NORMAL)
-        cv.imshow(self.window_name, display_array)
+        cv.imshow(self.window_name, array_0)
         cv.moveWindow(self.window_name, self.monitor.x, self.monitor.y)
         cv.setWindowProperty(
             self.window_name, cv.WND_PROP_FULLSCREEN, cv.WINDOW_FULLSCREEN
@@ -110,15 +107,15 @@ class SLMDisplay:
         cv.waitKey(1)
 
         while not self._shutdown.is_set():
-            # Block until a new frame is ready (or timeout), then display it
-            if self._frame_ready.wait(timeout=0.05):
-                display_buffer_idx = self._write_buffer_idx.value
-                display_array = array_0 if display_buffer_idx == 0 else array_1
-                self._frame_ready.clear()
-                cv.imshow(self.window_name, display_array)
+            try:
+                buffer_idx = self._frame_queue.get(timeout=0.05)
+                cv.imshow(self.window_name, array_0 if buffer_idx == 0 else array_1)
+            except Empty:
+                pass
             cv.waitKey(1)
 
         # Clean up
+        cv.destroyWindow(self.window_name)
         buffer_0.close()
         buffer_1.close()
 
@@ -135,19 +132,21 @@ class SLMDisplay:
         """
         assert holo.shape == (self.height, self.width), "Invalid hologram shape."
 
-        # Determine which buffer to write to (opposite of current display buffer)
-        # The child reads _write_buffer_idx AFTER we set the event, so we write to the
-        # "next" buffer by toggling the index
-        current_idx = self._write_buffer_idx.value
-        next_idx = 1 - current_idx  # Toggle between 0 and 1
+        # Write to the back buffer (opposite of what was last sent to the display)
+        next_idx = 1 - self._write_buffer_idx
+        np.copyto(self._array_0 if next_idx == 0 else self._array_1, holo)
+        self._write_buffer_idx = next_idx
 
-        # Write to the back buffer (not currently being displayed)
-        write_array = self._array_0 if next_idx == 0 else self._array_1
-        np.copyto(write_array, holo)
-
-        # Update the write buffer index and signal the child process
-        self._write_buffer_idx.value = next_idx
-        self._frame_ready.set()
+        # Send the new buffer index to the display process; if the previous frame
+        # hasn't been consumed yet, replace it so the display always shows the latest
+        try:
+            self._frame_queue.put_nowait(next_idx)
+        except Full:
+            try:
+                self._frame_queue.get_nowait()
+            except Empty:
+                pass
+            self._frame_queue.put_nowait(next_idx)
 
         # Optional sleep to allow the display to update
         if sleep_time > 0:
@@ -163,7 +162,9 @@ class SLMDisplay:
 
         # Signal the child process to shutdown
         self._shutdown.set()
-        self.process.join()
+        self.process.join(timeout=2.0)
+        if self.process.is_alive():
+            self.process.terminate()
 
         # Clean up both shared memory buffers
         self.buffer_0.close()

@@ -4,36 +4,38 @@ The following code gives the minimal working example for this package:
 import slmcontrol
 import numpy as np
 
-#Initializes the SLM with the default display
-slm = slmcontrol.SLMDisplay()
+if __name__ == "__main__":
+    # Initializes the SLM with the default display
+    slm = slmcontrol.SLMDisplay()
 
-# Queries the SLM for its width and height
-width, height = slm.width, slm.height
+    # Queries the SLM for its width and height
+    width, height = slm.width, slm.height
 
-# Creates a grid of x and y coordinates
-# Here, we are taking our units as pixels and the center of the SLM as (0,0)
-# One could also use the physical dimensions of the SLM
-x = np.linspace(-width/2, width/2, width)
-y = np.linspace(-height/2, height/2, height)
-x, y = np.meshgrid(x, y, sparse=True)
+    # Creates a grid of x and y coordinates
+    # Here, we are taking our units as pixels and the center of the SLM as (0,0)
+    # One could also use the physical dimensions of the SLM
+    x = np.linspace(-width / 2, width / 2, width)
+    y = np.linspace(-height / 2, height / 2, height)
+    x, y = np.meshgrid(x, y, sparse=True)
 
-# Calculates the field which we want to display
-# In this case, we are using a Laguerre-Gaussian mode
-desired = slmcontrol.lg(x, y, l=1, w = 200)
+    # Calculates the field which we want to display
+    # In this case, we are using a Laguerre-Gaussian mode
+    desired = slmcontrol.lg(x, y, l=1, w=200)
 
-# The incoming field is assumed to be a larger gaussian beam
-incoming = slmcontrol.lg(x, y, w = 500)
+    # The incoming field is assumed to be a larger gaussian beam
+    incoming = slmcontrol.lg(x, y, w=500)
 
-relative = desired / incoming
+    relative = desired / incoming
 
-# We generate the hologram to be displayed on the SLM
-holo = slmcontrol.generate_hologram(relative, 255, 50, 100)
+    # We generate the hologram to be displayed on the SLM
+    holo = slmcontrol.generate_hologram(relative, 255, 50, 100)
 
-# The hologram is then displayed on the SLM
-slm.updateArray(holo)
+    # The hologram is then displayed on the SLM
+    # We add some sleep time to be able to see the hologram
+    slm.updateArray(holo, sleep_time=5)
 
-# Finally, the SLM is closed
-slm.close()
+    # Finally, the SLM is closed
+    slm.close()
 ```
 
 ## Breakdown
@@ -45,6 +47,11 @@ import slmcontrol
 import numpy as np
 ```
 This imports the `slmcontrol` package and NumPy.
+
+```py
+if __name__ == "__main__":
+```
+This is necessary when opening the SLM through a script. If running on a notebook, this may be skipped.
 
 ```py
 slm = slmcontrol.SLMDisplay()
@@ -85,9 +92,9 @@ Generates the hologram that will be displayed on the SLM. This function calculat
 - The last two parameters are the period of the diffraction grating (in units of pixels) in the x (50px) and y (100px) directions. 
 
 ```py
-slm.updateArray(holo)
+slm.updateArray(holo, sleep_time=5)
 ```
-Displays the calculated hologram on the SLM, which will modify the incoming light to produce the desired beam profile.
+Displays the calculated hologram on the SLM, which will modify the incoming light to produce the desired beam profile. The `sleep_time` arguments blocks any further execution until 5 seconds have passed. This allows the SLM to settle to a new hologram. The default value is 0.15.
 
 ```py
 slm.close()
