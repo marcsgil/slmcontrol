@@ -456,13 +456,13 @@
 <ol>
 <li>
 <p><strong>Display Capabilities</strong>: The <a class="autorefs autorefs-internal" href="../reference/#src.slmcontrol.slm.SLMDisplay"><code>SLMDisplay</code></a> class provides a high-level interface for displaying images on the SLM. 
-The main method <a class="autorefs autorefs-internal" title="updateArray(holo, sleep=0.15)" href="../reference/#src.slmcontrol.slm.SLMDisplay.updateArray"><code>updateArray</code></a> allows users to send a 2D array of pixel values to the SLM, which is then rendered on the device. The image is represented as a 2D array of Unsigned 8-bit integers (uint8), where each value corresponds to a phase shift imposed by the corresponding pixel. The image can in principle be anything, but, in order to produce a structured light mode, one will usually use a hologram that encodes the desired phase pattern, as described in the next section.</p>
+The main method <a class="autorefs autorefs-internal" title="updateArray(holo, sleep_time=0.15)" href="../reference/#src.slmcontrol.slm.SLMDisplay.updateArray"><code>updateArray</code></a> allows users to send a 2D array of pixel values to the SLM, which is then rendered on the device. The image is represented as a 2D array of Unsigned 8-bit integers (uint8), where each value corresponds to a phase shift imposed by the corresponding pixel. The image can in principle be anything, but, in order to produce a structured light mode, one will usually use a hologram that encodes the desired phase pattern, as described in the next section.</p>
 </li>
 <li>
 <p><strong>Hologram Generation</strong>: The <a class="autorefs autorefs-internal" title="generate_hologram(relative, two_pi_modulation, x_period, y_period, method='BesselJ1')" href="../reference/#src.slmcontrol.hologram.generate_hologram"><code>generate_hologram</code></a> function calculates the phase patterns needed to transform an incoming beam (typically a plane wave or a Gaussian) into a desired output beam. The output can be any complex field, and is not restricted to the structured light modes provided in the package. </p>
 </li>
 <li>
-<p><strong>Pre-defined structured modes</strong>: We provide a set of pre-defined functions for generating common optical fields, such as Laguerre-Gaussian and Hermite-Gaussian modes, as well as various apertures and lenses. These fields can be used in the <code>desired</code> argument of the <a class="autorefs autorefs-internal" title="generate_hologram(relative, two_pi_modulation, x_period, y_period, method='BesselJ1')" href="../reference/#src.slmcontrol.hologram.generate_hologram"><code>generate_hologram</code></a> function. Nonetheless, the user is free to define their own desired field, which can be any complex field. The pre-defined functions are designed to be user-friendly, allowing researchers to quickly generate the desired beam profiles without delving into the underlying mathematics. Here is a list of the pre-defined functions available in the package:</p>
+<p><strong>Pre-defined structured modes</strong>: We provide a set of pre-defined functions for generating common optical fields, such as Laguerre-Gaussian and Hermite-Gaussian modes, as well as various apertures and lenses. These fields can be used in the <a class="autorefs autorefs-internal" title="generate_hologram(relative, two_pi_modulation, x_period, y_period, method='BesselJ1')" href="../reference/#src.slmcontrol.hologram.generate_hologram"><code>generate_hologram</code></a> function. Nonetheless, the user is free to define their own desired field, which can be any complex field. The pre-defined functions are designed to be user-friendly, allowing researchers to quickly generate the desired beam profiles without delving into the underlying mathematics. Here is a list of the pre-defined functions available in the package:</p>
 <ol>
 <li>
 <p><strong>Gaussian Beam Variations</strong>:</p>
@@ -475,36 +475,38 @@ The main method <a class="autorefs autorefs-internal" title="updateArray(holo, s
 <li>
 <p><strong>Optical Elements</strong>:</p>
 <ul>
-<li><a class="autorefs autorefs-internal" title="lens(x, y, fx, fy, k=1)" href="../reference/#src.slmcontrol.structures.lens"><code>lens</code></a>: Phase function for a cylindrical lens with separate focal lengths in x and y directions.</li>
-<li><a class="autorefs autorefs-internal" title="tilted_lens(x, y, f, phi, k=1)" href="../reference/#src.slmcontrol.structures.tilted_lens"><code>tilted_lens</code></a>: Phase function for a tilted spherical lens.</li>
+<li><a class="autorefs autorefs-internal" title="lens(x, y, fx, fy, k=1)" href="../reference/#src.slmcontrol.structures.lens"><code>lens</code></a>: Phase function for a spherical lens with separate focal lengths in x and y directions.</li>
 </ul>
 </li>
 <li>
 <p><strong>Apertures</strong>:</p>
 <ul>
-<li><a class="autorefs autorefs-internal" title="rectangular_aperture(x, y, a, b)" href="../reference/#src.slmcontrol.structures.rectangular_aperture"><code>rectangular_aperture</code></a>: Rectangular aperture with specified dimensions.</li>
-<li><a class="autorefs autorefs-internal" title="square(x, y, l)" href="../reference/#src.slmcontrol.structures.square"><code>square</code></a>: Square aperture with a given side length.</li>
-<li><a class="autorefs autorefs-internal" title="single_slit(x, y, a)" href="../reference/#src.slmcontrol.structures.single_slit"><code>single_slit</code></a> and <a class="autorefs autorefs-internal" title="double_slit(x, y, a, d)" href="../reference/#src.slmcontrol.structures.double_slit"><code>double_slit</code></a>: Vertical slit patterns.</li>
-<li><a class="autorefs autorefs-internal" title="pupil(x, y, radius)" href="../reference/#src.slmcontrol.structures.pupil"><code>pupil</code></a>: Circular pupil with specified radius.</li>
-<li><a class="autorefs autorefs-internal" title="triangle(x, y, side_length)" href="../reference/#src.slmcontrol.structures.triangle"><code>triangle</code></a>: Equilateral triangular aperture.</li>
-</ul>
-</li>
-<li>
-<p><strong>Wavefront Correction</strong>:</p>
-<ul>
-<li><a class="autorefs autorefs-internal" title="zernike(x, y, n, m)" href="../reference/#src.slmcontrol.zernike.zernike"><code>zernike</code></a>: Zernike polynomials for wavefront aberration correction, characterized by radial (n) and azimuthal (m) orders.</li>
+<li><a class="autorefs autorefs-internal" title="rectangular_aperture(x, y, a, b)" href="../reference/#src.slmcontrol.masks.rectangular_aperture"><code>rectangular_aperture</code></a>: Rectangular aperture with specified dimensions.</li>
+<li><a class="autorefs autorefs-internal" title="square(x, y, L)" href="../reference/#src.slmcontrol.masks.square"><code>square</code></a>: Square aperture with a given side length.</li>
+<li><a class="autorefs autorefs-internal" title="single_slit(x, y, a)" href="../reference/#src.slmcontrol.masks.single_slit"><code>single_slit</code></a> and <a class="autorefs autorefs-internal" title="double_slit(x, y, a, d)" href="../reference/#src.slmcontrol.masks.double_slit"><code>double_slit</code></a>: Vertical slit patterns.</li>
+<li><a class="autorefs autorefs-internal" title="pupil(x, y, radius)" href="../reference/#src.slmcontrol.masks.pupil"><code>pupil</code></a>: Circular pupil with specified radius.</li>
+<li><a class="autorefs autorefs-internal" title="triangle(x, y, side_length)" href="../reference/#src.slmcontrol.masks.triangle"><code>triangle</code></a>: Equilateral triangular aperture.</li>
 </ul>
 </li>
 </ol>
 </li>
 </ol>
 <h3 id="implementation-architecture">Implementation Architecture</h3>
-<p>The <code>slmcontrol</code> package is built as a Python wrapper around Julia libraries, leveraging the high-performance numerical capabilities of Julia:</p>
-<ul>
-<li>The display functionality uses the <a href="https://github.com/marcsgil/SpatialLightModulator.jl"><code>SpatialLightModulator</code></a> Julia package. This, in turn, relies on a wrapper of <a href="https://www.opengl.org/">OpenGL</a> to display the images on the SLM. The package is designed to be agnostic to the specific SLM hardware, allowing for flexibility in device choice.</li>
-<li>The structured light generation and hologram calculation use the <a href="https://github.com/marcsgil/StructuredLight.jl"><code>StructuredLight</code></a> Julia package. This allows for simple and efficient generation of structured light modes, working both on CPU, with multithreading, and on GPUs.</li>
-<li>The Python-Julia bridge is implemented using the <a href="https://github.com/JuliaPy/PythonCall.jl"><code>juliacall</code></a> package.</li>
-</ul>
+<p>The <code>slmcontrol</code> package is is structured into several modules, each responsible for a specific aspect of SLM control:</p>
+<ol>
+<li>
+<p><strong>SLM Module</strong> (<code>src.slmcontrol.slm</code>): Contains the <code>SLMDisplay</code> class, which manages the connection to the SLM hardware and handles image display. This is implemented using OpenCV for cross-platform compatibility, ensuring that the package can work on various operating systems.</p>
+</li>
+<li>
+<p><strong>Hologram Module</strong> (<code>src.slmcontrol.hologram</code>): Implements the <code>generate_hologram</code> function, which calculates the phase patterns required to produce the desired output beam from a given input beam. </p>
+</li>
+<li>
+<p><strong>Structures Module</strong> (<code>src.slmcontrol.structures</code>): Provides functions for generating common structured light modes, such as Laguerre-Gaussian and Hermite-Gaussian beams.</p>
+</li>
+<li>
+<p><strong>Masks Module</strong> (<code>src.slmcontrol.masks</code>): Contains functions for creating various aperture shapes and optical elements that can be used in conjunction with the hologram generation.</p>
+</li>
+</ol>
 <h2 id="applications">Applications</h2>
 <p>The <code>slmcontrol</code> package can be used in a variety of applications:</p>
 <ol>
