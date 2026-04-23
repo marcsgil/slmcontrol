@@ -37,7 +37,7 @@ The main method [`updateArray`][src.slmcontrol.slm.SLMDisplay.updateArray] allow
 
 The `slmcontrol` package is is structured into several modules, each responsible for a specific aspect of SLM control:
 
-1. **SLM Module** (`src.slmcontrol.slm`): Contains the `SLMDisplay` class, which manages the connection to the SLM hardware and handles image display. This is implemented using OpenCV for cross-platform compatibility, ensuring that the package can work on various operating systems.
+1. **SLM Module** (`src.slmcontrol.slm`): Contains the `SLMDisplay` class, which manages the connection to the SLM hardware and handles image display. This is implemented using OpenCV for cross-platform compatibility, ensuring that the package can work on various operating systems. For setups where the script runs on a different machine than the SLM (e.g. via SSH), a client-server mode is available — see the [Remote Control](remote.md) guide.
 
 2. **Hologram Module** (`src.slmcontrol.hologram`): Implements the `generate_hologram` function, which calculates the phase patterns required to produce the desired output beam from a given input beam. 
 

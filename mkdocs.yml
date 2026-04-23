@@ -40,6 +40,8 @@ markdown_extensions:
   - admonition
   - pymdownx.details
   - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
 
 extra_javascript:
   - javascripts/katex.js 
@@ -64,4 +66,5 @@ nav:
   - README.md
   - quickstart.md
   - explanation.md
+  - remote.md
   - reference.md
