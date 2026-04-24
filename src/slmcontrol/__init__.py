@@ -10,6 +10,7 @@ from slmcontrol.masks import (
     pupil,
     triangle,
 )
+from slmcontrol.prepare_and_measure import prepare_and_measure
 
 __all__ = [
     "SLMDisplay",
@@ -24,4 +25,5 @@ __all__ = [
     "double_slit",
     "pupil",
     "triangle",
+    "prepare_and_measure",
 ]

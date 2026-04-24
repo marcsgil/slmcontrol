@@ -33,6 +33,13 @@ The main method [`updateArray`][src.slmcontrol.slm.SLMDisplay.updateArray] allow
         - [`triangle`][src.slmcontrol.masks.triangle]: Equilateral triangular aperture.
 
 
+4. **Pipelined Measurement Loop**: The [`prepare_and_measure`][src.slmcontrol.prepare_and_measure.prepare_and_measure] function addresses the throughput bottleneck that arises when repeating many SLM measurements. Because liquid crystals take tens of milliseconds to settle after each hologram update, a naive sequential loop wastes time on hologram computation and measurement that could instead overlap with the settle wait. `prepare_and_measure` pipelines both steps:
+
+    - **Hologram computation** (`prepare`) runs in a background thread pool while the SLM is settling for the current frame, so it is off the critical path.
+    - **Measurement** (`measure`) is submitted to a dedicated thread immediately after the SLM settles, and runs concurrently with the *next* frame's settle period.
+
+    Both callbacks are user-supplied, keeping the function independent of any specific hardware: `prepare(n)` returns the hologram array for frame `n`, and `measure(n)` performs and stores the measurement for frame `n` (e.g. capturing a camera image into a preallocated NumPy array via a closure).
+
 ### Implementation Architecture
 
 The `slmcontrol` package is is structured into several modules, each responsible for a specific aspect of SLM control:
@@ -44,6 +51,8 @@ The `slmcontrol` package is is structured into several modules, each responsible
 3. **Structures Module** (`src.slmcontrol.structures`): Provides functions for generating common structured light modes, such as Laguerre-Gaussian and Hermite-Gaussian beams.
 
 4. **Masks Module** (`src.slmcontrol.masks`): Contains functions for creating various aperture shapes and optical elements that can be used in conjunction with the hologram generation.
+
+5. **Measurement Loop Module** (`src.slmcontrol.prepare_and_measure`): Implements the `prepare_and_measure` function, which orchestrates the pipelined acquisition loop using two `ThreadPoolExecutor` instances — one for hologram computation and one for measurement — coordinated through a bounded queue and per-frame futures.
 
 ## Applications
 
