@@ -40,47 +40,18 @@ def prepare_and_measure(prepare: Callable, measure: Callable, slm: SLMDisplay, s
         The Future objects for each prepare task. Inspect these after the
         call to check for any deferred exceptions.
     """
-    hologram_queue = queue.Queue(maxsize=2)
-    abort = threading.Event()
 
-    def compute_and_enqueue(n):
-        if abort.is_set():
-            return
-        try:
-            holo = prepare(n)
-        except Exception:
-            hologram_queue.put((n, None))  # unblock main thread before re-raising
-            raise
-        while not abort.is_set():
-            try:
-                hologram_queue.put((n, holo), timeout=0.05)
-                return
-            except queue.Full:
-                pass
+    prepare_queue = queue.Queue(maxsize=2)
 
-    with ThreadPoolExecutor(max_workers=2) as prepare_exec, \
-         ThreadPoolExecutor(max_workers=1) as measure_exec:
+    def prepare_and_enqueue(n):
+        prepare_queue.put((n, prepare(n)))
 
-        prepare_futures = [prepare_exec.submit(compute_and_enqueue, n) for n in range(nsamples)]
-        measure_future = None
+    with ThreadPoolExecutor(max_workers=2) as exec_prepare, ThreadPoolExecutor(max_workers=2) as exec_measure:
+        futures_prepare = [exec_prepare.submit(prepare_and_enqueue, n) for n in range(nsamples)]
+        
+        for _ in trange(nsamples):
+            n, holo = prepare_queue.get()
+            slm.updateArray(holo, sleep_time=sleep_time)
+            exec_measure.submit(measure, n)
 
-        try:
-            for _ in trange(nsamples):
-                n, holo = hologram_queue.get()
-                prepare_futures[n].result()  # re-raises if prepare failed; holo is None sentinel in that case
-
-                if measure_future is not None:
-                    # Must complete before the SLM is advanced — otherwise the
-                    # camera capture for frame n-1 races the transition to holo_n.
-                    measure_future.result()
-
-                slm.updateArray(holo, sleep_time=sleep_time)
-                measure_future = measure_exec.submit(measure, n)
-
-            if measure_future is not None:
-                measure_future.result()
-        except:
-            abort.set()
-            raise
-
-    return prepare_futures
+            

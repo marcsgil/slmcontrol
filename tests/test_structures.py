@@ -38,3 +38,12 @@ class StructuresTestCase(unittest.TestCase):
             result = function(x, y, *args)
             self.assertIsInstance(result, np.ndarray)
             self.assertEqual(result.shape, test_shape)
+
+    def test_normalization(self):
+        x = np.arange(200) - 100
+        y = np.arange(400) - 200
+        x, y = np.meshgrid(x, y, sparse=True)
+        for function in (lg, hg, diagonal_hg):
+            for idx1 in range(0,5):
+                for idx2 in range(0, 5):
+                    self.assertAlmostEqual(np.sum(np.abs(function(x, y, idx1, idx2, 20))**2), 1, 3)
