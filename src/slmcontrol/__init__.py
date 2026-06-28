@@ -1,7 +1,7 @@
 from slmcontrol.slm import SLMDisplay
 from slmcontrol.server import SLMServer
 from slmcontrol.hologram import generate_hologram
-from slmcontrol.structures import lg, hg, diagonal_hg
+from slmcontrol.structures import lg, hg, diagonal_hg, lens
 from slmcontrol.masks import (
     rectangular_aperture,
     square,
@@ -19,6 +19,7 @@ __all__ = [
     "lg",
     "hg",
     "diagonal_hg",
+    "lens",
     "rectangular_aperture",
     "square",
     "single_slit",

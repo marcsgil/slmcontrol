@@ -2,6 +2,7 @@ import unittest
 import socket
 import struct
 import threading
+import time
 import numpy as np
 from unittest.mock import MagicMock, patch
 
@@ -74,7 +75,7 @@ class SLMServerTestCase(unittest.TestCase):
     def test_second_client_rejected(self):
         sock1, _, _ = _connect_and_handshake(self.port)
         # Give the server time to register the first client
-        import time; time.sleep(0.05)
+        time.sleep(0.05)
         sock2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock2.connect(("127.0.0.1", self.port))
         # Server closes the second socket without sending a handshake
@@ -123,8 +124,12 @@ class SLMDisplayRemoteTestCase(unittest.TestCase):
     def test_slmdisplay_remote_shape_mismatch(self):
         slm = SLMDisplay(host="127.0.0.1", port=self.port)
         bad_frame = np.random.randint(0, 256, (HEIGHT, WIDTH + 1), dtype=np.uint8)
-        with self.assertRaises(AssertionError):
+        with self.assertRaises(ValueError):
             slm.updateArray(bad_frame)
+        with self.assertRaises(TypeError):
+            slm.updateArray(
+                np.zeros((HEIGHT, WIDTH), dtype=np.float64), sleep_time=0
+            )
         slm.close()
 
     def test_slmdisplay_remote_close_is_idempotent(self):
@@ -156,6 +161,43 @@ class SLMDisplayRemoteTestCase(unittest.TestCase):
         client.close()
         server_sock.close()
         t.join(timeout=2)
+
+    def test_remote_handshake_can_arrive_in_chunks(self):
+        server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        server_sock.bind(("127.0.0.1", 0))
+        server_sock.listen(1)
+        port = server_sock.getsockname()[1]
+
+        def _send_handshake_in_chunks():
+            conn, _ = server_sock.accept()
+            handshake = struct.pack(">II", WIDTH, HEIGHT)
+            conn.sendall(handshake[:3])
+            time.sleep(0.02)
+            conn.sendall(handshake[3:])
+            conn.close()
+
+        thread = threading.Thread(target=_send_handshake_in_chunks, daemon=True)
+        thread.start()
+        slm = SLMDisplay(host="127.0.0.1", port=port)
+        self.assertEqual((slm.width, slm.height), (WIDTH, HEIGHT))
+        slm.close()
+        server_sock.close()
+        thread.join(timeout=2)
+
+
+class SLMServerLifecycleTestCase(unittest.TestCase):
+    @patch("slmcontrol.server.socket.socket")
+    @patch("slmcontrol.server.SLMDisplay")
+    def test_start_closes_display_when_bind_fails(self, mock_display_cls, mock_socket):
+        mock_socket.return_value.bind.side_effect = OSError("address in use")
+        server = SLMServer()
+
+        with self.assertRaises(OSError):
+            server.start()
+
+        mock_socket.return_value.close.assert_called_once()
+        mock_display_cls.return_value.close.assert_called_once()
+        self.assertIsNone(server._slm)
 
 
 if __name__ == "__main__":

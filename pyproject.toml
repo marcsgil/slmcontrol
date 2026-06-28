@@ -1,20 +1,36 @@
 [project]
 name = "slmcontrol"
 version = "0.4.0"
-description = "Add your description here"
+description = "Generate holograms and control spatial light modulator displays locally or remotely"
 readme = "docs/README.md"
+license = "MIT"
 authors = [
     { name = "Marcos Gil", email = "marcosgildeoliveira@gmail.com" }
 ]
 requires-python = ">=3.11"
+keywords = ["spatial light modulator", "holography", "structured light", "optics"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Physics",
+]
 dependencies = [
-    "matplotlib>=3.10.7",
     "numpy>=2",
     "opencv-python>=4.12",
     "scipy>=1.15",
     "screeninfo>=0.8",
     "tqdm>=4.67.3",
 ]
+
+[project.urls]
+Documentation = "https://marcsgil.github.io/slmcontrol/"
+Repository = "https://github.com/marcsgil/slmcontrol"
+Issues = "https://github.com/marcsgil/slmcontrol/issues"
 
 [project.scripts]
 slmcontrol-server = "slmcontrol.server:_main"

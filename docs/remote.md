@@ -43,8 +43,9 @@ run one of the following, depending on how you manage your Python environment:
     python -m slmcontrol.server
     ```
 
-By default this uses the last monitor (`-1`) and listens on port `5555`.  Both
-can be changed:
+By default this uses the last monitor (`-1`), listens on port `5555`, and binds
+to `127.0.0.1`. This loopback default is appropriate for same-machine clients
+and SSH port forwarding.
 
 === "uv"
 
@@ -61,7 +62,7 @@ can be changed:
 The server keeps running until you press `Ctrl+C`.  You will see:
 
 ```
-2026-04-23 19:00:00,000 INFO SLMServer listening on port 5555
+2026-06-27 19:00:00,000 INFO SLMServer listening on 127.0.0.1:5555
 ```
 
 ## Step 2 — Connect from your Script
@@ -96,14 +97,20 @@ through the loopback interface (effectively zero network overhead).
 ### Fully remote machine
 
 If your script runs on a **different machine**, pass the SLM machine's IP
-address (or hostname) and ensure the port is reachable:
+address (or hostname). Start the server with an explicit network bind and
+ensure the port is reachable:
+
+```bash
+slmcontrol-server --bind 0.0.0.0
+```
 
 ```py
 slm = slmcontrol.SLMDisplay(host="192.168.1.10", port=5555)
 ```
 
 Alternatively, use SSH port forwarding so you never need to open a firewall
-port:
+port. This is the recommended remote configuration and works with the default
+loopback bind:
 
 ```bash
 ssh -L 5555:localhost:5555 user@slm-machine

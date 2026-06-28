@@ -87,23 +87,24 @@ class SLMDisplay:
             self.monitor_id = monitor_id
             self._sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self._sock.connect((host, port))
-            raw = self._sock.recv(8)
-            if len(raw) != 8:
+            raw = bytearray(8)
+            try:
+                _recv_exactly(self._sock, raw, len(raw))
+            except (EOFError, OSError) as exc:
                 self._sock.close()
-                raise ConnectionError("SLMServer handshake failed: expected 8 bytes")
+                raise ConnectionError("SLMServer handshake failed") from exc
             self.width, self.height = struct.unpack(">II", raw)
             return
 
         self._remote = False
-        assert monitor_id not in used_ids, (
-            "SLMDisplay instance already exists for this monitor."
-        )
-        used_ids.append(monitor_id)
+        if monitor_id in used_ids:
+            raise RuntimeError("SLMDisplay instance already exists for this monitor")
         self.monitor_id = monitor_id
         self.window_name = f"SLM Display - Monitor {monitor_id}"
         self.monitor = screeninfo.get_monitors()[monitor_id]
         self.height = self.monitor.height
         self.width = self.monitor.width
+        used_ids.append(monitor_id)
 
         # Create two shared memory buffers for double buffering
         buffer_size = self.height * self.width
@@ -187,9 +188,17 @@ class SLMDisplay:
             sleep_time (float | int): Time to sleep after updating (in seconds) to allow display to refresh.
                        Set to 0 for maximum throughput (no waiting).
         """
-        assert holo.shape == (self.height, self.width), "Invalid hologram shape."
+        if not isinstance(holo, np.ndarray):
+            raise TypeError("holo must be a numpy.ndarray")
+        if holo.shape != (self.height, self.width):
+            raise ValueError(
+                f"invalid hologram shape {holo.shape}; "
+                f"expected {(self.height, self.width)}"
+            )
+        if holo.dtype != np.uint8:
+            raise TypeError(f"holo must have dtype uint8, got {holo.dtype}")
         if self._remote:
-            frame = np.ascontiguousarray(holo, dtype=np.uint8)
+            frame = np.ascontiguousarray(holo)
             self._sock.sendall(frame.tobytes())
             if self._sock.recv(1) != b"K":
                 raise ConnectionError("Did not receive ACK from server")
@@ -226,9 +235,8 @@ class SLMDisplay:
                 pass
             return
 
-        assert self.monitor_id in used_ids, (
-            "SLMDisplay instance not found for this monitor."
-        )
+        if self.monitor_id not in used_ids:
+            raise RuntimeError("SLMDisplay instance is already closed")
 
         # Signal the child process to shutdown
         self._shutdown.set()

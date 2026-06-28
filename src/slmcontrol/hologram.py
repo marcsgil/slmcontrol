@@ -82,6 +82,14 @@ def generate_hologram(
             "Comparison of beam generation techniques using a phase only spatial light modulator,"
             Opt. Express 24, 6249-6264 (2016)
     """
+    relative = np.asarray(relative)
+    if relative.ndim != 2:
+        raise ValueError("relative must be a two-dimensional array")
+    if relative.size == 0:
+        raise ValueError("relative must not be empty")
+    if x_period == 0 or y_period == 0:
+        raise ValueError("grating periods must be non-zero")
+
     abs_relative = np.abs(relative)
     phase_relative = np.angle(relative)
     M = np.max(abs_relative)
@@ -90,7 +98,10 @@ def generate_hologram(
     )
 
     if method == "BesselJ1":
-        holo = inv_j1(x_max_besselj1 * abs_relative / M) * np.sin(
+        normalized_amplitude = (
+            np.zeros_like(abs_relative, dtype=float) if M == 0 else abs_relative / M
+        )
+        holo = inv_j1(x_max_besselj1 * normalized_amplitude) * np.sin(
             2 * np.pi * (x / x_period + y / y_period) + phase_relative
         )
 

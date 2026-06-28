@@ -1,15 +1,15 @@
 cff-version: 1.2.0
 message: If you use this software, please cite it using these metadata.
 title: slmcontrol
-abstract: This is a package that allows one to control a Spatial Light Modulator (SLM) with a simple an intuitive syntax.
+abstract: Generate holograms and control spatial light modulator displays locally or remotely.
 authors:
   - given-names: Marcos
     family-names: Gil de Oliveira
     email: marcosgildeoliveira@gmail.com
     affiliation: UFF
     orcid: 'https://orcid.org/0009-0006-4225-8706'
-version: 0.0.7
-date-released: "2024-01-30"
+version: 0.4.0
+date-released: "2026-06-27"
 identifiers:
   - type: url
     value: 'https://github.com/marcsgil/slmcontrol'

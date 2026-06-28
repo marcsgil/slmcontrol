@@ -16,18 +16,20 @@ class SLMTestCase(unittest.TestCase):
         unfit_data = np.random.randint(
             0, 256, (self.slm.height, self.slm.width + 1), dtype=np.uint8
         )
-        with self.assertRaises(AssertionError):
+        with self.assertRaises(ValueError):
             self.slm.updateArray(unfit_data)
+        with self.assertRaises(TypeError):
+            self.slm.updateArray(data.astype(float))
         self.slm.close()
 
     def test_slm_initialization(self):
         """Test SLM multiple instance prevention."""
-        with self.assertRaises(AssertionError):
+        with self.assertRaises(RuntimeError):
             SLMDisplay()
         self.slm.close()
 
     def test_slm_close(self):
         """Test SLM close functionality."""
         self.slm.close()
-        with self.assertRaises(AssertionError):
+        with self.assertRaises(RuntimeError):
             self.slm.close()

@@ -55,9 +55,15 @@ class SLMServer:
         port (int): TCP port the server listens on.
     """
 
-    def __init__(self, monitor_id: int = -1, port: int = 5555) -> None:
+    def __init__(
+        self,
+        monitor_id: int = -1,
+        port: int = 5555,
+        bind_address: str = "127.0.0.1",
+    ) -> None:
         self.monitor_id = monitor_id
         self.port = port
+        self.bind_address = bind_address
         self._slm = None
         self._server_sock = None
         self._client_conn = None
@@ -71,15 +77,27 @@ class SLMServer:
         Initialise the local SLMDisplay, bind the TCP socket, and begin
         accepting connections in a daemon thread.
         """
+        if self._running:
+            raise RuntimeError("SLMServer is already running")
         self._slm = SLMDisplay(monitor_id=self.monitor_id)
-        self._server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self._server_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self._server_sock.bind(("0.0.0.0", self.port))
-        self._server_sock.listen(1)
+        try:
+            self._server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self._server_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            self._server_sock.bind((self.bind_address, self.port))
+            self._server_sock.listen(1)
+        except Exception:
+            if self._server_sock is not None:
+                self._server_sock.close()
+                self._server_sock = None
+            self._slm.close()
+            self._slm = None
+            raise
         self._running = True
         self._thread = threading.Thread(target=self._accept_loop, daemon=True)
         self._thread.start()
-        logger.info("SLMServer listening on port %d", self.port)
+        logger.info(
+            "SLMServer listening on %s:%d", self.bind_address, self.port
+        )
 
     def _accept_loop(self) -> None:
         while self._running:
@@ -170,11 +188,18 @@ def _main() -> None:
     parser.add_argument(
         "--port", type=int, default=5555, help="TCP port to listen on (default: 5555)"
     )
+    parser.add_argument(
+        "--bind",
+        default="127.0.0.1",
+        help="Address to bind (default: 127.0.0.1; use 0.0.0.0 for remote clients)",
+    )
     args = parser.parse_args()
 
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
-    server = SLMServer(monitor_id=args.monitor, port=args.port)
+    server = SLMServer(
+        monitor_id=args.monitor, port=args.port, bind_address=args.bind
+    )
     server.start()
 
     def _shutdown(signum, frame):

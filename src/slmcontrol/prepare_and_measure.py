@@ -1,20 +1,27 @@
-import threading
 from concurrent.futures import ThreadPoolExecutor
-import queue
 from typing import Callable
-from slmcontrol import SLMDisplay
+
+from slmcontrol.slm import SLMDisplay
 from tqdm import trange
 
-def prepare_and_measure(prepare: Callable, measure: Callable, slm: SLMDisplay, sleep_time: float, nsamples: int):
+
+def prepare_and_measure(
+    prepare: Callable,
+    measure: Callable,
+    slm: SLMDisplay,
+    sleep_time: float,
+    nsamples: int,
+):
     """
     Display a series of holograms on the SLM and perform a measurement for each,
     pipelining hologram computation with SLM settling and measurement.
 
-    Hologram computation runs concurrently with SLM settling and measurement,
-    so prepare is never on the critical path. Each frame's measurement is
-    completed before the SLM is advanced to the next hologram, so the camera
-    never sees a partial transition. Exceptions raised in either thread are
-    re-raised on the main thread rather than silently hanging.
+    Hologram computation runs concurrently with SLM settling and measurement.
+    Prepared frames are consumed in index order, even when later computations
+    finish first. Each frame's measurement is completed before the SLM is
+    advanced to the next hologram, so the camera never sees a partial
+    transition. Exceptions raised in either thread are re-raised on the main
+    thread.
 
     Parameters
     ----------
@@ -37,50 +44,33 @@ def prepare_and_measure(prepare: Callable, measure: Callable, slm: SLMDisplay, s
     Returns
     -------
     futures : list of Future
-        The Future objects for each prepare task. Inspect these after the
-        call to check for any deferred exceptions.
+        The completed Future objects for each prepare task, in frame order.
     """
-    hologram_queue = queue.Queue(maxsize=2)
-    abort = threading.Event()
+    if nsamples < 0:
+        raise ValueError("nsamples must be non-negative")
+    if sleep_time < 0:
+        raise ValueError("sleep_time must be non-negative")
 
-    def compute_and_enqueue(n):
-        if abort.is_set():
-            return
-        try:
-            holo = prepare(n)
-        except Exception:
-            hologram_queue.put((n, None))  # unblock main thread before re-raising
-            raise
-        while not abort.is_set():
-            try:
-                hologram_queue.put((n, holo), timeout=0.05)
-                return
-            except queue.Full:
-                pass
-
-    with ThreadPoolExecutor(max_workers=2) as prepare_exec, \
-         ThreadPoolExecutor(max_workers=1) as measure_exec:
-
-        prepare_futures = [prepare_exec.submit(compute_and_enqueue, n) for n in range(nsamples)]
+    with (
+        ThreadPoolExecutor(max_workers=2) as prepare_exec,
+        ThreadPoolExecutor(max_workers=1) as measure_exec,
+    ):
+        prepare_futures = [
+            prepare_exec.submit(prepare, n) for n in range(nsamples)
+        ]
         measure_future = None
 
-        try:
-            for _ in trange(nsamples):
-                n, holo = hologram_queue.get()
-                prepare_futures[n].result()  # re-raises if prepare failed; holo is None sentinel in that case
-
-                if measure_future is not None:
-                    # Must complete before the SLM is advanced — otherwise the
-                    # camera capture for frame n-1 races the transition to holo_n.
-                    measure_future.result()
-
-                slm.updateArray(holo, sleep_time=sleep_time)
-                measure_future = measure_exec.submit(measure, n)
+        for n in trange(nsamples):
+            holo = prepare_futures[n].result()
 
             if measure_future is not None:
+                # Finish the previous capture before changing the displayed frame.
                 measure_future.result()
-        except:
-            abort.set()
-            raise
+
+            slm.updateArray(holo, sleep_time=sleep_time)
+            measure_future = measure_exec.submit(measure, n)
+
+        if measure_future is not None:
+            measure_future.result()
 
     return prepare_futures
