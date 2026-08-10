@@ -6,6 +6,14 @@ This page contains a detailed description of all exported methods.
 
 ::: src.slmcontrol.slm
 
+## Server
+
+::: src.slmcontrol.server
+    handler: python
+    options:
+      members:
+        - SLMServer
+
 ## Hologram
 
 ::: src.slmcontrol.hologram
@@ -21,3 +29,11 @@ This page contains a detailed description of all exported methods.
 ## Masks
 
 ::: src.slmcontrol.masks
+
+## Measurement loop
+
+::: src.slmcontrol.prepare_and_measure
+    handler: python
+    options:
+      members:
+        - prepare_and_measure

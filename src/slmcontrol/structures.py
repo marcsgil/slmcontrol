@@ -1,5 +1,5 @@
 import numpy as np
-from scipy.special import genlaguerre, hermite
+from scipy.special import genlaguerre, hermite, factorial
 from numpy.typing import NDArray
 
 
@@ -16,10 +16,12 @@ def lg(x: NDArray, y: NDArray, p: int = 0, l: int = 0, w: int | float = 1) -> ND
     Returns:
         (NDArray): Laguerre-Gaussian mode.
     """
+    normalization = np.sqrt(2 * factorial(p) / np.pi / factorial(p + np.abs(l))) / w
     r2 = x**2 + y**2
     phi = np.arctan2(y, x)
     return (
-        np.exp(-r2 / w**2 + 1j * l * phi)
+        normalization
+        * np.exp(-r2 / w**2 + 1j * l * phi)
         * genlaguerre(p, abs(l))(2 * r2 / w**2)
         * np.sqrt((2 * r2 / w**2) ** abs(l))
     )
@@ -38,7 +40,10 @@ def hg(x: NDArray, y: NDArray, m: int = 0, n: int = 0, w: int | float = 1) -> ND
     Returns:
         (NDArray): Hermite-Gaussian mode.
     """
+    normalization = np.sqrt(2 / np.pi / 2**(m+n) / factorial(m) / factorial(n)) / w
+
     return (
+        normalization *
         np.exp(-(x**2 + y**2) / w**2)
         * hermite(m)(np.sqrt(2) * x / w)
         * hermite(n)(np.sqrt(2) * y / w)
@@ -60,8 +65,10 @@ def diagonal_hg(
     Returns:
         (NDArray): diagonal Hermite-Gaussian mode.
     """
+    normalization = np.sqrt(2 / np.pi / 2**(m+n) / factorial(m) / factorial(n)) / w
     return (
-        np.exp(-(x**2 + y**2) / w**2)
+        normalization
+        * np.exp(-(x**2 + y**2) / w**2)
         * hermite(m)((x + y) / w)
         * hermite(n)((x - y) / w)
     )

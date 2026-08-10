@@ -80,7 +80,10 @@ incoming = slmcontrol.lg(x, y, w = 500)
 
 relative = desired / incoming
 ```
-Sets up the incoming beam as a uniform plane wave and the relative field is calculated by dividing the desired field by the incoming field. This relative field represents the phase modulation needed to transform the incoming beam into the desired Laguerre-Gaussian mode.
+Sets up the incoming beam as a wider Gaussian beam. The relative field is
+calculated by dividing the desired field by the incoming field. This relative
+field represents the modulation needed to transform the incoming beam into the
+desired Laguerre-Gaussian mode.
 
 ```py
 holo = slmcontrol.generate_hologram(relative, 255, 50, 100)

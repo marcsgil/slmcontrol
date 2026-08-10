@@ -1,8 +1,9 @@
 import cv2 as cv
 import numpy as np
 import screeninfo
-from multiprocessing import Process, Event, Queue
-from queue import Empty, Full
+import socket
+import struct
+from multiprocessing import Process, Event, Value
 from time import sleep
 from multiprocessing.shared_memory import SharedMemory
 from numpy.typing import NDArray
@@ -10,9 +11,20 @@ from numpy.typing import NDArray
 used_ids = []
 
 
+def _recv_exactly(sock: socket.socket, buf, n: int) -> None:
+    view = memoryview(buf)
+    received = 0
+    while received < n:
+        chunk = sock.recv_into(view[received:], n - received)
+        if chunk == 0:
+            raise EOFError(f"Socket closed after {received}/{n} bytes")
+        received += chunk
+
+
 class SLMDisplay:
     """
     A class to control a Spatial Light Modulator (SLM).
+
     This class uses multiprocessing to manage the display in a separate process.
     When using this class in Python scripts (not imported modules), you must protect
     the instantiation with an `if __name__ == '__main__':` guard to prevent errors
@@ -33,28 +45,63 @@ class SLMDisplay:
         - Importing and using in modules (not the main script)
         - Running via test frameworks (pytest, unittest)
 
+    **Remote mode**: connects to an [`SLMServer`][src.slmcontrol.server.SLMServer]
+    running on the machine physically attached to the SLM.  No local display is
+    needed — the hologram is computed locally and sent over TCP.  Pass
+    ``host="localhost"`` when the script runs on the SLM machine itself (e.g. via
+    SSH), or the machine's IP address for a fully remote setup:
+
+    Example:
+        ```python
+        slm = slmcontrol.SLMDisplay(host="localhost")
+        slm.updateArray(holo)
+        slm.close()
+        ```
+
+    See the [Remote Control](remote.md) guide for full setup instructions.
+
     Attributes:
         monitor_id (int): The ID of the monitor to use.
-        width (int): The width of the SLM.
-        height (int): The height of the SLM.
+        width (int): The width of the SLM in pixels.
+        height (int): The height of the SLM in pixels.
     """
 
-    def __init__(self, monitor_id: int = -1) -> None:
+    def __init__(
+        self, monitor_id: int = -1, host: str | None = None, port: int = 5555
+    ) -> None:
         """
         Initialize the SLM instance.
 
         Args:
             monitor_id (int): The ID of the monitor to use. Defaults to the last monitor.
+            host (str | None): If provided, connect to a remote SLMServer at this address
+                instead of driving a local display.  Pass ``"localhost"`` to connect to a
+                server running on the same machine (e.g. when controlling via SSH).
+            port (int): TCP port of the remote SLMServer. Ignored when ``host`` is None.
         """
-        assert monitor_id not in used_ids, (
-            "SLMDisplay instance already exists for this monitor."
-        )
-        used_ids.append(monitor_id)
+        if host is not None:
+            self._remote = True
+            self.monitor_id = monitor_id
+            self._sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self._sock.connect((host, port))
+            raw = bytearray(8)
+            try:
+                _recv_exactly(self._sock, raw, len(raw))
+            except (EOFError, OSError) as exc:
+                self._sock.close()
+                raise ConnectionError("SLMServer handshake failed") from exc
+            self.width, self.height = struct.unpack(">II", raw)
+            return
+
+        self._remote = False
+        if monitor_id in used_ids:
+            raise RuntimeError("SLMDisplay instance already exists for this monitor")
         self.monitor_id = monitor_id
         self.window_name = f"SLM Display - Monitor {monitor_id}"
         self.monitor = screeninfo.get_monitors()[monitor_id]
         self.height = self.monitor.height
         self.width = self.monitor.width
+        used_ids.append(monitor_id)
 
         # Create two shared memory buffers for double buffering
         buffer_size = self.height * self.width
@@ -130,7 +177,23 @@ class SLMDisplay:
             sleep_time (float | int): Time to sleep after updating (in seconds) to allow display to refresh.
                        Set to 0 for maximum throughput (no waiting).
         """
-        assert holo.shape == (self.height, self.width), "Invalid hologram shape."
+        if not isinstance(holo, np.ndarray):
+            raise TypeError("holo must be a numpy.ndarray")
+        if holo.shape != (self.height, self.width):
+            raise ValueError(
+                f"invalid hologram shape {holo.shape}; "
+                f"expected {(self.height, self.width)}"
+            )
+        if holo.dtype != np.uint8:
+            raise TypeError(f"holo must have dtype uint8, got {holo.dtype}")
+        if self._remote:
+            frame = np.ascontiguousarray(holo)
+            self._sock.sendall(frame.tobytes())
+            if self._sock.recv(1) != b"K":
+                raise ConnectionError("Did not receive ACK from server")
+            if sleep_time > 0:
+                sleep(sleep_time)
+            return
 
         # Write to the back buffer (opposite of what was last sent to the display)
         next_idx = 1 - self._write_buffer_idx
@@ -156,9 +219,15 @@ class SLMDisplay:
         """
         Close the SLM window.
         """
-        assert self.monitor_id in used_ids, (
-            "SLMDisplay instance not found for this monitor."
-        )
+        if self._remote:
+            try:
+                self._sock.close()
+            except OSError:
+                pass
+            return
+
+        if self.monitor_id not in used_ids:
+            raise RuntimeError("SLMDisplay instance is already closed")
 
         # Signal the child process to shutdown
         self._shutdown.set()
