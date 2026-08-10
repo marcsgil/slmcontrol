@@ -25,26 +25,6 @@ class SLMDisplay:
     """
     A class to control a Spatial Light Modulator (SLM).
 
-    This class uses multiprocessing to manage the display in a separate process.
-    When using this class in Python scripts (not imported modules), you must protect
-    the instantiation with an `if __name__ == '__main__':` guard to prevent errors
-    on macOS and Windows:
-
-    Example:
-        ```python
-        import slmcontrol
-
-        if __name__ == '__main__':
-            slm = slmcontrol.SLMDisplay()
-            # ... use the SLM
-            slm.close()
-        ```
-
-    Note: This guard is NOT required when:
-        - Using in Jupyter notebooks or IPython
-        - Importing and using in modules (not the main script)
-        - Running via test frameworks (pytest, unittest)
-
     **Remote mode**: connects to an [`SLMServer`][src.slmcontrol.server.SLMServer]
     running on the machine physically attached to the SLM.  No local display is
     needed — the hologram is computed locally and sent over TCP.  Pass
