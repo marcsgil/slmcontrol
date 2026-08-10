@@ -25,6 +25,29 @@ class SLMDisplay:
     """
     A class to control a Spatial Light Modulator (SLM).
 
+    Can be used in two modes:
+
+    **Local mode** (default): drives a display directly on the current machine.
+    This uses multiprocessing to manage the OpenCV window in a separate process.
+    When using this mode in Python scripts (not imported modules), you must protect
+    the instantiation with an `if __name__ == '__main__':` guard to prevent errors
+    on macOS and Windows:
+
+    Example:
+        ```python
+        import slmcontrol
+
+        if __name__ == '__main__':
+            slm = slmcontrol.SLMDisplay()
+            # ... use the SLM
+            slm.close()
+        ```
+
+    Note: This guard is NOT required when:
+        - Using in Jupyter notebooks or IPython
+        - Importing and using in modules (not the main script)
+        - Running via test frameworks (pytest, unittest)
+
     **Remote mode**: connects to an [`SLMServer`][src.slmcontrol.server.SLMServer]
     running on the machine physically attached to the SLM.  No local display is
     needed — the hologram is computed locally and sent over TCP.  Pass
@@ -100,11 +123,11 @@ class SLMDisplay:
         self._array_0.fill(0)
         self._array_1.fill(0)
 
-        # Current write buffer index (0 or 1) - only used in the main process
-        self._write_buffer_idx = 0
+        # Current write buffer index (0 or 1) - shared between processes
+        self._write_buffer_idx = Value("i", 0)
 
-        # Queue to pass buffer indices to the display process (maxsize=1: latest frame wins)
-        self._frame_queue: Queue = Queue(maxsize=1)
+        # Event to signal new frame is ready
+        self._frame_ready = Event()
 
         # Event to signal shutdown
         self._shutdown = Event()
@@ -125,8 +148,12 @@ class SLMDisplay:
             (self.height, self.width), dtype=np.uint8, buffer=buffer_1.buf
         )
 
+        # Start by displaying buffer 0
+        display_buffer_idx = 0
+        display_array = array_0
+
         cv.namedWindow(self.window_name, cv.WINDOW_NORMAL)
-        cv.imshow(self.window_name, array_0)
+        cv.imshow(self.window_name, display_array)
         cv.moveWindow(self.window_name, self.monitor.x, self.monitor.y)
         cv.setWindowProperty(
             self.window_name, cv.WND_PROP_FULLSCREEN, cv.WINDOW_FULLSCREEN
@@ -134,15 +161,19 @@ class SLMDisplay:
         cv.waitKey(1)
 
         while not self._shutdown.is_set():
-            try:
-                buffer_idx = self._frame_queue.get(timeout=0.05)
-                cv.imshow(self.window_name, array_0 if buffer_idx == 0 else array_1)
-            except Empty:
-                pass
+            # Check if a new frame is ready
+            if self._frame_ready.is_set():
+                # Swap to the buffer that was just written
+                display_buffer_idx = self._write_buffer_idx.value
+                display_array = array_0 if display_buffer_idx == 0 else array_1
+                # Clear the event
+                self._frame_ready.clear()
+
+            # Display the current buffer
+            cv.imshow(self.window_name, display_array)
             cv.waitKey(1)
 
         # Clean up
-        cv.destroyWindow(self.window_name)
         buffer_0.close()
         buffer_1.close()
 
@@ -175,21 +206,19 @@ class SLMDisplay:
                 sleep(sleep_time)
             return
 
-        # Write to the back buffer (opposite of what was last sent to the display)
-        next_idx = 1 - self._write_buffer_idx
-        np.copyto(self._array_0 if next_idx == 0 else self._array_1, holo)
-        self._write_buffer_idx = next_idx
+        # Determine which buffer to write to (opposite of current display buffer)
+        # The child reads _write_buffer_idx AFTER we set the event, so we write to the
+        # "next" buffer by toggling the index
+        current_idx = self._write_buffer_idx.value
+        next_idx = 1 - current_idx  # Toggle between 0 and 1
 
-        # Send the new buffer index to the display process; if the previous frame
-        # hasn't been consumed yet, replace it so the display always shows the latest
-        try:
-            self._frame_queue.put_nowait(next_idx)
-        except Full:
-            try:
-                self._frame_queue.get_nowait()
-            except Empty:
-                pass
-            self._frame_queue.put_nowait(next_idx)
+        # Write to the back buffer (not currently being displayed)
+        write_array = self._array_0 if next_idx == 0 else self._array_1
+        np.copyto(write_array, holo)
+
+        # Update the write buffer index and signal the child process
+        self._write_buffer_idx.value = next_idx
+        self._frame_ready.set()
 
         # Optional sleep to allow the display to update
         if sleep_time > 0:
@@ -211,9 +240,7 @@ class SLMDisplay:
 
         # Signal the child process to shutdown
         self._shutdown.set()
-        self.process.join(timeout=2.0)
-        if self.process.is_alive():
-            self.process.terminate()
+        self.process.join()
 
         # Clean up both shared memory buffers
         self.buffer_0.close()
