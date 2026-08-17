@@ -1,8 +1,8 @@
 import numpy as np
 from numpy.typing import NDArray
-from scipy.special import j1
+from scipy.special import j0, j1
 from scipy.optimize import bisect
-from typing import Callable
+from typing import Callable, Literal
 
 
 def inverse_func(f: Callable, target_value, a: float, b: float) -> float:
@@ -48,12 +48,38 @@ def inv_j1(x):
     return np.interp(x, xs_besselj1, ys_besselj1)
 
 
+x_min_besselj0 = 0
+x_max_besselj0 = 1
+y_min_besselj0 = 0
+y_max_besselj0 = 2.404825557695773
+xs_besselj0 = np.linspace(x_min_besselj0, x_max_besselj0, 1024)
+ys_besselj0 = np.empty_like(xs_besselj0)
+for i, x in enumerate(xs_besselj0):
+    ys_besselj0[i] = inverse_func(j0, x, y_min_besselj0, y_max_besselj0)
+
+
+def inv_j0(x):
+    """
+    Inverse of the Bessel function of the first kind of order zero, J0.
+
+    The inverse is restricted to the monotonically decreasing branch between
+    zero and the first positive root of J0.
+
+    Args:
+        x: The value or values for which to compute the inverse J0.
+
+    Returns:
+        The value y such that J0(y) = x.
+    """
+    return np.interp(x, xs_besselj0, ys_besselj0)
+
+
 def generate_hologram(
     relative: NDArray,
     two_pi_modulation: int,
     x_period: int,
     y_period: int,
-    method: str = "BesselJ1",
+    method: Literal["BesselJ0", "BesselJ1"] = "BesselJ1",
 ) -> NDArray[np.uint8]:
     """
     Generate a hologram used to produce the desired output.
@@ -65,7 +91,8 @@ def generate_hologram(
         y_period (int): The period (in pixels) of the diffraction grating in the y direction.
         method (str, optional): Hologram calculation method.
             Possible values are:
-                1. 'BesselJ1': Type 3 of reference [1] or method F of reference [2]
+                1. 'BesselJ0': Type 2 of reference [1]
+                2. 'BesselJ1': Type 3 of reference [1] or method F of reference [2]
 
                 Defaults to 'BesselJ1'.
 
@@ -96,14 +123,22 @@ def generate_hologram(
     x, y = np.meshgrid(
         np.arange(relative.shape[1]), np.arange(relative.shape[0]), sparse=True
     )
+    normalized_amplitude = (
+        np.zeros_like(abs_relative, dtype=float) if M == 0 else abs_relative / M
+    )
+    carrier_phase = (
+        2 * np.pi * (x / x_period + y / y_period) + phase_relative
+    )
 
-    if method == "BesselJ1":
-        normalized_amplitude = (
-            np.zeros_like(abs_relative, dtype=float) if M == 0 else abs_relative / M
+    if method == "BesselJ0":
+        holo = carrier_phase + inv_j0(normalized_amplitude) * np.sin(carrier_phase)
+
+        return np.astype(
+            np.round(two_pi_modulation * np.mod(holo, 2 * np.pi) / (2 * np.pi)),
+            np.uint8,
         )
-        holo = inv_j1(x_max_besselj1 * normalized_amplitude) * np.sin(
-            2 * np.pi * (x / x_period + y / y_period) + phase_relative
-        )
+    elif method == "BesselJ1":
+        holo = inv_j1(x_max_besselj1 * normalized_amplitude) * np.sin(carrier_phase)
 
         return np.astype(
             np.round(two_pi_modulation * 0.586 * (holo / y_max_besselj1 + 1) / 2),
